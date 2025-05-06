@@ -1,0 +1,390 @@
+@use "../abstract"as *;
+/*----------------------------------------
+    08. dashboard CSS
+----------------------------------------*/
+
+.dashboard-inner-box {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.dashboard-profile-tab-wrap {
+  column-gap: 10px;
+  margin-bottom: 30px;
+
+  .nav-link {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--clr-common-white);
+    background: var(--clr-theme-1);
+    padding: 5px 20px 5px 20px;
+    position: relative;
+    z-index: 2;
+    border-radius: 10px;
+    height: 50px;
+
+    &::before {
+      position: absolute;
+      content: "";
+      left: 46%;
+      height: 20px;
+      background: var(--clr-theme-1);
+      width: 20px;
+      transform: rotate(45deg);
+      bottom: -8px;
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      transition: all linear 0.3s;
+    }
+
+    // &:hover:before,
+    &.active:before {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.dashboard-profile-tab {
+  background: var(--clr-common-white);
+  padding: 30px;
+  border-radius: 10px;
+  .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center,
+  .apexcharts-legend.apx-legend-position-top.apexcharts-align-center {
+    justify-content: start;
+  }
+  .apexcharts-legend-series {
+    gap: 4px;
+  }
+  .art-item-wraper {
+    border: 1px solid var(--clr-common-border);
+    background: transparent;
+    transition: all 0.3s linear;
+    &:hover {
+      border-color: var(--clr-theme-1);
+    }
+  }
+  .creator-single-short {
+    border-bottom: 1px solid var(--clr-common-border);
+  }
+  .category-collections-wrapper  {
+    border: 1px solid var(--clr-common-border);
+    background: transparent;
+    margin-bottom: 25px;
+  }
+
+}
+.row .col-xl-12:last-child .creator-single-short {
+    border-bottom: 0px;
+    margin-bottom: 0px;
+
+    @media #{$md} {
+      border-bottom: 1px solid var(--clr-common-border);
+      margin-bottom: 0px;
+    }
+}
+.piland-popular-creator {
+  .row {
+    .creator-single-short {
+      margin-bottom: 25px !important;
+    }
+  }
+}
+.dashboard-profile-tab-activity {
+  padding: 10px 30px 20px 30px;
+  .activity-wrapper-action-single {
+    border: 1px solid var(--clr-common-border);
+    background: transparent;
+    margin-bottom: 15px;
+  }
+}
+
+.dashboard-profile-tab-2 {
+  padding: 14px !important;
+  @media #{$md,$sm,$xs} {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+}
+
+.dashboard-profile-wrap .single-input-unit input,
+.dashboard-profile-wrap .single-input-unit .gender-category-select,
+.dashboard-profile-wrap .personal-info-text textarea,
+.dashboard-payment-modal .single-input-unit input {
+  border: 1px solid var(--clr-common-border);
+  background: transparent;
+  &:focus {
+    border-color: var(--clr-theme-1);
+  }
+}
+
+.dashboard-profile-wrap .single-input-unit input,
+.dashboard-profile-wrap .single-input-unit .gender-category-select {
+  height: 50px;
+}
+
+.dashboard-profile-wrap .single-input-unit .gender-category-select {
+  line-height: 50px;
+}
+.pb-5 {
+  padding-bottom: 5px !important;
+}
+.custom-dashboard-space.pt-120 {
+  @media #{$xs} {
+    padding-top: 105px;
+  }
+}
+//Notification styles
+.notifications {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--clr-common-border);
+  padding: 15px 30px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
+  h5 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 16px;
+    margin-bottom: 0px;
+  }
+
+  @media #{$xs} {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.notify-check {
+  width: 80px;
+  height: 26px;
+  background: var(--clr-common-border);
+  position: relative;
+  border-radius: 50px;
+
+  &:after {
+    content: "OFF";
+    color: var(--clr-common-heading);
+    position: absolute;
+    right: 10px;
+    z-index: 0;
+    font: 12px/26px Arial, sans-serif;
+    font-weight: bold;
+  }
+
+  &:before {
+    content: "ON";
+    color: var(--clr-common-blue);
+    position: absolute;
+    left: 10px;
+    z-index: 0;
+    font: 12px/26px Arial, sans-serif;
+    font-weight: bold;
+  }
+
+  label {
+    display: block;
+    width: 34px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: 1;
+    background: var(--clr-bg-grayLight);
+    border-radius: 50px;
+    transition: all 0.4s ease;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  input[type="checkbox"] {
+    visibility: hidden;
+
+    &:checked+label {
+      left: 43px;
+    }
+  }
+}
+
+// payment method style
+.payment-method-card {
+  border: 1px solid var(--clr-common-border);
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .payment-method-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    @media #{$sm,$xs} {
+			flex-direction: column;
+      gap: 0px !important;
+		}
+  }
+}
+
+.payment-method-image img {
+  display: inline-block;
+}
+
+.payment-method-details {
+  flex: 1;
+}
+
+.payment-method-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.payment-method-actions button {
+  min-width: 80px;
+}
+
+@media (max-width: 767px) {
+  .payment-method-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .payment-method-details {
+    margin-left: 0;
+  }
+
+  .payment-method-actions {
+    margin-top: 10px;
+  }
+}
+
+// payment edit modal
+.payment-edit-modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1050;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &.show {
+    display: flex;
+  }
+
+  .payment-modal-dialog {
+    position: relative;
+    width: 500px;
+    max-width: 90%;
+    background-color: var(--clr-bg-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    .modal-header {
+      margin-bottom: 20px;
+    }
+    .btn-close {
+      background: none;
+      color: var(--clr-common-heading);
+      height: 30px;
+      width: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--clr-common-border);
+      border-radius: 50%;
+      &:hover {
+        border-color: var(--clr-common-blue);
+      }
+    }
+  }
+}
+.custom-h-175 {
+  min-height: calc(100vh - 173px);
+}
+//update
+.apexchart-area-wrapper{
+  .apexcharts-legend{
+    left: -16px !important;
+    top: 0px !important;
+  }
+}
+
+
+/* dashboard-my-wallet */
+
+.dashboard-my-wallet{
+  margin-top: 30px;
+  transform: translateY(30px);
+  margin-bottom: 0px;
+  @media #{$xxl,$xl,$lg,$md,$sm,$xs} {
+    transform: translateY(0px);
+    margin-bottom: 30px;
+  }
+  &-thumb {
+    img {
+      border-radius: 8px 8px 0 0;
+    }
+  }
+  &-content {
+    background-color: var(--clr-bg-grayLight);
+    padding: 15px 15px;
+    text-align: center;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid var(--clr-common-border);
+    border-top: 0px;
+    .title {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+  }
+  &-balance {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 20px;
+    justify-content: center;
+    .amount {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+    .thumb {
+      height: 15px;
+      line-height: 1;
+      transform: translateY(-3px);
+    }
+  }
+}
+.dashboard-sidebar-menu {
+  .side-info-content {
+    height: 100%;
+  }
+}
+.dashboard-menus {
+	height: 450px;
+	overflow-y: scroll !important;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.dashboard-menus-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

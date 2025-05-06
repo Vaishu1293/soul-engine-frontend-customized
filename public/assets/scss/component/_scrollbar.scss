@@ -1,0 +1,125 @@
+@use "../abstract" as *;
+
+/* Scroll Container */
+.scroll-container {
+    height: 460px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 8px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    @media #{$md,$sm,$xs} {
+        height: inherit;
+        overflow: inherit;
+    }
+}
+
+.activity-scrollbar {
+    height: 440px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    @media #{$md,$sm,$xs} {
+        height: inherit;
+        overflow: inherit;
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+/* Sidebar Menu Scrollbar */
+.sidebar-menu-scrollbar {
+    height: 100%;
+}
+
+.sidebar-menu-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-menu-scrollbar::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 3px;
+}
+
+.sidebar-menu-scrollbar::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+/* Dark Mode for Sidebar Menu Scrollbar */
+[data-theme='dark'] .sidebar-menu-scrollbar::-webkit-scrollbar-thumb {
+    background: #281654;
+}
+
+[data-theme='dark'] .sidebar-menu-scrollbar::-webkit-scrollbar-track {
+    background: #0f0726;
+}
+
+@-moz-document url-prefix() {
+    .sidebar-menu-scrollbar {
+        scrollbar-width: thin;
+    }
+
+    [data-theme='dark'] .sidebar-menu-scrollbar {
+        border-radius: 8px;  
+        scrollbar-color: #281654 #0f0726;
+    }
+
+    [data-theme='light'] .sidebar-menu-scrollbar {
+        border-radius: 8px;  
+        scrollbar-color: #c0c0c0 #f0f0f0;
+    }
+}
+
+
+/* Global Scrollbar Styling */
+html::-webkit-scrollbar {
+    width: 8px;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: var(--clr-theme-1);
+    border-radius: 8px; 
+}
+
+html::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 8px;  
+}
+
+
+[data-theme='dark'] html {
+    scrollbar-color: #281654 #0f0726; 
+}
+
+[data-theme='dark'] html::-webkit-scrollbar-thumb {
+    background: #281654; 
+}
+
+[data-theme='dark'] html::-webkit-scrollbar-track {
+    background: #0f0726; 
+}
+
+@-moz-document url-prefix() {
+    html {
+        scrollbar-width: thin; 
+        scrollbar-color: var(--clr-theme-1) #f0f0f0;
+    }
+}

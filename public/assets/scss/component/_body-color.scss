@@ -1,0 +1,178 @@
+@use "../abstract" as *;
+
+/*----------------------------------------
+    15. body-color CSS
+----------------------------------------*/
+// body-colors
+.body-bg {
+	background: var(--clr-bg-bodylight);
+}
+
+.body-bg.white {
+	background: var(--clr-common-white);
+}
+
+// body-bg-dark style
+[data-theme='dark'] {
+	.menu2-side-bar-wrapper {
+		background: #160b32;
+	}
+
+	.work-processes .row>div .step::before {
+		color: #27303e;
+	}
+
+	.header1-logo .logo-bw {
+		display: block;
+	}
+
+	.header1-logo .logo-bb {
+		display: none;
+	}
+
+	.footer-logo .logo-bw {
+		display: block;
+	}
+
+	.footer-logo .logo-bb {
+		display: none;
+	}
+
+	.home3-mode-switch .label .fa-moon {
+		display: none;
+	}
+
+	.copyright-support-lines::before {
+		background: #222c3a;
+	}
+
+	.copyright-support-lines::after {
+		background: #222c3a;
+	}
+
+	.copyright-text {
+		color: var(--clr-common-white);
+	}
+
+	.menu2-side-bar,
+	.dashboard-profile-tab {
+		background: #160b32;
+	}
+
+	.menu2-mobile-menu {
+		border-color: #262e3e;
+	}
+
+	.sidebar-creators-list .creator-single-short {
+		border-color: #262e3e;
+	}
+
+	.menu2-mobile-menu.mean-container .mean-nav ul li a.mean-expand {
+		background: #160b32;
+	}
+
+	.common-select-arrow.common-select-arrow-40.white-bg {
+		background: #1c2434;
+	}
+
+	.personal-info-form {
+		&.btn-close {
+			background-color: #d6d6d6;
+		}
+	}
+}
+
+.home3-mode-switch .label .fa-sun {
+	display: none;
+}
+
+[data-theme='dark'] {
+	.home3-mode-switch .label .fa-sun {
+		display: block;
+	}
+}
+
+
+
+// dark switch btn style
+.mode-switch-wrapper {
+	position: fixed;
+	right: -7px;
+	top: 50%;
+	transition: 0.3s;
+	z-index: 99;
+	transform: translateY(-50%) rotate(90deg);
+
+	@media #{$sm,$xs} {
+		right: -9px;
+	}
+}
+
+.checkbox {
+	opacity: 0;
+	position: absolute;
+}
+
+.label {
+	background-color: #111;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px;
+	position: relative;
+	height: 26px;
+	width: 50px;
+	transform: scale(1.4);
+
+	@media #{$sm,$xs} {
+		transform: scale(1.2);
+	}
+}
+
+[data-theme='dark'] .label .ball {
+	background-color: var(--clr-common-white);
+	border-radius: 50%;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	height: 22px;
+	width: 22px;
+	transform: translateX(0px);
+	transition: transform 0.2s linear;
+}
+
+.label .ball {
+	background-color: var(--clr-common-white);
+	border-radius: 50%;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	height: 22px;
+	width: 22px;
+	transform: translateX(24px);
+	transition: transform 0.2s linear;
+}
+
+.active-light-mode .checkbox:checked .ball {
+	transform: translateX(0px);
+}
+
+.fa-moon {
+	color: #f1c40f;
+}
+
+.fa-sun {
+	color: #f39c12;
+}
+
+// dark switch btn style end
+
+.header1-logo .logo-bw {
+	display: none;
+}
+
+.footer-logo .logo-bw {
+	display: none;
+}
