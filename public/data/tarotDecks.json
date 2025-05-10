@@ -1,0 +1,478 @@
+[
+    {
+      "value": "8-bit-tarot",
+      "label": "8-bit Tarot"
+    },
+    {
+      "value": "african-tarot",
+      "label": "African Tarot"
+    },
+    {
+      "value": "angle-tarot",
+      "label": "Angle Tarot"
+    },
+    {
+      "value": "apprentice",
+      "label": "Apprentice"
+    },
+    {
+      "value": "aquarian",
+      "label": "Aquarian"
+    },
+    {
+      "value": "archeon",
+      "label": "Archeon"
+    },
+    {
+      "value": "art-nouveau",
+      "label": "Art Nouveau"
+    },
+    {
+      "value": "art-of-life",
+      "label": "Art of Life"
+    },
+    {
+      "value": "cagliostro",
+      "label": "Cagliostro"
+    },
+    {
+      "value": "cray-yale-visconti-tarocchi",
+      "label": "Cray-Yale Visconti Tarocchi"
+    },
+    {
+      "value": "cat-people",
+      "label": "Cat People"
+    },
+    {
+      "value": "cats-eye",
+      "label": "Cat's Eye"
+    },
+    {
+      "value": "celestial",
+      "label": "Celestial"
+    },
+    {
+      "value": "chinese",
+      "label": "Chinese"
+    },
+    {
+      "value": "chrysalis",
+      "label": "Chrysalis"
+    },
+    {
+      "value": "classic",
+      "label": "Classic"
+    },
+    {
+      "value": "connolly",
+      "label": "Connolly"
+    },
+    {
+      "value": "cosmic",
+      "label": "Cosmic"
+    },
+    {
+      "value": "cosmic-slumber",
+      "label": "Cosmic Slumber"
+    },
+    {
+      "value": "crowley",
+      "label": "Crowley"
+    },
+    {
+      "value": "crows-magick",
+      "label": "Crow's Magick"
+    },
+    {
+      "value": "crow-tarot",
+      "label": "Crow Tarot"
+    },
+    {
+      "value": "crystal-visions",
+      "label": "Crystal Visions"
+    },
+    {
+      "value": "dark-exact",
+      "label": "Dark Exact"
+    },
+    {
+      "value": "deviant-moon",
+      "label": "Deviant Moon"
+    },
+    {
+      "value": "dragon",
+      "label": "Dragon"
+    },
+    {
+      "value": "dreaming-way",
+      "label": "Dreaming Way"
+    },
+    {
+      "value": "dreamkeepers-tarot",
+      "label": "Dreamkeepers Tarot"
+    },
+    {
+      "value": "eight-coins-tattoo-tarot",
+      "label": "Eight Coins Tattoo Tarot"
+    },
+    {
+      "value": "english-magic-tarot",
+      "label": "English Magic Tarot"
+    },
+    {
+      "value": "esoterico",
+      "label": "Esoterico"
+    },
+    {
+      "value": "ethereal-visions",
+      "label": "Ethereal Visions"
+    },
+    {
+      "value": "etteilla",
+      "label": "Etteilla"
+    },
+    {
+      "value": "faerie-tarot",
+      "label": "Faerie Tarot"
+    },
+    {
+      "value": "fantastical-tarot",
+      "label": "Fantastical Tarot"
+    },
+    {
+      "value": "fenestra",
+      "label": "Fenestra"
+    },
+    {
+      "value": "feng-shui",
+      "label": "Feng Shui"
+    },
+    {
+      "value": "forest-folklore",
+      "label": "Forest Folklore"
+    },
+    {
+      "value": "fradella",
+      "label": "Fradella"
+    },
+    {
+      "value": "gendron",
+      "label": "Gendron"
+    },
+    {
+      "value": "ghost-and-spirits",
+      "label": "Ghost & Spirits"
+    },
+    {
+      "value": "gill",
+      "label": "Gill"
+    },
+    {
+      "value": "goddess",
+      "label": "Goddess"
+    },
+    {
+      "value": "golden-thread-tarot",
+      "label": "Golden Thread Tarot"
+    },
+    {
+      "value": "gummy-bear",
+      "label": "Gummy Bear"
+    },
+    {
+      "value": "haindl",
+      "label": "Haindl"
+    },
+    {
+      "value": "halloween",
+      "label": "Halloween"
+    },
+    {
+      "value": "hanson-roberts",
+      "label": "Hanson Roberts"
+    },
+    {
+      "value": "heart-and-hands",
+      "label": "Heart & Hands"
+    },
+    {
+      "value": "herbal",
+      "label": "Herbal"
+    },
+    {
+      "value": "hermetic",
+      "label": "Hermetic"
+    },
+    {
+      "value": "ibis",
+      "label": "Ibis"
+    },
+    {
+      "value": "japaridze",
+      "label": "Japaridze"
+    },
+    {
+      "value": "jolanda",
+      "label": "Jolanda"
+    },
+    {
+      "value": "karma",
+      "label": "Karma"
+    },
+    {
+      "value": "lovers-path",
+      "label": "Lovers Path"
+    },
+    {
+      "value": "luna-sol",
+      "label": "Luna Sol"
+    },
+    {
+      "value": "magic-manga",
+      "label": "Magic Manga"
+    },
+    {
+      "value": "marseillies",
+      "label": "Marseillies"
+    },
+    {
+      "value": "medicine-woman",
+      "label": "Medicine Woman"
+    },
+    {
+      "value": "medival-cat",
+      "label": "Medival Cat"
+    },
+    {
+      "value": "medival-scapini",
+      "label": "Medival Scapini"
+    },
+    {
+      "value": "melanated-classic-tarot",
+      "label": "Melanated Classic Tarot"
+    },
+    {
+      "value": "merry-day",
+      "label": "Merry Day"
+    },
+    {
+      "value": "modern-medival",
+      "label": "Modern Medival"
+    },
+    {
+      "value": "modern-witch",
+      "label": "Modern Witch"
+    },
+    {
+      "value": "morgan-greer",
+      "label": "Morgan Greer"
+    },
+    {
+      "value": "motherpeace-tarot",
+      "label": "Motherpeace Tarot"
+    },
+    {
+      "value": "mystic-mondays",
+      "label": "Mystic Mondays"
+    },
+    {
+      "value": "napo-tarot",
+      "label": "Napo Tarot"
+    },
+    {
+      "value": "new-century",
+      "label": "New Century"
+    },
+    {
+      "value": "new-chapter",
+      "label": "New Chapter"
+    },
+    {
+      "value": "old-english",
+      "label": "Old English"
+    },
+    {
+      "value": "old-path",
+      "label": "Old Path"
+    },
+    {
+      "value": "omegaland",
+      "label": "Omegaland"
+    },
+    {
+      "value": "one-world-tarot",
+      "label": "One World Tarot"
+    },
+    {
+      "value": "oswald-wirth",
+      "label": "Oswald Wirth"
+    },
+    {
+      "value": "paulina",
+      "label": "Paulina"
+    },
+    {
+      "value": "phantasma",
+      "label": "Phantasma"
+    },
+    {
+      "value": "phantasmagoric",
+      "label": "Phantasmagoric"
+    },
+    {
+      "value": "quick-and-easy",
+      "label": "Quick and Easy"
+    },
+    {
+      "value": "renaissance",
+      "label": "Renaissance"
+    },
+    {
+      "value": "rider-waite",
+      "label": "Rider Waite"
+    },
+    {
+      "value": "royal-thai",
+      "label": "Royal Thai"
+    },
+    {
+      "value": "russian",
+      "label": "Russian"
+    },
+    {
+      "value": "sacred-art",
+      "label": "Sacred Art"
+    },
+    {
+      "value": "sacred-rose",
+      "label": "Sacred Rose"
+    },
+    {
+      "value": "salvador-dali",
+      "label": "Salvador Dali"
+    },
+    {
+      "value": "santa-fe",
+      "label": "Santa Fe"
+    },
+    {
+      "value": "simplicity",
+      "label": "Simplicity"
+    },
+    {
+      "value": "smith-waite-centennial",
+      "label": "Smith Waite Centennial"
+    },
+    {
+      "value": "spiral",
+      "label": "Spiral"
+    },
+    {
+      "value": "spiritsong",
+      "label": "Spiritsong"
+    },
+    {
+      "value": "stairs",
+      "label": "Stairs"
+    },
+    {
+      "value": "stars-tarot",
+      "label": "Stars Tarot"
+    },
+    {
+      "value": "starter",
+      "label": "Starter"
+    },
+    {
+      "value": "sun-and-moon",
+      "label": "Sun and Moon"
+    },
+    {
+      "value": "swiss-1jj",
+      "label": "Swiss (1JJ)"
+    },
+    {
+      "value": "tapestry",
+      "label": "Tapestry"
+    },
+    {
+      "value": "tarot-decoratif",
+      "label": "Tarot Decoratif"
+    },
+    {
+      "value": "tarot-grand-luxe",
+      "label": "Tarot Grand Luxe"
+    },
+    {
+      "value": "tarot-nauges",
+      "label": "tarot Nauges"
+    },
+    {
+      "value": "tarot-of-a-moon-garden",
+      "label": "Tarot of a Moon Garden"
+    },
+    {
+      "value": "tarot-of-dreams",
+      "label": "Tarot of Dreams"
+    },
+    {
+      "value": "tarot-of-mystical-moments",
+      "label": "Tarot of Mystical Moments"
+    },
+    {
+      "value": "tarot-of-the-golden-wheel",
+      "label": "Tarot of the Golden Wheel"
+    },
+    {
+      "value": "tarot-of-the-spirit",
+      "label": "Tarot of the Spirit"
+    },
+    {
+      "value": "tarot-of-the-witches",
+      "label": "Tarot of the Witches"
+    },
+    {
+      "value": "the-fablemakers-animated-tarot",
+      "label": "The Fablemakers Animated Tarot"
+    },
+    {
+      "value": "the-new-palladini-tarot",
+      "label": "The New Palladini tarot"
+    },
+    {
+      "value": "ukiyoe",
+      "label": "Ukiyoe"
+    },
+    {
+      "value": "universal-waite",
+      "label": "Universal Waite"
+    },
+    {
+      "value": "vampire-tarot",
+      "label": "Vampire Tarot"
+    },
+    {
+      "value": "vaneesa",
+      "label": "Vaneesa"
+    },
+    {
+      "value": "visconti-sforza",
+      "label": "Visconti-Sforza"
+    },
+    {
+      "value": "whimsical",
+      "label": "Whimsical"
+    },
+    {
+      "value": "white-numen",
+      "label": "White Numen"
+    },
+    {
+      "value": "winged-spirit-tarot",
+      "label": "Winged Spirit Tarot"
+    },
+    {
+      "value": "zerner-farber-tarot",
+      "label": "Zerner Farber Tarot"
+    }
+  ]

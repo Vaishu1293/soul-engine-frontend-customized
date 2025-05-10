@@ -235,6 +235,30 @@ export const Categorys:DropdownDataType[] = [
     },
 
 
+];
+
+export const selectAreaOfInterest:DropdownDataType[] = [
+  {
+      id: 1,
+      option: "Select",
+    },
+  {
+      id: 2,
+      option: "Relationship",
+    },
+  {
+      id: 3,
+      option: "Career",
+    },
+  {
+      id: 4,
+      option: "Spiritual",
+    },
+    {
+      id: 5,
+      option: "Health",
+    },
+
 ]
 
 export const selectSubject:DropdownDataType[] = [

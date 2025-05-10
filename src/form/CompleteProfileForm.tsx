@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import NiceSelectForm from "@/elements/niceSelect/NiceSelectForm"; // assuming your select component
+import { selectAreaOfInterest } from "@/data/nice-select-data"; // import your Area of Interest array
 
 const CompleteProfileForm = () => {
   const router = useRouter();
@@ -38,6 +40,8 @@ const CompleteProfileForm = () => {
   return (
     <form onSubmit={handleSubmit} className="sign-up-form">
       <div className="row">
+
+        {/* Date of Birth */}
         <div className="col-md-6">
           <div className="single-input-unit">
             <label>Date of Birth</label>
@@ -53,6 +57,7 @@ const CompleteProfileForm = () => {
           </div>
         </div>
 
+        {/* Time of Birth */}
         <div className="col-md-6">
           <div className="single-input-unit">
             <label>Time of Birth</label>
@@ -68,7 +73,8 @@ const CompleteProfileForm = () => {
           </div>
         </div>
 
-        <div className="col-md-12">
+        {/* Place of Birth */}
+        <div className="col-md-6">
           <div className="single-input-unit">
             <label>Place of Birth</label>
             <input
@@ -84,31 +90,30 @@ const CompleteProfileForm = () => {
           </div>
         </div>
 
-        <div className="col-md-12">
-          <div className="single-input-unit">
-            <label>Area of Interest</label>
-            <select
-              name="interest"
-              value={values.interest}
-              onChange={(e) => {
-                handleChange(e);
-                setInterest(e.target.value);
-              }}
-              onBlur={handleBlur}
-              className="form-select"
-              required
-            >
-              <option value="">Select</option>
-              <option value="relationship">Relationship</option>
-              <option value="career">Career</option>
-              <option value="spiritual">Spiritual</option>
-              <option value="health">Health</option>
-            </select>
-            {touched.interest && errors.interest && <div className="text-danger">{errors.interest}</div>}
+        {/* Area of Interest */}
+        <div className="col-md-6">
+          <div className="single-input-unit mb-30">
+            <label htmlFor="interest-select">Area of Interest</label>
+            <div className="w-full">
+              <NiceSelectForm
+                options={selectAreaOfInterest}
+                defaultCurrent={0}
+                onChange={(item: any) => {
+                  if (item) {
+                    handleChange({ target: { name: "interest", value: item.option.toLowerCase() } });
+                    setInterest(item.option.toLowerCase());
+                  }
+                } }
+                name="interest"
+                className="gender-category-select" setSelelectForm={function (value: SetStateAction<string>): void {
+                  throw new Error("Function not implemented.");
+                } }              />
+            </div>
           </div>
         </div>
 
-        {interest === "relationship" ? (
+        {/* Partner Details (Only if Relationship) */}
+        {interest === "relationship" && (
           <>
             <div className="col-md-6">
               <div className="single-input-unit">
@@ -157,23 +162,26 @@ const CompleteProfileForm = () => {
               </div>
             </div>
           </>
-        ) : (
-          <div className="col-md-12">
-            <div className="single-input-unit">
-              <label>Describe Your Situation</label>
-              <textarea
-                name="situation"
-                placeholder="Explain your current life situation"
-                value={values.situation}
-                onChange={handleChange}
-                className="form-textarea"
-                rows={4}
-              ></textarea>
-            </div>
-          </div>
         )}
+
+        {/* Always visible: Describe Your Situation */}
+        <div className="col-md-12">
+          <div className="single-input-unit mt-2">
+            <label>Describe Your Situation</label>
+            <textarea
+              name="situation"
+              placeholder="Explain your current life situation"
+              value={values.situation}
+              onChange={handleChange}
+              className="form-textarea"
+              rows={4}
+            ></textarea>
+          </div>
+        </div>
+
       </div>
 
+      {/* Submit Button */}
       <div className="sign-up-btn">
         <button type="submit" className="fill-btn">
           Submit & Continue

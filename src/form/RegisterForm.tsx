@@ -27,6 +27,7 @@ const RegisterForm = () => {
       validationSchema: register_schema, 
       onSubmit: (values, { resetForm }) => {
         resetForm();
+        console.log(values);
         toast.success("Registration successful!");
       
         setTimeout(() => {
