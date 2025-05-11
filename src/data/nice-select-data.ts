@@ -1,6 +1,7 @@
 interface DropdownDataType{
   id:number;
-  option:string
+  option:string;
+  value?: string;
 }
 export  const SaleData:DropdownDataType[] = [
     {
