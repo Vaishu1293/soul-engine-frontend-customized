@@ -61,12 +61,16 @@ const TarotDrawPage = () => {
       const doShuffle = () => {
         const shuffled = shuffleArray(78);
         setCardIndexes(shuffled);
-        const highlights = shuffled.sort(() => 0.5 - Math.random()).slice(0, 4);
+
+        const highlights = shuffled
+          .slice()
+          .sort(() => 0.5 - Math.random())
+          .slice(0, Math.floor(Math.random() * 3) + 4);
         setHighlightedCards(highlights);
       };
 
       doShuffle();
-      interval = setInterval(doShuffle, 500);
+      interval = setInterval(() => doShuffle(), 500);
     } else {
       setCardIndexes(Array.from({ length: 78 }, (_, i) => i + 1));
       setHighlightedCards([]);
@@ -106,7 +110,9 @@ const TarotDrawPage = () => {
           alt={`Card ${cardNum}`}
           className={`tarot-card ${isReversed ? 'reversed' : ''}`}
         />
-        <p className="tarot-label">{cardName} {isReversed ? '(Reversed)' : ''}</p>
+        <p className="tarot-label">
+          {cardName} {isReversed ? '(Reversed)' : ''}
+        </p>
       </div>
     ) : (
       <div className="tarot-placeholder">?</div>
@@ -123,20 +129,24 @@ const TarotDrawPage = () => {
         reversed: data.reversed
       };
     });
-
+  
     const payload = {
       deck: tarotDecks.find(d => d.value === selectedDeck)?.label || selectedDeck,
       spreadType: 'Celtic Cross',
       cards
     };
-
+  
+    console.log('Sending Tarot Payload:', payload);
+  
     try {
       const response = await fetch('http://localhost:5000/api/tarot/analyze-tarot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-
+  
+      if (!response.ok) throw new Error('Failed to send tarot reading to backend');
+  
       const result = await response.json();
       console.log('Backend response:', result);
     } catch (error) {
@@ -145,7 +155,7 @@ const TarotDrawPage = () => {
   };
 
   return (
-    <div className="tarot-wrapper">
+    <div className="tarot-wrapper w-full min-h-screen">
       <button onClick={handleShuffle} className="shuffle-button">Shuffle<br />Cards</button>
 
       <p className="self-label">Choose Self Card:</p>
@@ -159,7 +169,7 @@ const TarotDrawPage = () => {
               animate={isShuffling ? { x: ['0%', '-3%', '3%', '0%'], rotate: ['0deg', '-2deg', '2deg', '0deg'] } : {}}
               transition={isShuffling ? { repeat: Infinity, duration: 1.5, ease: 'easeInOut', delay: i * 0.05 } : {}}
               onClick={() => handleCardSelect(cardNumber)}>
-              <div className="card-index">{cardNumber}</div>
+              {/* <div className="card-index">{cardNumber}</div> */}
             </motion.div>
           ))}
         </div>
