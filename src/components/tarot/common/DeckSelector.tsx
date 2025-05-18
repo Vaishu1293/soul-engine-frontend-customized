@@ -1,18 +1,23 @@
-type Props = {
-  setDeck: (deck: string[]) => void;
-};
+'use client';
+import NiceSelectForm from '@/elements/niceSelect/NiceSelectForm';
 
-export default function DeckSelector({ setDeck }: Props) {
-  const handleDeckChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("Selected deck:", e.target.value);
-    setDeck([e.target.value]); // optional: pass selected deck
-  };
+interface Props {
+  tarotDecks: { value: string; label: string }[];
+  onSelect: (value: string) => void;
+}
 
+export default function DeckSelector({ tarotDecks, onSelect }: Props) {
   return (
-    <select onChange={handleDeckChange} className="deck-select">
-      <option value="">Choose a Deck</option>
-      <option value="rider">Rider Waite</option>
-      <option value="custom">Custom Deck</option>
-    </select>
+    <div className="deck-select-wrapper mt-8">
+      <label className="deck-label text-center">Choose Tarot Deck</label>
+      <NiceSelectForm
+        options={tarotDecks.map((d, i) => ({ id: i, option: d.label, value: d.value }))}
+        defaultCurrent={0}
+        onChange={(item: any) => item && onSelect(item.value)}
+        name="deck"
+        className="gender-category-select"
+        setSelelectForm={() => { }}
+      />
+    </div>
   );
 }
