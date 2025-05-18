@@ -1,17 +1,12 @@
-'use client';
+import { useEffect, useState, useRef } from "react";
 
-import { useEffect, useRef, useState } from 'react';
-import CardSelector from './common/CardSelector';
-import DeckSelector from './common/DeckSelector';
-import CelticCross from './spreads/CleticCross';
-
-
-const TarotDrawPage = () => {
+export function useTarotDraw() {
   const spreadRef = useRef(null);
+
   const [isShuffling, setIsShuffling] = useState(false);
   const [cardIndexes, setCardIndexes] = useState<number[]>([]);
   const [highlightedCards, setHighlightedCards] = useState<number[]>([]);
-  const [selectedDeck, setSelectedDeck] = useState('');
+  const [selectedDeck, setSelectedDeck] = useState("");
   const [tarotDecks, setTarotDecks] = useState<{ value: string; label: string }[]>([]);
   const [spread, setSpread] = useState<{ [slot: string]: { card: number; reversed: boolean } }>({});
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
@@ -19,8 +14,8 @@ const TarotDrawPage = () => {
   const [cardOrientations, setCardOrientations] = useState<{ [cardId: number]: boolean }>({});
 
   const spreadSlots = [
-    'Self', 'Higher Power', 'Situation', 'Recent Past', 'Near Future',
-    'Challenges', 'Long-Term Potential', 'Advice', 'Allies', 'Blockers & Inhibitions'
+    "Self", "Higher Power", "Situation", "Recent Past", "Near Future",
+    "Challenges", "Long-Term Potential", "Advice", "Allies", "Blockers & Inhibitions"
   ];
 
   const handleCardSelect = (cardNumber: number) => {
@@ -62,6 +57,7 @@ const TarotDrawPage = () => {
       const doShuffle = () => {
         const shuffled = shuffleArray(78);
         setCardIndexes(shuffled);
+
         const highlights = shuffled
           .slice()
           .sort(() => 0.5 - Math.random())
@@ -80,15 +76,15 @@ const TarotDrawPage = () => {
   }, [isShuffling]);
 
   useEffect(() => {
-    fetch('/data/tarotDecks.json')
+    fetch("/data/tarotDecks.json")
       .then(res => res.json())
       .then(data => setTarotDecks(data))
-      .catch(err => console.error('Error loading deck list:', err));
+      .catch(err => console.error("Error loading deck list:", err));
 
-    fetch('/data/rider-waite-card-info.json')
+    fetch("/data/rider-waite-card-info.json")
       .then(res => res.json())
       .then(data => setCardInfo(data))
-      .catch(err => console.error('Error loading card info:', err));
+      .catch(err => console.error("Error loading card info:", err));
   }, []);
 
   useEffect(() => {
@@ -110,62 +106,42 @@ const TarotDrawPage = () => {
 
     const payload = {
       deck: tarotDecks.find(d => d.value === selectedDeck)?.label || selectedDeck,
-      spreadType: 'Celtic Cross',
+      spreadType: "Celtic Cross",
       cards
     };
 
-    console.log('Sending Tarot Payload:', payload);
+    console.log(payload);
 
     try {
-      const response = await fetch('http://localhost:5000/api/tarot/analyze-tarot', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5000/api/tarot/analyze-tarot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) throw new Error('Failed to send tarot reading to backend');
+      if (!response.ok) throw new Error("Failed to send tarot reading to backend");
 
       const result = await response.json();
-      console.log('Backend response:', result);
+      console.log("Backend response:", result);
     } catch (error) {
-      console.error('Submit error:', error);
+      console.error("Submit error:", error);
     }
   };
 
-  return (
-    <div className="tarot-wrapper w-full min-h-screen">
-      <button onClick={handleShuffle} className="shuffle-button">Shuffle<br />Cards</button>
-
-      <p className="self-label">Choose Self Card:</p>
-
-      <CardSelector
-        cardIndexes={cardIndexes}
-        highlightedCards={highlightedCards}
-        isShuffling={isShuffling}
-        onSelect={handleCardSelect}
-      />
-
-      <DeckSelector tarotDecks={tarotDecks} onSelect={setSelectedDeck} />
-
-      {selectedDeck && (
-        <p className="deck-selected">
-          Selected Deck: <span>{tarotDecks.find(d => d.value === selectedDeck)?.label}</span>
-        </p>
-      )}
-
-      <div ref={spreadRef}>
-        <CelticCross spread={spread} cardInfo={cardInfo} />
-      </div>
-
-      <button
-        onClick={handleSubmit}
-        disabled={selectedCards.length < spreadSlots.length || !selectedDeck}
-        className={`submit-button ${selectedCards.length === spreadSlots.length && selectedDeck ? 'enabled' : 'disabled'}`}
-      >
-        Submit Reading
-      </button>
-    </div>
-  );
-};
-
-export default TarotDrawPage;
+  return {
+    spreadRef,
+    isShuffling,
+    cardIndexes,
+    highlightedCards,
+    selectedDeck,
+    tarotDecks,
+    spread,
+    selectedCards,
+    cardInfo,
+    spreadSlots,
+    setSelectedDeck,
+    handleCardSelect,
+    handleShuffle,
+    handleSubmit
+  };
+}

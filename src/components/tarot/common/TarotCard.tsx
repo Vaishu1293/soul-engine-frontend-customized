@@ -1,5 +1,3 @@
-'use client';
-
 interface Props {
   cardNum: number;
   cardName: string;
