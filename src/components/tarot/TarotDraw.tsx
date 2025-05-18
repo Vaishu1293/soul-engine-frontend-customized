@@ -219,9 +219,17 @@ const TarotDrawPage = () => {
                 })}
             </div>
 
-            <button onClick={handleSubmit} disabled={selectedCards.length < spreadSlots.length} className={`submit-button ${selectedCards.length === spreadSlots.length ? 'enabled' : 'disabled'}`}>
+            <button
+                onClick={handleSubmit}
+                disabled={selectedCards.length < spreadSlots.length || !selectedDeck}
+                className={`submit-button ${selectedCards.length === spreadSlots.length && selectedDeck
+                        ? 'enabled'
+                        : 'disabled'
+                    }`}
+            >
                 Submit Reading
             </button>
+
         </div>
     );
 };
