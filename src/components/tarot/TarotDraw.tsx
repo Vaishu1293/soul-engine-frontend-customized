@@ -104,16 +104,18 @@ const TarotDrawPage = () => {
         const cardName = cardInfo.find(c => c.id === cardNum)?.name;
 
         return cardNum ? (
-            <div className="tarot-card-container">
-                <img
-                    src={`/cosmic-deck/${cardNum}.jpg`}
-                    alt={`Card ${cardNum}`}
-                    className={`tarot-card ${isReversed ? 'reversed' : ''}`}
-                />
+            <>
+                <div className="card-container">
+                    <img
+                        src={`/cosmic-deck/${cardNum}.jpg`}
+                        alt={`Card ${cardNum}`}
+                        className={`tarot-card ${isReversed ? 'reversed' : ''}`}
+                    />
+                </div>
                 <p className="tarot-label">
                     {cardName} {isReversed ? '(Reversed)' : ''}
                 </p>
-            </div>
+            </>
         ) : (
             <div className="tarot-placeholder">?</div>
         );
@@ -211,7 +213,7 @@ const TarotDrawPage = () => {
                     return (
                         <div key={slot} style={{ gridColumnStart: col, gridRowStart: row }} className="grid-slot">
                             <p className="slot-label">{slot}</p>
-                            <div className="card-container">{renderCard(slot)}</div>
+                            <>{renderCard(slot)}</>
                         </div>
                     );
                 })}
