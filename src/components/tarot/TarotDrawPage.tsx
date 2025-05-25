@@ -62,7 +62,7 @@ const TarotDrawPage = ({
         <SpreadRenderer
           spread={spread}
           cardInfo={cardInfo}
-          spreadType="sixthSense" // or dynamically from URL or dropdown
+          spreadType="twinFlame" // or dynamically from URL or dropdown
         />
 
       </div>

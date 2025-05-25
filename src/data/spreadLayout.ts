@@ -104,7 +104,14 @@ const spreadLayout = {
     "Your Sixth Sense": { col: 3, row: 2 },
     "Your Protection": { col: 4, row: 3, rotate: 45 },
     "Your Blind Spot": { col: 2, row: 3, rotate: -45 },
+  },
+  twinFlame: {
+    "The Mirror": { col: 3, row: 1 },              // Top center
+    "The Spark": { col: 2, row: 1, rotate: -25, yOffset: 40 }, // Left tilted inward
+    "The Dynamic": { col: 4, row: 1, rotate: 25, yOffset: 40 },  // Right tilted inward
+    "Your Soul Evolution": { col: 3, row: 2 },              // Bottom center
   }
+
 };
 
 
