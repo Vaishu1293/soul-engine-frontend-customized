@@ -62,7 +62,7 @@ const TarotDrawPage = ({
         <SpreadRenderer
           spread={spread}
           cardInfo={cardInfo}
-          spreadType="revelationSpread" // or dynamically from URL or dropdown
+          spreadType="timelineSpread" // or dynamically from URL or dropdown
         />
 
       </div>

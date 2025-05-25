@@ -49,7 +49,17 @@ const spreadLayout = {
     "Self-Sabotage": { col: 3, row: 2, yOffset: 0 },
     "Revelation": { col: 4, row: 2, yOffset: 80 },
   },
-  // Add others...
+  hiddenTruth: {
+    "Your Truth": { col: 2, row: 1 },
+    "Their Truth": { col: 4, row: 1 },
+  },
+  timelineSpread: {
+    "History": { col: 1, row: 1 },
+    "Recent Events": { col: 2, row: 1 },
+    "The Present": { col: 3, row: 1 },
+    "Near Future": { col: 4, row: 1 },
+    "Far Future": { col: 5, row: 1 },
+  }
 };
 
 
