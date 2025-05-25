@@ -157,6 +157,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.grid-slot.overlap {
+  margin-top: 20px; /* fine-tune to match your card height */
+  z-index: 2;
+  margin-left: 50px;;
 }
 
 .slot-label {

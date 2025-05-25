@@ -6,7 +6,7 @@ import TarotCard from "../common/TarotCard";
 interface Props {
   spread: { [slot: string]: { card: number; reversed: boolean } };
   cardInfo: { id: number; name: string }[];
-  spreadType: keyof typeof spreadLayout; // ensures correct keys only
+  spreadType: keyof typeof spreadLayout;
 }
 
 export default function SpreadRenderer({ spread, cardInfo, spreadType }: Props) {
@@ -22,17 +22,25 @@ export default function SpreadRenderer({ spread, cardInfo, spreadType }: Props) 
         const name = cardInfo.find((c) => c.id === card?.card)?.name || "";
         const layoutInfo = layout[slot];
 
-        return (
-          <div
-            key={slot}
-            className={`grid-slot ${layoutInfo?.className || ""}`}
-            style={{
-              gridColumnStart: layoutInfo.col,
-              gridRowStart: layoutInfo.row || 1,
-              transform: layoutInfo?.yOffset ? `translateY(${layoutInfo.yOffset}px)` : undefined,
-            }}
-          >
+        const classNames = [
+          "grid-slot",
+          layoutInfo?.overlap ? "overlap" : "",
+          layoutInfo?.className || ""
+        ].join(" ").trim();
 
+        const style: React.CSSProperties = {
+          gridColumnStart: layoutInfo.col,
+          gridRowStart: layoutInfo.row || 1,
+          transform: `
+    ${layoutInfo?.yOffset ? `translateY(${layoutInfo.yOffset}px)` : ''}
+    ${layoutInfo?.rotate ? `rotate(${layoutInfo.rotate}deg)` : ''}
+  `.trim(),
+          zIndex: layoutInfo?.zIndex || 1,
+        };
+
+
+        return (
+          <div key={slot} className={classNames} style={style}>
             <p className="slot-label">{slot}</p>
             {card ? (
               <TarotCard

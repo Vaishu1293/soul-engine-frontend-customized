@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import spreadLayout, { spreadSlotNames } from "@/data/spreadLayout";
 
-export function useTarotDraw(spreadType: keyof typeof spreadLayout = "treeOfLife") {
+export function useTarotDraw(spreadType: keyof typeof spreadLayout = "celticCross") {
   const spreadRef = useRef(null);
 
   const [isShuffling, setIsShuffling] = useState(false);
