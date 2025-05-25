@@ -62,7 +62,7 @@ const TarotDrawPage = ({
         <SpreadRenderer
           spread={spread}
           cardInfo={cardInfo}
-          spreadType="celticCross" // or dynamically from URL or dropdown
+          spreadType="sixthSense" // or dynamically from URL or dropdown
         />
 
       </div>

@@ -61,43 +61,50 @@ const spreadLayout = {
     "Far Future": { col: 5, row: 1 },
   },
   treeOfLife: {
-  // Top crown
-  "Crown": { col: 3, row: 1 },
+    // Top crown
+    "Crown": { col: 3, row: 1 },
 
-  // Level 2
-  "Activation": { col: 1, row: 1, yOffset: 40  },
-  "Contemplation": { col: 5, row: 1, yOffset: 40  },
+    // Level 2
+    "Activation": { col: 1, row: 1, yOffset: 40 },
+    "Contemplation": { col: 5, row: 1, yOffset: 40 },
 
-  // Level 3
-  "Discipline": { col: 1, row: 3 },
-  "Heart": { col: 3, row: 3 },
-  "Wisdom": { col: 5, row: 3 },
+    // Level 3
+    "Discipline": { col: 1, row: 3 },
+    "Heart": { col: 3, row: 3 },
+    "Wisdom": { col: 5, row: 3 },
 
-  // Level 4
-  "Waking Up": { col: 1, row: 4 },
-  "Safety Net": { col: 3, row: 4 },
-  "Cycles": { col: 5, row: 4 },
+    // Level 4
+    "Waking Up": { col: 1, row: 4 },
+    "Safety Net": { col: 3, row: 4 },
+    "Cycles": { col: 5, row: 4 },
 
-  // Final card at base
-  "Outcome": { col: 3, row: 5 },
-},
-celticCross: {
-  // Center cross
-  "Love Situation": { col: 2, row: 2, zIndex: 1 },
-  "Recent Past": { col: 2, row: 2, zIndex: 2, overlap: true, rotate: 90 }, // overlaps center
+    // Final card at base
+    "Outcome": { col: 3, row: 5 },
+  },
+  celticCross: {
+    // Center cross
+    "Love Situation": { col: 2, row: 2, zIndex: 1 },
+    "Recent Past": { col: 2, row: 2, zIndex: 2, overlap: true, rotate: 90 }, // overlaps center
 
-  // Cross arms
-  "Love & Me": { col: 1, row: 2 },
-  "Love Challenges": { col: 4, row: 2 },
-  "Higher Power": { col: 2, row: 1 },
-  "Near Future": { col: 2, row: 3 },
+    // Cross arms
+    "Love & Me": { col: 1, row: 2 },
+    "Love Challenges": { col: 4, row: 2 },
+    "Higher Power": { col: 2, row: 1 },
+    "Near Future": { col: 2, row: 3 },
 
-  // Right vertical column
-  "Long-Term Potential": { col: 5, row: 1 },
-  "Advice": { col: 5, row: 2 },
-  "Significant Other": { col: 5, row: 3 },
-  "Blockers & Inhibitions": { col: 5, row: 4 },
-}
+    // Right vertical column
+    "Long-Term Potential": { col: 5, row: 1 },
+    "Advice": { col: 5, row: 2 },
+    "Significant Other": { col: 5, row: 3 },
+    "Blockers & Inhibitions": { col: 5, row: 4 },
+  },
+  sixthSense: {
+    "Your Concern": { col: 2, row: 1, rotate: 45 },
+    "Your Mindset": { col: 4, row: 1, rotate: -45 },
+    "Your Sixth Sense": { col: 3, row: 2 },
+    "Your Protection": { col: 4, row: 3, rotate: 45 },
+    "Your Blind Spot": { col: 2, row: 3, rotate: -45 },
+  }
 };
 
 

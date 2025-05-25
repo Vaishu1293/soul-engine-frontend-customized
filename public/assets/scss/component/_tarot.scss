@@ -17,7 +17,6 @@
   margin-bottom: 2rem;
 }
 
-
 // TarotDraw.tsx classes
 
 .tarot-card-container {
@@ -133,25 +132,6 @@
   gap: 2rem;
   margin: 1rem 0;
 }
-
-// .tarot-grid {
-//   display: grid;
-//   grid-template-columns: repeat(5, minmax(0, 1fr));
-//   grid-auto-rows: minmax(120px, auto);
-//   gap: 2rem;
-//   justify-items: center;
-
-//   .grid-slot.central-card {
-//     transform: translateY(-10px);
-//     z-index: 2;
-//   }
-
-//   &.spread-dailyReflection,
-//   &.spread-revelationSpread {
-//     // extra rules like card spacing or layout tuning
-//   }
-// }
-
 
 .grid-slot {
   display: flex;
