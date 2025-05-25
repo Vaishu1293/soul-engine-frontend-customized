@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
+import spreadLayout, { spreadSlotNames } from "@/data/spreadLayout";
 
-export function useTarotDraw() {
+export function useTarotDraw(spreadType: keyof typeof spreadLayout = "revelationSpread") {
   const spreadRef = useRef(null);
 
   const [isShuffling, setIsShuffling] = useState(false);
@@ -13,10 +14,10 @@ export function useTarotDraw() {
   const [cardInfo, setCardInfo] = useState<{ id: number; name: string }[]>([]);
   const [cardOrientations, setCardOrientations] = useState<{ [cardId: number]: boolean }>({});
 
-  const spreadSlots = [
-    "Self", "Higher Power", "Situation", "Recent Past", "Near Future",
-    "Challenges", "Long-Term Potential", "Advice", "Allies", "Blockers & Inhibitions"
-  ];
+  const spreadSlots = spreadSlotNames[spreadType];
+  const layoutMap = spreadLayout[spreadType];
+
+  // console.log(spreadSlots, layoutMap);
 
   const handleCardSelect = (cardNumber: number) => {
     if (selectedCards.includes(cardNumber)) return;
@@ -106,7 +107,7 @@ export function useTarotDraw() {
 
     const payload = {
       deck: tarotDecks.find(d => d.value === selectedDeck)?.label || selectedDeck,
-      spreadType: "Celtic Cross",
+      spreadType,
       cards
     };
 
@@ -139,6 +140,7 @@ export function useTarotDraw() {
     selectedCards,
     cardInfo,
     spreadSlots,
+    layoutMap,
     setSelectedDeck,
     handleCardSelect,
     handleShuffle,

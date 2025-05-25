@@ -2,7 +2,7 @@ import React from "react";
 import ShuffleButton from "./common/ShuffleButton";
 import CardSelector from "./common/CardSelector";
 import DeckSelector from "./common/DeckSelector";
-import CelticCross from "./spreads/CleticCross";
+import SpreadRenderer from "./spreads/spreadRenderer";
 
 type Props = {
   spreadRef: React.RefObject<HTMLDivElement>;
@@ -14,6 +14,7 @@ type Props = {
   spread: { [slot: string]: { card: number; reversed: boolean } };
   selectedCards: number[];
   cardInfo: { id: number; name: string }[];
+  spreadSlots: string[];
   handleShuffle: () => void;
   handleCardSelect: (cardNumber: number) => void;
   handleSubmit: () => void;
@@ -30,6 +31,7 @@ const TarotDrawPage = ({
   spread,
   selectedCards,
   cardInfo,
+  spreadSlots,
   handleShuffle,
   handleCardSelect,
   handleSubmit,
@@ -57,15 +59,18 @@ const TarotDrawPage = ({
       )}
 
       <div ref={spreadRef}>
-        <CelticCross spread={spread} cardInfo={cardInfo} />
-      </div>
+        <SpreadRenderer
+          spread={spread}
+          cardInfo={cardInfo}
+          spreadType="revelationSpread" // or dynamically from URL or dropdown
+        />
 
+      </div>
       <button
         onClick={handleSubmit}
-        disabled={selectedCards.length < 10 || !selectedDeck}
-        className={`submit-button ${
-          selectedCards.length === 10 && selectedDeck ? "enabled" : "disabled"
-        }`}
+        disabled={selectedCards.length < spreadSlots.length || !selectedDeck}
+        className={`submit-button ${selectedCards.length === spreadSlots.length && selectedDeck ? "enabled" : "disabled"
+          }`}
       >
         Submit Reading
       </button>

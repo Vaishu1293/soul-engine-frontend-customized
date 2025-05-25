@@ -15,13 +15,14 @@ const TarotDrawContainer = () => {
     spread,
     selectedCards,
     cardInfo,
+    spreadSlots,
     handleShuffle,
     handleCardSelect,
     handleSubmit,
     setSelectedDeck,
   } = useTarotDraw();
-
   return (
+    
     <TarotDrawPage
       spreadRef={spreadRef}
       isShuffling={isShuffling}
@@ -32,6 +33,7 @@ const TarotDrawContainer = () => {
       spread={spread}
       selectedCards={selectedCards}
       cardInfo={cardInfo}
+      spreadSlots={spreadSlots}
       handleShuffle={handleShuffle}
       handleCardSelect={handleCardSelect}
       handleSubmit={handleSubmit}
