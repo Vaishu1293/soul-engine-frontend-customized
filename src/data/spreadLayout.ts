@@ -59,7 +59,29 @@ const spreadLayout = {
     "The Present": { col: 3, row: 1 },
     "Near Future": { col: 4, row: 1 },
     "Far Future": { col: 5, row: 1 },
-  }
+  },
+  treeOfLife: {
+  // Top crown
+  "Crown": { col: 3, row: 1 },
+
+  // Level 2
+  "Activation": { col: 1, row: 1, yOffset: 40  },
+  "Contemplation": { col: 5, row: 1, yOffset: 40  },
+
+  // Level 3
+  "Discipline": { col: 1, row: 3 },
+  "Heart": { col: 3, row: 3 },
+  "Wisdom": { col: 5, row: 3 },
+
+  // Level 4
+  "Waking Up": { col: 1, row: 4 },
+  "Safety Net": { col: 3, row: 4 },
+  "Cycles": { col: 5, row: 4 },
+
+  // Final card at base
+  "Outcome": { col: 3, row: 5 },
+},
+
 };
 
 
