@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import NiceSelectForm from "@/elements/niceSelect/NiceSelectForm"; // assuming your select component
 import { selectAreaOfInterest } from "@/data/nice-select-data"; // import your Area of Interest array
+import { toast } from "sonner";
 
 const CompleteProfileForm = () => {
   const router = useRouter();
@@ -13,9 +14,9 @@ const CompleteProfileForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      dob: "",
-      tob: "",
-      pob: "",
+      selfDoB: "",
+      selfToB: "",
+      selfPoB: "",
       interest: "",
       partnerName: "",
       partnerDob: "",
@@ -24,15 +25,37 @@ const CompleteProfileForm = () => {
       situation: "",
     },
     validationSchema: Yup.object({
-      dob: Yup.string().required("Date of birth is required"),
-      tob: Yup.string().required("Time of birth is required"),
-      pob: Yup.string().required("Place of birth is required"),
+      selfDoB: Yup.string().required("Date of birth is required"),
+      selfToB: Yup.string().required("Time of birth is required"),
+      selfPoB: Yup.string().required("Place of birth is required"),
       interest: Yup.string().required("Area of interest is required"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
-      router.push("/dashboard");
-    },
+    onSubmit: async (values, { resetForm }) => {
+        try {
+          console.log(values);
+          const response = await fetch("http://localhost:5000/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(values),
+          });
+
+          if (!response.ok) {
+            throw new Error("Registration failed");
+          }
+
+          const result = await response.json();
+          toast.success("Complete Profile successful!");
+
+          resetForm();
+
+          setTimeout(() => {
+            router.push("/tarot-draw?spread=celticCross&fromRegister=true");  // 👈 Go to TarotDraw page with spread param
+          }, 1000);
+        } catch (err) {
+          console.error(err);
+          toast.error("Complete Profile error!");
+        }
+      },
   });
 
   const { values, handleChange, handleBlur, handleSubmit, errors, touched } = formik;
@@ -47,13 +70,13 @@ const CompleteProfileForm = () => {
             <label>Date of Birth</label>
             <input
               type="date"
-              name="dob"
-              value={values.dob}
+              name="selfDoB"
+              value={values.selfDoB}
               onChange={handleChange}
               onBlur={handleBlur}
               required
             />
-            {touched.dob && errors.dob && <div className="text-danger">{errors.dob}</div>}
+            {touched.selfDoB && errors.selfDoB && <div className="text-danger">{errors.selfDoB}</div>}
           </div>
         </div>
 
@@ -63,13 +86,13 @@ const CompleteProfileForm = () => {
             <label>Time of Birth</label>
             <input
               type="time"
-              name="tob"
-              value={values.tob}
+              name="selfToB"
+              value={values.selfToB}
               onChange={handleChange}
               onBlur={handleBlur}
               required
             />
-            {touched.tob && errors.tob && <div className="text-danger">{errors.tob}</div>}
+            {touched.selfToB && errors.selfToB && <div className="text-danger">{errors.selfToB}</div>}
           </div>
         </div>
 
@@ -79,14 +102,14 @@ const CompleteProfileForm = () => {
             <label>Place of Birth</label>
             <input
               type="text"
-              name="pob"
+              name="selfPoB"
               placeholder="City, Country"
-              value={values.pob}
+              value={values.selfPoB}
               onChange={handleChange}
               onBlur={handleBlur}
               required
             />
-            {touched.pob && errors.pob && <div className="text-danger">{errors.pob}</div>}
+            {touched.selfPoB && errors.selfPoB && <div className="text-danger">{errors.selfPoB}</div>}
           </div>
         </div>
 
@@ -105,9 +128,11 @@ const CompleteProfileForm = () => {
                   }
                 } }
                 name="interest"
-                className="gender-category-select" setSelelectForm={function (value: SetStateAction<string>): void {
-                  throw new Error("Function not implemented.");
-                } }              />
+                className="gender-category-select" 
+                setSelelectForm={function (value: SetStateAction<string>): void {
+                  // throw new Error("Function not implemented.");
+                } }              
+                />
             </div>
           </div>
         </div>

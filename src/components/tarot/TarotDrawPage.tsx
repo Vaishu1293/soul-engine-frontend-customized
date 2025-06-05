@@ -3,6 +3,8 @@ import ShuffleButton from "./common/ShuffleButton";
 import CardSelector from "./common/CardSelector";
 import DeckSelector from "./common/DeckSelector";
 import SpreadRenderer from "./spreads/spreadRenderer";
+import { useSearchParams } from "next/navigation";
+import spreadLayout from "@/data/spreadLayout";
 
 type Props = {
   spreadRef: React.RefObject<HTMLDivElement>;
@@ -37,6 +39,8 @@ const TarotDrawPage = ({
   handleSubmit,
   setSelectedDeck,
 }: Props) => {
+  const searchParams = useSearchParams();
+  const spreadType = searchParams.get("spread") || "celticCross";
   return (
     <div className="tarot-wrapper w-full min-h-screen">
       <ShuffleButton onShuffle={handleShuffle} />
@@ -62,7 +66,7 @@ const TarotDrawPage = ({
         <SpreadRenderer
           spread={spread}
           cardInfo={cardInfo}
-          spreadType="twinFlame" // or dynamically from URL or dropdown
+          spreadType={spreadType as keyof typeof spreadLayout} // or dynamically from URL or dropdown
         />
 
       </div>
