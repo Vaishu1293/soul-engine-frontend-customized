@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import spreadLayout, { spreadSlotNames } from "@/data/spreadLayout";
+import { useRouter } from "next/navigation";
 
-export function useTarotDraw(spreadType: keyof typeof spreadLayout) {
+export function useTarotDraw(spreadType: keyof typeof spreadLayout, isRegisterForm: boolean) {
   const spreadRef = useRef(null);
-
+  const router = useRouter();
   const [isShuffling, setIsShuffling] = useState(false);
   const [cardIndexes, setCardIndexes] = useState<number[]>([]);
   const [highlightedCards, setHighlightedCards] = useState<number[]>([]);
@@ -124,6 +125,31 @@ export function useTarotDraw(spreadType: keyof typeof spreadLayout) {
 
       const result = await response.json();
       console.log("Backend response:", result);
+
+      if (isRegisterForm) {
+        const spreadsSequence = ["treeOfLife", "celticCross", "revelationSpread", "dailyReflection"];
+        const currentIndex = spreadsSequence.indexOf(spreadType);
+        const nextIndex = spreadsSequence.indexOf(spreadType) + 1;
+
+        if (nextIndex < spreadsSequence.length) {
+          const nextSpread = spreadsSequence[nextIndex];
+          setTimeout(() => {
+            router.push(`/tarot-draw?spread=${nextSpread}&fromRegister=true`);
+          }, 1000);
+        } else {
+          // Finished all spreads
+          setTimeout(() => {
+            router.push("/dashboard");
+          }, 1000);
+        }
+      } else {
+        // Non-first-time user
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 1000);
+      }
+
+
     } catch (error) {
       console.error("Submit error:", error);
     }

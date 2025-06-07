@@ -49,7 +49,7 @@ const CompleteProfileForm = () => {
           resetForm();
 
           setTimeout(() => {
-            router.push("/tarot-draw?spread=celticCross&fromRegister=true");  // 👈 Go to TarotDraw page with spread param
+            router.push("/tarot-draw?spread=timelineSpread&fromRegister=true");  // 👈 Go to TarotDraw page with spread param
           }, 1000);
         } catch (err) {
           console.error(err);

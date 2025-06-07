@@ -1,14 +1,13 @@
-import spreadLayout from "@/data/spreadLayout";
-import { useTarotDraw } from "@/hooks/useTarotDraw";
+"use client";
 import { useSearchParams } from "next/navigation";
+import { useTarotDraw } from "@/hooks/useTarotDraw";
+import React from "react";
 import TarotDrawPage from "./TarotDrawPage";
 
 const TarotDrawContainer = () => {
   const searchParams = useSearchParams();
-  const spreadTypeParam = searchParams.get("spread") || "celticCross";
-
-  // Optional: strict type-check
-  const spreadType = (spreadTypeParam in spreadLayout ? spreadTypeParam : "celticCross") as keyof typeof spreadLayout;
+  const spreadType = (searchParams.get("spread") || "celticCross") as keyof typeof spreadLayout;
+  const isRegisterForm = searchParams.get("fromRegister") === "true";
 
   const {
     spreadRef,
@@ -25,7 +24,7 @@ const TarotDrawContainer = () => {
     handleCardSelect,
     handleSubmit,
     setSelectedDeck,
-  } = useTarotDraw(spreadType);
+  } = useTarotDraw(spreadType, isRegisterForm);
 
   return (
     <TarotDrawPage
@@ -43,7 +42,7 @@ const TarotDrawContainer = () => {
       handleCardSelect={handleCardSelect}
       handleSubmit={handleSubmit}
       setSelectedDeck={setSelectedDeck}
-      spreadType={spreadType} // 👈 Add this prop to TarotDrawPage too
+      spreadType={spreadType} // pass to renderer
     />
   );
 };

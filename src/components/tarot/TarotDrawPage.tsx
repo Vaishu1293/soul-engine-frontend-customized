@@ -41,6 +41,7 @@ const TarotDrawPage = ({
 }: Props) => {
   const searchParams = useSearchParams();
   const spreadType = searchParams.get("spread") || "celticCross";
+  const isRegisterForm = searchParams.get("fromRegister") === "true";
   return (
     <div className="tarot-wrapper w-full min-h-screen">
       <ShuffleButton onShuffle={handleShuffle} />
