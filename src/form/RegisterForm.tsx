@@ -34,24 +34,37 @@ const RegisterForm = () => {
             body: JSON.stringify(values),
           });
 
-          if (!response.ok) {
-            throw new Error("Registration failed");
+          const result = await response.json();
+
+          if (response.status === 201) {
+            // ✅ User created successfully
+            localStorage.setItem("soul_token", result.token);
+            localStorage.setItem("soul_user", JSON.stringify(result.user));
+
+            toast.success("Registration successful!");
+            resetForm();
+
+            setTimeout(() => {
+              router.push("/complete-profile");
+            }, 1000);
+
+          } else if (response.status === 409) {
+            // ❌ User already exists
+            toast.error("User already registered. Please login.");
+
+            setTimeout(() => {
+              router.push("/login");
+            }, 1000);
+          } else {
+            throw new Error(result.error || "Unexpected error");
           }
 
-          const result = await response.json();
-          toast.success("Registration successful!");
-
-          resetForm();
-
-          setTimeout(() => {
-            router.push("/complete-profile")
-            // router.push("/tarot-draw?spread=celticCross");  // 👈 Go to TarotDraw page with spread param
-          }, 1000);
         } catch (err) {
           console.error(err);
           toast.error("Registration error!");
         }
-      },
+      }
+      ,
     });
 
   const selectHandler = (selected: string) => {

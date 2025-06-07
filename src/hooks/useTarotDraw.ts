@@ -115,9 +115,10 @@ export function useTarotDraw(spreadType: keyof typeof spreadLayout, isRegisterFo
     console.log(payload);
 
     try {
+      const token = localStorage.getItem("soul_token");
       const response = await fetch("http://localhost:5000/api/tarot/analyze-tarot", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify(payload)
       });
 
