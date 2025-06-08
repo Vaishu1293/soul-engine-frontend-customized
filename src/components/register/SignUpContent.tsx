@@ -1,5 +1,5 @@
 import RegisterForm from "@/form/RegisterForm";
-import React from "react";
+import React, { useEffect } from "react";
 import bgImg from "../../../public/assets/img/bg/sign-up-social-bg1.jpg"
 import gmail from "../../../public/assets/img/svg-icon/gmail.svg"
 import facebook from "../../../public/assets/img/svg-icon/facebook.svg"
@@ -7,13 +7,33 @@ import twitter from "../../../public/assets/img/svg-icon/twitter.svg";
 import signUpImg from '../../../public/assets/img/bg/sign-up-bg-2.jpg';
 import Image from "next/image";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const SignUpContent = () => {
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      fetch("http://localhost:5000/api/auth/social-register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.user.email}`, // or token if needed
+        },
+        body: JSON.stringify({
+          name: session.user.name,
+          email: session.user.email,
+        }),
+      });
+    }
+  }, [session]);
+
   return (
     <>
       <section
         className="sign-up-area login-area-2"
-        style={{ backgroundImage:`url(${signUpImg.src})` }}
+        style={{ backgroundImage: `url(${signUpImg.src})` }}
       >
         <div className="container">
           <div className="row">
@@ -27,18 +47,18 @@ const SignUpContent = () => {
                       sale your any items independently online securely in the
                       world.
                     </p>
-                    <RegisterForm/>
+                    <RegisterForm />
                   </div>
                 </div>
                 <div className="sign-up-with-social">
                   <div
                     className="sign-up-with-social-bg"
-                    style={{ backgroundImage: `url(${bgImg.src})`}}
+                    style={{ backgroundImage: `url(${bgImg.src})` }}
                   ></div>
                   <div className="sign-up-with-social-content">
                     <div className="text-or">Or</div>
                     <div className="sign-up-media">
-                      <Link href="#" className="sign-up-media-single">
+                      {/* <Link href="#" className="sign-up-media-single">
                         <Image
                           src={gmail}
                           priority
@@ -46,7 +66,11 @@ const SignUpContent = () => {
                           style={{ width: "auto", height: "auto" }}
                         />{" "}
                         Signup with Email
-                      </Link>
+                      </Link> */}
+                      <button onClick={() => signIn("google")} className="sign-up-media-single">
+                        <Image src={gmail} alt="media-img" />
+                        Signup with Gmail
+                      </button>
                       <Link href="#" className="sign-up-media-single">
                         <Image
                           src={facebook}
@@ -57,7 +81,7 @@ const SignUpContent = () => {
                       </Link>
                       <Link href="#" className="sign-up-media-single">
                         <Image
-                        style={{ width: "auto", height: "auto" }}
+                          style={{ width: "auto", height: "auto" }}
                           src={twitter}
                           alt="media-img"
                         />{" "}

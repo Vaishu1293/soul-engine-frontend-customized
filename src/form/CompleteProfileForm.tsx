@@ -34,7 +34,7 @@ const CompleteProfileForm = () => {
         try {
           console.log(values);
           const token = localStorage.getItem("soul_token");
-          const response = await fetch("http://localhost:5000/api/auth/register", {
+          const response = await fetch("http://localhost:5000/api/auth/complete-profile", {
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
             body: JSON.stringify(values),
