@@ -133,9 +133,9 @@ const LoginForm = () => {
 
       {/* SOCIAL SIGN-IN SECTION */}
       <div className="social-login-divider">
-        <span>Or sign in with</span>
+        <span>Or</span>
       </div>
-      <div className="sign-up-media">
+      <div className="sign-up-media-login">
         <button
           onClick={() => handleSocialSignIn("google")}
           className="sign-up-media-single"

@@ -43,9 +43,10 @@ const UserDashboardSidebar = ({ setMenuOpen1, menuOpen1 }: propsType) => {
                                 </div>
                             </div>
                             <div className="dashboard-menus-wrap">
-                                <div className="mm-menu dashboard-menus mb-60">
+                                <div className="mm-menu dashboard-menus mb-20">
                                     <ul>
                                         {DashboardMenu.map((menuItem, index) => (
+                                            <>
                                             <li
                                                 key={index}
                                                 className={menuId === menuItem.id && menuItem.subMenu === true && activeMenu ? "has-droupdown active" : menuItem.subMenu === false ? "" : "has-droupdown"}>
@@ -78,6 +79,7 @@ const UserDashboardSidebar = ({ setMenuOpen1, menuOpen1 }: propsType) => {
                                                         ))}
                                                 </ul>
                                             </li>
+                                            </>
                                         ))}
                                     </ul>
                                 </div>

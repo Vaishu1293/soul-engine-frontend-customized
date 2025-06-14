@@ -159,3 +159,12 @@ i[class*=" flaticon-"]:before {
 .flaticon-reload:before {
 	content: "\f12d";
 }
+.flaticon-lightbulb:before {
+  content: "\f12e"; /* Next unused codepoint */
+}
+.flaticon-tree:before {
+  content: "\f12f";
+}
+.flaticon-cross:before {
+  content: "\f130";
+}

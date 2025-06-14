@@ -215,10 +215,28 @@ select {
 	text-align: center;
 }
 
+.social-login-divider{
+	justify-content: center;
+	text-align: center;
+	font-weight: bolder;
+}
+
 .sign-up-media {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+}
+
+.sign-up-with-social-content-login {
+	text-align: center;
+}
+
+.sign-up-media-login {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	align-items: center;
+	justify-content: center;
 }
 
 // login style
