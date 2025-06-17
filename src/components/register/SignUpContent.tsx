@@ -42,9 +42,16 @@ const SignUpContent = () => {
         const result = await res.json();
 
         if (res.status === 201) {
-          localStorage.setItem("soul_token", result.token);
+          // ✅ Store token securely in HTTP-only cookie
+          await fetch("/api/auth/set-token", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: result.token }),
+          });
+
           localStorage.setItem("soul_user", JSON.stringify(result.user));
           router.push("/complete-profile");
+
         } else if (res.status === 200) {
           toast.info("User already exists. Please log in.");
           router.push("/login");
@@ -55,12 +62,13 @@ const SignUpContent = () => {
         console.error("Social registration failed:", error);
         toast.error("Something went wrong. Please try again.");
       } finally {
-        localStorage.removeItem("soul_clicked_provider"); // ✅ Clean up
+        localStorage.removeItem("soul_clicked_provider");
       }
     };
 
     registerSocialUser();
   }, [session, router]);
+
 
 
   const handleSocialLogin = async (provider: string) => {

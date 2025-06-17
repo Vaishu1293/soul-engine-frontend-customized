@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import NiceSelectForm from "@/elements/niceSelect/NiceSelectForm"; // assuming your select component
 import { selectAreaOfInterest } from "@/data/nice-select-data"; // import your Area of Interest array
 import { toast } from "sonner";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 
 const CompleteProfileForm = () => {
   const router = useRouter();
@@ -31,32 +32,31 @@ const CompleteProfileForm = () => {
       interest: Yup.string().required("Area of interest is required"),
     }),
     onSubmit: async (values, { resetForm }) => {
-        try {
-          console.log(values);
-          const token = localStorage.getItem("soul_token");
-          const response = await fetch("http://localhost:5000/api/auth/complete-profile", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-            body: JSON.stringify(values),
-          });
+      try {
+        console.log(values);
+        const response = await fetchWithAuth("http://localhost:5000/api/auth/complete-profile", {
+          method: "POST",
+          body: JSON.stringify(values),
+        });
 
-          if (!response.ok) {
-            throw new Error("Registration failed");
-          }
 
-          const result = await response.json();
-          toast.success("Complete Profile successful!");
-
-          resetForm();
-
-          setTimeout(() => {
-            router.push("/tarot-draw?spread=timelineSpread&fromRegister=true");  // 👈 Go to TarotDraw page with spread param
-          }, 1000);
-        } catch (err) {
-          console.error(err);
-          toast.error("Complete Profile error!");
+        if (!response.ok) {
+          throw new Error("Registration failed");
         }
-      },
+
+        const result = await response.json();
+        toast.success("Complete Profile successful!");
+
+        resetForm();
+
+        setTimeout(() => {
+          router.push("/tarot-draw?spread=timelineSpread&fromRegister=true");  // 👈 Go to TarotDraw page with spread param
+        }, 1000);
+      } catch (err) {
+        console.error(err);
+        toast.error("Complete Profile error!");
+      }
+    },
   });
 
   const { values, handleChange, handleBlur, handleSubmit, errors, touched } = formik;
@@ -127,13 +127,13 @@ const CompleteProfileForm = () => {
                     handleChange({ target: { name: "interest", value: item.option.toLowerCase() } });
                     setInterest(item.option.toLowerCase());
                   }
-                } }
+                }}
                 name="interest"
-                className="gender-category-select" 
+                className="gender-category-select"
                 setSelelectForm={function (value: SetStateAction<string>): void {
                   // throw new Error("Function not implemented.");
-                } }              
-                />
+                }}
+              />
             </div>
           </div>
         </div>

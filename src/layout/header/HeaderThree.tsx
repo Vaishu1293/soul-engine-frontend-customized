@@ -11,6 +11,7 @@ import logoWhite from "../../../public/assets/img/logo/logo.png"
 import logoBlack from "../../../public/assets/img/logo/logo-2.png"
 import MobileMenu from "@/utils/MobileMenu";
 import useGlobalContext from "@/hooks/use-context";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 
 const HeaderThree = () => {
   const [isActive13, setActive13] = useState(false);
@@ -28,7 +29,7 @@ const HeaderThree = () => {
   return (
     <>
       <header className="header2">
-        <div id="header-sticky"  className={sticky ? "sticky header-main header-main2 header-main3" : "header-main header-main2 header-main3"}>
+        <div id="header-sticky" className={sticky ? "sticky header-main header-main2 header-main3" : "header-main header-main2 header-main3"}>
           <div className="c-container-2 custom-x-space-15">
             <div className="header-main2-content dashboard-header-content">
               <div className="row align-items-center">
@@ -51,13 +52,13 @@ const HeaderThree = () => {
                         </a>
                       </div>
                       <div className="dashboard-header-logo d-block d-xxl-none">
-                        <Image className="logo-white" src={logoWhite} style={{width:"auto", height:"auto"}} alt="logo" />
-                        <Image className="logo-black" src={logoBlack} style={{width:"auto", height:"auto"}} alt="logo" />
+                        <Image className="logo-white" src={logoWhite} style={{ width: "auto", height: "auto" }} alt="logo" />
+                        <Image className="logo-black" src={logoBlack} style={{ width: "auto", height: "auto" }} alt="logo" />
                       </div>
                     </div>
                     <div className="main-menu main-menu1 main-menu3 d-none d-xxl-block">
                       <nav id="mobile-menu">
-                          <HeaderOneMenu />
+                        <HeaderOneMenu />
                       </nav>
                     </div>
                     <form
@@ -100,7 +101,39 @@ const HeaderThree = () => {
                               <li><Link href="/my-wallet"><i className="menu-icon flaticon-wallet-1"></i>My Wallet</Link></li>
                               <li><Link href="/my-collection"><i className="menu-icon flaticon-add-2"></i>My Collection</Link></li>
                               <li><Link href="/payment-method"><i className="menu-icon flaticon-settings"></i>Settings</Link></li>
-                              <li><Link href="/login"><i className="menu-icon flaticon-logout"></i>Logout</Link></li>
+                              <li><Link href="/" onClick={async () => {
+                                try {
+                                  const user = JSON.parse(localStorage.getItem("soul_user") || "{}");
+
+                                  const response = await fetchWithAuth("http://localhost:5000/api/auth/logout", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                      email: user.email,
+                                      provider: user.provider || "local",
+                                    }),
+                                  });
+
+                                  if (!response.ok) throw new Error("Failed to send tarot reading to backend");
+                                  console.log("Vaish response: ", response.status)
+                                  if (response.status === 200) {
+                                    // ✅ Remove token securely in HTTP-only cookie
+                                    await fetch("/api/auth/remove-token", {
+                                      method: "POST",
+                                      headers: { "Content-Type": "application/json" }
+                                    });
+                                    localStorage.removeItem("soul_user");
+                                    window.location.href = "/login";
+                                  }
+
+                                } catch (error) {
+                                  console.error("Logout failed", error);
+                                  window.location.href = "/login";
+                                }
+                              }}>
+                                <i className="menu-icon flaticon-logout"></i> Logout
+                              </Link>
+                              </li>
                             </ul>
                           </div>
                         </div>

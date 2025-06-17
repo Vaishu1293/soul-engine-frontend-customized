@@ -9,6 +9,7 @@ import useGlobalContext from '@/hooks/use-context';
 import Image from 'next/image';
 import HeaderOneMenu from './component/HeaderOneMenu';
 import MobileMenu from '@/utils/MobileMenu';
+import { fetchWithAuth } from '@/utils/fetchWithAuth';
 
 const HeaderOne = ({ HeaderStatic }: any) => {
    const { toggleSideMenu, sideMenuOpen } = useGlobalContext()
@@ -65,37 +66,39 @@ const HeaderOne = ({ HeaderStatic }: any) => {
                                           <li><Link href="/my-wallet"><i className="menu-icon flaticon-wallet-1"></i>My Wallet</Link></li>
                                           <li><Link href="/my-collection"><i className="menu-icon flaticon-add-2"></i>My Collection</Link></li>
                                           <li><Link href="/payment-method"><i className="menu-icon flaticon-settings"></i>Settings</Link></li>
-                                          <li>
-                                             <button
-                                                type="button"
-                                                className="menu-icon flaticon-logout"
-                                                onClick={async () => {
-                                                   try {
-                                                      const user = JSON.parse(localStorage.getItem("soul_user") || "{}");
+                                          <li><Link href="/" onClick={async () => {
+                                             try {
+                                                const user = JSON.parse(localStorage.getItem("soul_user") || "{}");
 
-                                                      await fetch("http://localhost:5000/api/auth/logout", {
-                                                         method: "POST",
-                                                         headers: { "Content-Type": "application/json" },
-                                                         body: JSON.stringify({
-                                                            email: user.email,
-                                                            provider: user.provider || "local",
-                                                         }),
-                                                      });
+                                                const response = await fetchWithAuth("http://localhost:5000/api/auth/logout", {
+                                                   method: "POST",
+                                                   headers: { "Content-Type": "application/json" },
+                                                   body: JSON.stringify({
+                                                      email: user.email,
+                                                      provider: user.provider || "local",
+                                                   }),
+                                                });
 
-                                                      localStorage.removeItem("soul_token");
-                                                      localStorage.removeItem("soul_user");
+                                                if (!response.ok) throw new Error("Failed to send tarot reading to backend");
+                                                console.log("Vaish response: ", response.status)
+                                                if (response.status === 200) {
+                                                   // ✅ Remove token securely in HTTP-only cookie
+                                                   await fetch("/api/auth/remove-token", {
+                                                      method: "POST",
+                                                      headers: { "Content-Type": "application/json" }
+                                                   });
+                                                   localStorage.removeItem("soul_user");
+                                                   window.location.href = "/login";
+                                                }
 
-                                                      window.location.href = "/login";
-                                                   } catch (error) {
-                                                      console.error("Logout failed", error);
-                                                      window.location.href = "/login";
-                                                   }
-                                                }}
-                                             >
-                                                <i className="menu-icon flaticon-logout"></i> Logout
-                                             </button>
+                                             } catch (error) {
+                                                console.error("Logout failed", error);
+                                                window.location.href = "/login";
+                                             }
+                                          }}>
+                                             <i className="menu-icon flaticon-logout"></i> Logout
+                                          </Link>
                                           </li>
-
                                        </ul>
                                     </div>
                                  </div>

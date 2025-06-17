@@ -36,11 +36,20 @@ const RegisterForm = () => {
         const result = await response.json();
 
         if (response.status === 201) {
-          localStorage.setItem("soul_token", result.token);
+          // ✅ Set secure httpOnly cookie
+          console.log("Vaish response from register: ", result);
+          await fetch("/api/auth/set-token", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: result.token }),
+          });
+
+          // Optional: Store user info in localStorage
           localStorage.setItem("soul_user", JSON.stringify(result.user));
           toast.success("Registration successful!");
           resetForm();
-          setTimeout(() => router.push("/complete-profile"), 1000);
+
+          router.push("/complete-profile");
         } else if (response.status === 409) {
           toast.error("User already registered. Please login.");
           setTimeout(() => router.push("/login"), 1000);

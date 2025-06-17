@@ -6,6 +6,7 @@ import profile4 from "../../../public/assets/img/profile/profile1.jpg";
 import Image from "next/image";
 import SidebarMenuSection from "../sidebar/SidebarMenuSection";
 import CategoryFilter from "../sidebar/CategoryFilter";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 
 const HeaderTwo = () => {
   const [isActive13, setActive13] = useState(false);
@@ -82,7 +83,39 @@ const HeaderTwo = () => {
                               <li><Link href="/my-wallet"><i className="menu-icon flaticon-wallet-1"></i>My Wallet</Link></li>
                               <li><Link href="/my-collection"><i className="menu-icon flaticon-add-2"></i>My Collection</Link></li>
                               <li><Link href="/payment-method"><i className="menu-icon flaticon-settings"></i>Settings</Link></li>
-                              <li><Link href="/login"><i className="menu-icon flaticon-logout"></i>Logout</Link></li>
+                              <li><Link href="/" onClick={async () => {
+                                try {
+                                  const user = JSON.parse(localStorage.getItem("soul_user") || "{}");
+
+                                  const response = await fetchWithAuth("http://localhost:5000/api/auth/logout", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                      email: user.email,
+                                      provider: user.provider || "local",
+                                    }),
+                                  });
+
+                                  if (!response.ok) throw new Error("Failed to send tarot reading to backend");
+                                  console.log("Vaish response: ", response.status)
+                                  if (response.status === 200) {
+                                    // ✅ Remove token securely in HTTP-only cookie
+                                    await fetch("/api/auth/remove-token", {
+                                      method: "POST",
+                                      headers: { "Content-Type": "application/json" }
+                                    });
+                                    localStorage.removeItem("soul_user");
+                                    window.location.href = "/login";
+                                  }
+
+                                } catch (error) {
+                                  console.error("Logout failed", error);
+                                  window.location.href = "/login";
+                                }
+                              }}>
+                                <i className="menu-icon flaticon-logout"></i> Logout
+                              </Link>
+                              </li>
                             </ul>
                           </div>
                         </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import spreadLayout, { spreadSlotNames } from "@/data/spreadLayout";
 import { useRouter } from "next/navigation";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 
 export function useTarotDraw(spreadType: keyof typeof spreadLayout, isRegisterForm: boolean) {
   const spreadRef = useRef(null);
@@ -116,7 +117,7 @@ export function useTarotDraw(spreadType: keyof typeof spreadLayout, isRegisterFo
 
     try {
       const token = localStorage.getItem("soul_token");
-      const response = await fetch("http://localhost:5000/api/tarot/analyze-tarot", {
+      const response = await fetchWithAuth("http://localhost:5000/api/tarot/analyze-tarot", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify(payload)
