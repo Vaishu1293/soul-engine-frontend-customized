@@ -70,72 +70,11 @@ const LoginForm = () => {
     },
   });
 
-  // Social login
-  // const handleSocialSignIn = async (provider: string) => {
-
-  //   const res = await signIn(provider, {
-  //     redirect: false, // avoid immediate redirection
-  //   });
-
-  //   console.log("Vaish provider: ", provider, res);
-
-  //   if (!res?.ok) {
-  //     toast.error("Social sign-in failed.");
-  //     return;
-  //   }
-
-  //   // Wait for session to populate
-  //   await new Promise(resolve => setTimeout(resolve, 500));
-
-  //   // Get session info
-  //   const sessionRes = await fetch("/api/auth/session");
-  //   const session = await sessionRes.json();
-
-  //   const email = session?.user?.email;
-  //   const name = session?.user?.name;
-  //   const image = session?.user?.image;
-
-  //   if (!email) {
-  //     toast.error("Email not found in session.");
-  //     return;
-  //   }
-
-  //   // 🔁 Call your backend to register or login social user and get token
-  //   const socialRes = await fetch("http://localhost:5000/api/auth/social-login", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${email}`,
-  //     },
-  //     body: JSON.stringify({ email, name, image, provider }),
-  //   });
-
-  //   const result = await socialRes.json();
-
-  //   if (!socialRes.ok || !result.token) {
-  //     toast.error(result.error || "Social login failed.");
-  //     return;
-  //   }
-
-  //   // ✅ Set token using secure API
-  //   await fetch("/api/set-token", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ token: result.token }),
-  //   });
-
-  //   localStorage.setItem("soul_user", JSON.stringify(result.user));
-
-  //   toast.success("Social login successful!");
-  //   router.push("/dashboard");
-  // };
-
-  // Social login
   const handleSocialSignIn = async (provider: string) => {
-    await signIn(provider, {
-      callbackUrl: "/dashboard", // 👈 Change as needed
-    });
-  };
+  await signIn(provider, {
+    callbackUrl: `/api/auth/social-callback?provider=${provider}`, // 👈 directly to server route
+  });
+};
 
 
   return (
