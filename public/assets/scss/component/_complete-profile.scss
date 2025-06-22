@@ -1,0 +1,16 @@
+.back-btn {
+    padding: 0 35px;
+    height: 50px;
+    width: auto;
+    border-radius: 5px;
+    line-height: 38px;
+    background: transparent;
+    border: 1px solid var(--clr-common-blue);
+    color: var(--clr-common-blue);
+    transition: all linear 0.3s;
+}
+
+.back-btn:hover {
+    background-color: var(--clr-common-blue);
+    color: var(--clr-common-white);
+}
