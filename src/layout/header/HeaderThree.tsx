@@ -12,6 +12,7 @@ import logoBlack from "../../../public/assets/img/logo/logo-2.png"
 import MobileMenu from "@/utils/MobileMenu";
 import useGlobalContext from "@/hooks/use-context";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
+import CategoryFilter from "../sidebar/CategoryFilter";
 
 const HeaderThree = () => {
   const [isActive13, setActive13] = useState(false);
@@ -23,6 +24,8 @@ const HeaderThree = () => {
 
   const [menuOpen1, setMenuOpen1] = useState(false);
   const { toggleSideMenu, sideMenuOpen } = useGlobalContext()
+  const [menuOpen2, setMenuOpen2] = useState(false);
+
   // sticky nav
   const { sticky } = useSticky();
 
@@ -172,6 +175,13 @@ const HeaderThree = () => {
         onClick={() => setMenuOpen1(false)}
         className={
           menuOpen1 ? "offcanvas-overlay overlay-open" : "offcanvas-overlay"
+        }
+      ></div>
+      <CategoryFilter menuOpen2={menuOpen2} setMenuOpen2={setMenuOpen2} />
+      <div
+        onClick={() => setMenuOpen2(false)}
+        className={
+          menuOpen2 ? "offcanvas-overlay overlay-open" : "offcanvas-overlay"
         }
       ></div>
     </>

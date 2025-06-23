@@ -57,7 +57,7 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
             case "/home-three":
               return <HeaderTwo />;
             case "/dashboard":
-                return <HeaderThree />;
+                return <HeaderTwo />;
 
             default:
               return <HeaderOne HeaderStatic={HeaderStatic} />;
@@ -70,7 +70,7 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
             case "/home-three":
               return <FooterTwo />;
             case "/dashboard":
-              return <FooterThree />;
+              return <FooterTwo />;
             default:
               return <Footer />;
           }
