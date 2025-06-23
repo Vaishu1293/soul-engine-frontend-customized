@@ -5,7 +5,7 @@ const UserDashboardMain = () => {
     return (
         <>
             <HeroSectionThree/>
-            <ExploreArtsThree/>
+            {/* <ExploreArtsThree/> */}
         </>
     );
 };

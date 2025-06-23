@@ -1,261 +1,114 @@
 "use client"
 import React from "react";
-import { Navigation, Scrollbar, A11y, Autoplay, } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';
-import Link from "next/link";
-import thumb from "../../../public/assets/img/banner/dashboard-banner-img.webp";
-import thumb3 from "../../../public/assets/img/bids/oc-category-9.jpg";
-import prifile1 from "../../../public/assets/img/profile/profile37.png";
-import thumb5 from "../../../public/assets/img/bids/oc-category-1.jpg";
-import thumb6 from "../../../public/assets/img/profile/profile7.jpg";
-import thumb7 from "../../../public/assets/img/bids/oc-category-3.jpg";
-import thumb8 from "../../../public/assets/img/profile/profile3.jpg";
-import shape1 from "../../../public/assets/img/shape/shape-1.png";
-import shapeL1 from "../../../public/assets/img/shape/shape-l-1.png";
-import shapeL2 from "../../../public/assets/img/shape/shape-l-2.png";
-import shape2 from "../../../public/assets/img/shape/shape-2.png";
-import shape3 from "../../../public/assets/img/shape/hero-three-light.png";
 import Image from "next/image";
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
-import CounterTwo from "@/utils/CounterTwo";
 
 const HeroSectionThree = () => {
   useFlashlightAnimation();
   return (
     <div className="banner-area banner-area3 pos-rel pt-120">
       <div className="container c-container-1">
-        <div>
+        <h2 className="text-2xl font-bold mb-6">Spiritual Snapshot Today</h2>
+
+        <div className="dashboard-reflection-wrapper light-effect mt-4 p-6 rounded-xl bg-gradient-to-r from-[#271152] to-[#150624] text-white max-w-5xl mx-auto">
           <div className="row">
-            <div className="col-xl-8 banner-3-column">
-              <Swiper
-                modules={[Navigation, Scrollbar, A11y, Autoplay]}
-                spaceBetween={30}
-                slidesPerView={1}
-                loop={true}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: true
-                }}
-                navigation={{
-                  nextEl: '.auction-button-next',
-                  prevEl: '.auction-button-prev',
-                }}
-              >
-                <SwiperSlide>
-                <div className="dashboard-banner-slider-wrap light-effect">
-                  <div className="dashboard-banner-slider">
-                    <div className="row">
-                      <div className="col-md-5">
-                        <div className="dashboard-banner-img pos-rel">
-                          <Image
-                            style={{ width: "100%", height: "auto" }}
-                            priority
-                            src={thumb}
-                            alt="img not found"
-                          />
-                          <div className="art-action">
-                            <button className="art-action-like">
-                              <i className="flaticon-heart"></i>
-                            </button>
-                            <div className="art-action-like-count">
-                              1.2k+
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-7">
-                        <div className="dashboard-banner-text">
-                          <div className="dashboard-banner-text-wrap">
-                            <h1>Steampunk Robot</h1>
-                          </div>
-                          <div className="dashboard-banner-author">
-                            <div className="dashboard-banner-author-img">
-                              <Link href="/creators">
-                                <Image
-                                  style={{ width: "100%", height: "auto" }}
-                                  src={prifile1}
-                                  alt="profile-img"
-                                />
-                              </Link>
-                            </div>
-                            <div className="dashboard-banner-author-text">
-                              <h5>Brooklyn Simmons</h5>
-                              <span>@queendevs_56</span>
-                            </div>
-                          </div>
-                          <div className="dashboard-banner-box">
-                            <div className="dashboard-banner-box-item">
-                              <span>Current Bid</span>
-                              <h4>26.72 ETH</h4>
-                            </div>
-                            <div className="dashboard-banner-box-item">
-                              <span>Action Time</span>
-                              <CounterTwo day={2} min={45} sec={15} />
-                            </div>
-                          </div>
-                          <div className="dashboard-banner-button">
-                            <Link className="fill-btn-lightblue" href="#">
-                              Place Bid
-                            </Link>
-                            <Link className="border-btn" href="/explore-arts">
-                              Explore Now
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="dashboard-banner-shape-1"><Image style={{ width: "auto", height: "auto" }} src={shape1} alt="shape" /></div>
-                    <div className="dashboard-banner-shape-2"><Image style={{ width: "auto", height: "auto" }} src={shape2} alt="shape" /></div>
-                    <div className="dashboard-banner-shape-3"><Image style={{ width: "auto", height: "auto" }} src={shape3} alt="shape" /></div>
-                    <div className="dashboard-banner-shape-l-1"><Image style={{ width: "auto", height: "auto" }} src={shapeL1} alt="shape" /></div>
-                    <div className="dashboard-banner-shape-l-2"><Image style={{ width: "auto", height: "auto" }} src={shapeL2} alt="shape" /></div>
-                  </div>
-                </div>
-                </SwiperSlide>
-              </Swiper>
-            </div>
-            <div className="col-xl-4 sidebar-art-list-column">
-              <div className="sidebar-art-list">
-                <div className="art-item-single sidebar-art-item">
-                  <div className="art-item-wraper light-effect">
-                    <div className="art-item-inner">
-                      <div className="art-item-img pos-rel">
-                        <Link href="/explore-arts">
-                          <Image
-                            style={{ width: "100%", height: "auto" }}
-                            src={thumb3}
-                            alt="art-img"
-                          />
-                        </Link>
-                      </div>
-                      <div className="art-item-content pos-rel">
-                        <h4 className="art-name">
-                          <Link href="/explore-arts">Abstract Cube</Link>
-                        </h4>
-                        <div className="artist">
-                          <div className="profile-img pos-rel">
-                            <Link href="/creators">
-                              <Image
-                                style={{ width: "100%", height: "auto" }}
-                                src={prifile1}
-                                alt="profile-img"
-                              />
-                            </Link>
-                            <div className="profile-verification verified">
-                              <i className="fas fa-check"></i>
-                            </div>
-                          </div>
-                          <div className="artist-id">@Jerryfo</div>
-                        </div>
-                        <div className="art-meta-info">
-                          <div className="art-meta-item">
-                            <div className="art-meta-type">Current Bid</div>
-                            <div className="art-price">24.47 ETH</div>
-                          </div>
-                          <div className="art-activity-btn">
-                            <a href="#" className="place-bid">
-                              Place Bid
-                            </a>
-                          </div>
-                        </div>
+            <div className="col-lg-12">
+              <div className="rounded-xl p-6 md:p-8 text-white"
+                style={{
+                  borderRadius: '25px',
+                  background: 'linear-gradient(135deg, #3a1c71 0%, #5b3abf 50%, #302b63 100%)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                }}>
+                <div className="row">
+                  <div className="col-lg-4">
+                    {/* ⬆️ Section 1: Daily Reflection Header */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 m-4 p-4">
+                      {/* Left Column - Text Info + Buttons */}
+                      <div>
+                        <p className="text-blue-300 text-xl">Tovay’s Vibe</p>
+                        <h3 className="text-2xl font-bold">Daily Reflection</h3>
+                        <p className="text-xl text-gray-300 mb-4">June 23, 2025</p>
+
+                        <button className="fill-btn-lightblue">
+                          Ask Today’s Queries
+                        </button>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="art-item-single sidebar-art-item">
-                  <div className="art-item-wraper light-effect">
-                    <div className="art-item-inner">
-                      <div className="art-item-img pos-rel">
-                        <Link href="/explore-arts">
-                          <Image
-                            style={{ width: "100%", height: "auto" }}
-                            src={thumb5}
-                            alt="art-img"
-                          />
-                        </Link>
+                  <div className="col-lg-8">
+                    {/* Right Column - Cards + Button */}
+                    <div className="flex flex-col md:items-end m-4 p-4">
+                      <div className="flex justify-center md:justify-end gap-2 mb-4">
+                        <Image src="/cards/1.jpg" alt="Card 1" width={60} height={90} className="m-2" />
+                        <Image src="/cards/2.jpg" alt="Card 2" width={60} height={90} className="m-2" />
+                        <Image src="/cards/3.jpg" alt="Card 3" width={60} height={90} className="m-2" />
+                        <Image src="/cards/4.jpg" alt="Card 2" width={60} height={90} className="m-2" />
+                        <Image src="/cards/5.jpg" alt="Card 3" width={60} height={90} className="m-2" />
                       </div>
-                      <div className="art-item-content pos-rel">
-                        <h4 className="art-name">
-                          <Link href="/explore-arts">Crypto Art</Link>
-                        </h4>
-                        <div className="artist">
-                          <div className="profile-img pos-rel">
-                            <Link href="/creators">
-                              <Image
-                                style={{ width: "100%", height: "auto" }}
-                                src={thumb6}
-                                alt="profile-img"
-                              />
-                            </Link>
-                            <div className="profile-verification verified">
-                              <i className="fas fa-check"></i>
-                            </div>
-                          </div>
-                          <div className="artist-id">@machman</div>
-                        </div>
-                        <div className="art-meta-info">
-                          <div className="art-meta-item">
-                            <div className="art-meta-type">Current Bid</div>
-                            <div className="art-price">23.84 ETH</div>
-                          </div>
-                          <div className="art-activity-btn">
-                            <a href="#" className="place-bid">
-                              Place Bid
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="art-item-single sidebar-art-item">
-                  <div className="art-item-wraper light-effect">
-                    <div className="art-item-inner">
-                      <div className="art-item-img pos-rel">
-                        <Link href="/explore-arts">
-                          <Image
-                            style={{ width: "100%", height: "auto" }}
-                            src={thumb7}
-                            alt="art-img"
-                          />
-                        </Link>
-                      </div>
-                      <div className="art-item-content pos-rel">
-                        <h4 className="art-name">
-                          <Link href="/explore-arts">Talking Ghost</Link>
-                        </h4>
-                        <div className="artist">
-                          <div className="profile-img pos-rel">
-                            <Link href="/creators">
-                              <Image
-                                style={{ width: "100%", height: "auto" }}
-                                src={thumb8}
-                                alt="profile-img"
-                              />
-                            </Link>
-                            <div className="profile-verification verified">
-                              <i className="fas fa-check"></i>
-                            </div>
-                          </div>
-                          <div className="artist-id">@Jerryfo</div>
-                        </div>
-                        <div className="art-meta-info">
-                          <div className="art-meta-item">
-                            <div className="art-meta-type">Current Bid</div>
-                            <div className="art-price">32.84 ETH</div>
-                          </div>
-                          <div className="art-activity-btn">
-                            <a href="#" className="place-bid">
-                              Place Bid
-                            </a>
-                          </div>
-                        </div>
-                      </div>
+                      <button className="border-btn">
+                        View Full Spread
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="col-lg-12">
+              <div className="row">
+                <div className="col-lg-8">
+                  {/* ⬇️ Section 2: AI Summary */}
+                  <div className="bg-[#1a083a] p-5 rounded-xl mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <p className="text-sm font-semibold mb-2 text-white">AI Summary</p>
+                      <input
+                        type="text"
+                        placeholder="What is his feeling for me today?"
+                        className="w-full px-3 py-2 rounded text-black text-sm"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-purple-300 text-sm mb-2">
+                        He has deep feelings of affection, desires separation.
+                        The Lovers (Upright) reflects this bond.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <button className="fill-btn-lightblue text-sm px-4 py-2 rounded mt-1">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* ⬇️ Section 3: Quick Access Tiles */}
+          <h3 className="text-lg font-semibold mb-3">Quick Access Tiles</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-gradient-to-r from-pink-500 to-red-500 rounded-xl p-4">
+              <h4 className="text-sm text-white">Last Timeline Reading</h4>
+              <p className="text-base font-semibold text-white">Love Lost</p>
+              <p className="text-xs text-gray-200">Mar 20, 2024</p>
+              <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
+                View Full Reading
+              </button>
+            </div>
+
+            <div className="bg-gradient-to-r from-green-500 to-teal-500 rounded-xl p-4">
+              <h4 className="text-sm text-white">Current Quarter</h4>
+              <p className="text-base font-semibold text-white">Tree of Life</p>
+              <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
+                View Full Reading
+              </button>
+            </div>
+
+            <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-4">
+              <h4 className="text-sm text-white">This Month’s Energy</h4>
+              <p className="text-base font-semibold text-white">Celtic Cross</p>
+              <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
+                View Full Reading
+              </button>
             </div>
           </div>
         </div>
