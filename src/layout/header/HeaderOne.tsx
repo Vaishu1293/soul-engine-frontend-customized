@@ -45,9 +45,6 @@ const HeaderOne = ({ HeaderStatic }: any) => {
                               <input type="text" placeholder="Search keyword" />
                               <button><i className="fal fa-search"></i></button>
                            </form>
-                           <div className="header-btn ml-20 d-none d-xxl-inline-block">
-                              <Link className="fill-btn" href="/wallet-connect">Connect Wallet</Link>
-                           </div>
                            <div className="profile-item profile-item-header ml-20 d-md-inline-block pos-rel">
                               <div className={`profile-img pos-rel ${isActive11 ? "show-element" : ""}`} onClick={handleToggle11}>
                                  <div className="profile-action">
@@ -62,9 +59,9 @@ const HeaderOne = ({ HeaderStatic }: any) => {
                                        <ul>
                                           <li><Link href="/dashboard"><i className="flaticon-home"></i>Dashboard</Link></li>
                                           <li><Link href="/profile"><i className="flaticon-account"></i>Profile</Link></li>
-                                          <li><Link href="/live-bids"><i className="menu-icon flaticon-money-bag"></i>Live Bids</Link></li>
-                                          <li><Link href="/my-wallet"><i className="menu-icon flaticon-wallet-1"></i>My Wallet</Link></li>
-                                          <li><Link href="/my-collection"><i className="menu-icon flaticon-add-2"></i>My Collection</Link></li>
+                                          <li><Link href="/live-bids"><i className="menu-icon flaticon-money-bag"></i>Daily Readings</Link></li>
+                                          <li><Link href="/my-wallet"><i className="menu-icon flaticon-wallet-1"></i>My Plan</Link></li>
+                                          <li><Link href="/my-collection"><i className="menu-icon flaticon-add-2"></i>My Favourities</Link></li>
                                           <li><Link href="/payment-method"><i className="menu-icon flaticon-settings"></i>Settings</Link></li>
                                           <li><Link href="/" onClick={async () => {
                                              try {

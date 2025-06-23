@@ -74,11 +74,6 @@ const HeaderThree = () => {
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 col-3">
                   <div className="header-main-right dashboard-header-main-right">
-                    <div className="header-btn ml-20 d-none d-xxxl-inline-block">
-                      <Link className="fill-btn" href="/wallet-connect">
-                        Prepare wallet
-                      </Link>
-                    </div>
                     <div className="profile-item profile-item-header ml-20 d-md-inline-block pos-rel">
                       <div
                         className={`profile-img pos-rel ${isActive13 ? "show-element" : ""
@@ -95,11 +90,11 @@ const HeaderThree = () => {
                               </div>
                             </div>
                             <ul>
-                              <li><Link href="/dashboard"><i className="flaticon-account"></i>Dashboard</Link></li>
-                              <li><Link href="/profile"><i className="fal fa-user"></i>Profile</Link></li>
-                              <li><Link href="/live-bids"><i className="menu-icon flaticon-money-bag"></i>Live Bids</Link></li>
-                              <li><Link href="/my-wallet"><i className="menu-icon flaticon-wallet-1"></i>My Wallet</Link></li>
-                              <li><Link href="/my-collection"><i className="menu-icon flaticon-add-2"></i>My Collection</Link></li>
+                              <li><Link href="/dashboard"><i className="flaticon-home"></i>Dashboard</Link></li>
+                              <li><Link href="/profile"><i className="flaticon-account"></i>Profile</Link></li>
+                              <li><Link href="/live-bids"><i className="menu-icon flaticon-money-bag"></i>Daily Readings</Link></li>
+                              <li><Link href="/my-wallet"><i className="menu-icon flaticon-wallet-1"></i>My Plan</Link></li>
+                              <li><Link href="/my-collection"><i className="menu-icon flaticon-add-2"></i>My Favourities</Link></li>
                               <li><Link href="/payment-method"><i className="menu-icon flaticon-settings"></i>Settings</Link></li>
                               <li><Link href="/" onClick={async () => {
                                 try {
