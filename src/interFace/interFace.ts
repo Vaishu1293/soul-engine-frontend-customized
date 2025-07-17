@@ -204,6 +204,13 @@ interface MegaMenuItem {
   submenus?: SubMenuItem[]; 
 }
 
+export interface History {
+  date: string;
+  spread: string;
+  type: string;
+  summary: string;
+}
+
 // Define the interface for the main menu item
 export interface MenuItem {
   id: number;

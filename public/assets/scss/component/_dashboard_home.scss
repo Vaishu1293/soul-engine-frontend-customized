@@ -1,0 +1,146 @@
+@use "../abstract" as *;
+
+
+// history-list atyle
+
+.history-list-container {
+	@media #{$md,$sm,$xs} {
+		overflow-x: scroll;
+		scrollbar-width: thin;
+	}
+}
+
+.history-list-wrapper {
+	border: 1px solid transparent;
+	border-radius: 5px;
+	min-width: 930px;
+}
+
+.history-list-row-heading {
+	.history-list-row {
+		height: 60px;
+	}
+
+	.history-list-cell {
+		font-size: 16px;
+		font-weight: 700;
+		color: var(--clr-common-heading);
+	}
+}
+
+.history-list-row {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid var(--clr-bg-white);
+	background: var(--clr-bg-white);
+	height: 112px;
+	align-items: center;
+	margin-bottom: 5px;
+	border-radius: 5px;
+}
+
+.history-list-items {
+	.history-list-row {
+		&:last-child {
+			border-bottom: 0;
+			margin-bottom: 0;
+		}
+
+		// counter-increment: history-serial;
+	}
+
+	.history-list-cell-sl {
+		span {
+			position: relative;
+
+			// &:before {
+			// 	content: counter(history-serial, decimal-leading-zero);
+			// }
+		}
+	}
+
+	.history-list-cell-hours {
+		color: #2cbe58;
+	}
+
+	.history-list-cell-days {
+		color: #dc1e1e;
+	}
+}
+
+.history-list-cell {
+	flex-grow: 1;
+	padding-left: 25px;
+	font-weight: 600;
+
+	@media #{$lg,$md,$sm,$xs} {
+		padding-left: 5px;
+	}
+}
+
+.history-list-cell.history-list-cell-sl {
+	max-width: 55px;
+}
+
+.history-list-cell.history-list-cell-artworks {
+	// max-width: 100px;
+	width: auto;
+}
+
+.history-list-cell.history-list-cell-market {
+	// max-width: 50px;
+	width: auto;
+}
+
+.history-list-cell.history-list-cell-volume {
+	max-width: 100px;
+}
+
+.history-list-cell.history-list-cell-hours {
+	// max-width: 50px;
+	width: auto;
+}
+
+.history-list-cell.history-list-cell-days {
+	// max-width: 50px;
+	width: auto;
+}
+
+.history-list-cell.history-list-cell-bids {
+	// max-width: 50px;
+	width: auto;
+}
+
+.history-list-cell.history-list-cell-price {
+	max-width: 115px;
+}
+
+.history-list-cell.history-list-cell-owner {
+	max-width: 200px;
+	// width: auto;
+    text-align: left;
+}
+
+.history-list-cell.history-list-cell-assets {
+	max-width: 50px;
+}
+
+.art-item-single.art-item-single-history {
+	border-radius: 5px;
+	width: 70px;
+}
+
+.art-item-single-history {
+	.art-item-wraper {
+		border: 0;
+		padding: 0;
+		border-radius: 5px;
+	}
+
+	.art-item-img {
+		img {
+			border-radius: 5px;
+			width: 70px;
+		}
+	}
+}

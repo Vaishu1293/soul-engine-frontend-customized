@@ -1,13 +1,30 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import 'swiper/css/bundle';
 import Image from "next/image";
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
+import Link from "next/link";
+import Pagination from "@/utils/Pagination";
+import { historyData } from "@/data/historyData";
+import HistoryTableData from "./HistoryTableData";
+import HistoryTableTitle from "./HistoryTableTitle";
 
 const HeroSectionThree = () => {
   useFlashlightAnimation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 5;
+  const dataSource = historyData;
+  const totalPages = Math.ceil(dataSource.length / perPage);
+  const startIndex = (currentPage - 1) * perPage;
+  const currentData = dataSource.slice(startIndex, startIndex + perPage);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
   return (
-    <div className="banner-area banner-area3 pos-rel pt-120">
+    <div className="banner-area banner-area3 pos-rel pt-120 mb-120">
       <div className="container c-container-1">
         <h2 className="text-2xl font-bold mb-6">Spiritual Snapshot Today</h2>
 
@@ -79,7 +96,7 @@ const HeroSectionThree = () => {
                         />
                       </div>
                       <div>
-                        <p className="text-purple-300 text-sm mb-2">
+                        <p className="text-purple-300 text-sm  mt-4">
                           He has deep feelings of affection, desires separation.
                           The Lovers (Upright) reflects this bond.
                         </p>
@@ -105,36 +122,135 @@ const HeroSectionThree = () => {
           {/* ⬇️ Section 3: Quick Access Tiles */}
           <div className="row">
             <div className="col-lg-4">
-                <div className="bg-gradient-to-r from-pink-500 to-red-500 rounded-xl p-4">
-              <h4 className="text-sm text-white">Last Timeline Reading</h4>
-              <p className="text-base font-semibold text-white">Love Lost</p>
-              <p className="text-xs text-gray-200">Mar 20, 2024</p>
-              <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
-                View Full Reading
-              </button>
-            </div>
-            </div>
-            <div className="col-lg-4">
-                <div className="bg-gradient-to-r from-green-500 to-teal-500 rounded-xl p-4">
-              <h4 className="text-sm text-white">Current Quarter</h4>
-              <p className="text-base font-semibold text-white">Tree of Life</p>
-              <p className="text-xs text-gray-200">Apr 01, 2024</p>
-              <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
-                View Full Reading
-              </button>
-            </div>
+              <div className="bg-gradient-to-r from-pink-500 to-red-500 rounded-xl p-4">
+                <h4 className="text-sm text-white">Last Timeline Reading</h4>
+                <p className="text-base font-semibold text-white">Love Lost</p>
+                <p className="text-xs text-gray-200">Mar 20, 2024</p>
+                <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
+                  View Full Reading
+                </button>
+              </div>
             </div>
             <div className="col-lg-4">
-                <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-4">
-              <h4 className="text-sm text-white">This Month’s Energy</h4>
-              <p className="text-base font-semibold text-white">Celtic Cross</p>
-              <p className="text-xs text-gray-200">May 15, 2024</p>
-              <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
-                View Full Reading
-              </button>
+              <div className="bg-gradient-to-r from-green-500 to-teal-500 rounded-xl p-4">
+                <h4 className="text-sm text-white">Current Quarter</h4>
+                <p className="text-base font-semibold text-white">Tree of Life</p>
+                <p className="text-xs text-gray-200">Apr 01, 2024</p>
+                <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
+                  View Full Reading
+                </button>
+              </div>
             </div>
+            <div className="col-lg-4">
+              <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-4">
+                <h4 className="text-sm text-white">This Month’s Energy</h4>
+                <p className="text-base font-semibold text-white">Celtic Cross</p>
+                <p className="text-xs text-gray-200">May 15, 2024</p>
+                <button className="mt-2 border border-white px-3 py-1 rounded text-white text-sm">
+                  View Full Reading
+                </button>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div className="row">
+          <div className="col-lg-6">
+            <h2 className="text-2xl font-bold mb-6 mt-4">Ask Queries</h2>
+            <div className="dashboard-reflection-wrapper light-effect mt-4 p-6 text-white max-w-5xl mx-auto bg-gradient-to-br from-[#ff9966] via-[#ff5e62] to-[#b967ff] shadow-lg rounded-b-2xl rounded-t-md">
+              <div className="oc-banner-client-wrapper stuff5">
+                <div className="oc-banner-client m-4" data-depth=".3">
+                  <div className="q-meta-item">
+                    <div className="q-meta-viewed-members">
+                      {/* <Link href="/creator-profile"><Image src={profileOne} alt="profile-img" /></Link> */}
+                    </div>         
+                    <div className="q-meta-viewed-members-count">
+                      <h5 className="text-2xl font-bold">Core Questions</h5>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-15">
+                    <div className="row">
+                      <div className="col-lg-12">
+                          <h6 className="q-meta-views m-2">What is his feelings for today?</h6>
+                      </div>
+                      <div className="col-lg-12">
+                          <p className="mb-0 m-2">He has deep feelings of affection. despite seperation. The (Lovers) reflect this bond.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span className="q-meta-views">Question 1/5</span>
+                    <Link href="#" className="place-bid">View All</Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <h2 className="text-2xl font-bold mb-6 mt-4">Profile</h2>
+            <div className="dashboard-reflection-wrapper light-effect mt-4 p-6 rounded-xl bg-gradient-to-r from-[#271152] to-[#150624] text-white max-w-5xl mx-auto">
+              <div className="oc-banner-client-wrapper stuff5">
+                <div className="oc-banner-client m-4" data-depth=".3">
+                  <div className="q-meta-item">
+                    <div className="q-meta-viewed-members">
+                      {/* <Link href="/creator-profile"><Image src={profileOne} alt="profile-img" /></Link> */}
+                    </div>         
+                    <div className="q-meta-viewed-members-count">
+                      <h5 className="text-2xl font-bold">Vaishali, Female</h5>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-15">
+                    <div className="row">
+                      <div className="col-lg-12">
+                          <h6 className="q-meta-views m-2">Area of Interest: <small>Love</small></h6>
+                      </div>
+                      <div className="col-lg-12">
+                          <h6 className="q-meta-views m-2">Current Situation: </h6>
+                          <p className="mb-0 m-2">I love Chandrashekar but he got caught by his wife and he left me. Will he return</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span className="q-meta-views">Progress Timeline 3/5</span>
+                     <Link href="#" className="place-bid">View All</Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 className="text-2xl font-bold mb-6 mt-4">History</h2>
+        <div className="dashboard-reflection-wrapper light-effect mt-4 p-6 rounded-xl bg-gradient-to-r from-[#271152] to-[#150624] text-white max-w-5xl mx-auto">
+          <div className="activity-wrapper-actions activity-wrapper-all mb-30">
+                            <div className="history-list-container wow fadeInUp">
+                              <div className="history-list-wrapper mb-20">
+                                <HistoryTableTitle/>
+                                <div className="history-list-items">
+                                  {currentData.map((data, i) => {
+                                    const serial = startIndex + i + 1;
+
+                                    return (
+                                      <div key={serial}>
+                                        <HistoryTableData index={serial} history_data={data} />
+                                      </div>
+                                    );
+                                  })}
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row wow fadeInUp">
+                              <div className="col-12">
+                                <Pagination
+                                  currentPage={currentPage}
+                                  totalPages={totalPages}
+                                  onPageChange={handlePageChange}
+                                />
+                              </div>
+                            </div>
+                          </div>
         </div>
 
       </div>
