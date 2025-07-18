@@ -211,6 +211,13 @@ export interface History {
   summary: string;
 }
 
+export interface DailyReflectionReading {
+  date: string;
+  time: string;
+  title: string;
+  desc: string;
+}
+
 // Define the interface for the main menu item
 export interface MenuItem {
   id: number;
