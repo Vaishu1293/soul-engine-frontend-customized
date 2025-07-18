@@ -12,7 +12,7 @@ export const DashboardMenu: DashboardMenuItemType[] = [
     id: 2,
     subMenu: false,
     label: "Daily Reflection Readings",
-    href: "/daily-reflection-readings",
+    href: "/daily-readings",
     icon: "flaticon-calendar", // ✓ daily schedule
   },
   {
