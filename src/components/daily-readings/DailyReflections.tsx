@@ -8,7 +8,7 @@ const DailyReflections = () => {
   useFlashlightAnimation();
   return (
     <>
-         <h2 className="text-2xl font-bold mb-6">Daily Reflections</h2>
+         <h2 className="text-2xl font-bold mb-6">My Daily Reflections</h2>
         <div className="dashboard-reflection-wrapper light-effect mt-4 p-6 rounded-xl bg-gradient-to-r from-[#271152] to-[#150624] text-white max-w-5xl mx-auto">
           <div className="row">
             <div className="col-lg-12">

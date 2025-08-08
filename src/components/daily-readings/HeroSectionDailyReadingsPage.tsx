@@ -47,13 +47,24 @@ const HeroSectionDailyReadingsPage = () => {
                     </ul>
                   </div>
                   <div className="tab-content" id="myTabContent">
-                    <div className="tab-pane fade show active" id="my-readings-tab-pane" role="tabpanel" aria-labelledby="my-readings-tab" tabIndex={0}>
+                    <div className="tab-pane fade show active m-4" id="my-readings-tab-pane" role="tabpanel" aria-labelledby="my-readings-tab" tabIndex={0}>
                       <DailyReflections />
                       <PastDailyReadingsSection />
                     </div>
-                    <div className="tab-pane fade" id="partner-readings-tab-pane" role="tabpanel" aria-labelledby="partner-readings-tab" tabIndex={0}>
+                    <div className="tab-pane fade m-4" id="partner-readings-tab-pane" role="tabpanel" aria-labelledby="partner-readings-tab" tabIndex={0}>
                       <div className="dashboard-profile-wrap">
-                        {/* add partner readings tab page */}
+                        <DailyReflections />
+                      <PastDailyReadingsSection />
+                      </div>
+                    </div>
+                    <div className="tab-pane fade" id="combined-readings-tab-pane" role="tabpanel" aria-labelledby="combined-readings-tab" tabIndex={0}>
+                      <div className="dashboard-profile-wrap">
+                        {/* add combined readings tab page */}
+                      </div>
+                    </div>
+                    <div className="tab-pane fade" id="analytics-tab-pane" role="tabpanel" aria-labelledby="analytics-tab" tabIndex={0}>
+                      <div className="dashboard-profile-wrap">
+                        {/* add analytics tab page */}
                       </div>
                     </div>
                   </div>
