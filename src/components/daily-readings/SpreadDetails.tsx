@@ -3,6 +3,7 @@ import React from "react";
 import 'swiper/css/bundle';
 import Image from "next/image";
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
+import SpreadRenderer from "../tarot/spreads/spreadRenderer";
 
 interface SpreadDetailsProps {
     title: string;
@@ -10,6 +11,23 @@ interface SpreadDetailsProps {
 
 const SpreadDetails: React.FC<SpreadDetailsProps> = ({ title }) => {
     useFlashlightAnimation();
+
+    const dailySpread = {
+        "Daily Lesson": { card: 1, reversed: false },
+        "Challenges": { card: 12, reversed: true },
+        "Situation": { card: 7, reversed: false },
+        "Advice": { card: 19, reversed: false },
+        "Near Future": { card: 4, reversed: true },
+    };
+
+    const cardInfo = [
+        { id: 1, name: "The Magician" },
+        { id: 4, name: "The Emperor" },
+        { id: 7, name: "The Chariot" },
+        { id: 12, name: "The Hanged Man" },
+        { id: 19, name: "The Sun" },
+    ];
+
     return (
         <>
             <div className="dashboard-reflection-wrapper light-effect mt-4 p-6 rounded-xl bg-gradient-to-r from-[#271152] to-[#150624] text-white max-w-5xl mx-auto">
@@ -29,7 +47,7 @@ const SpreadDetails: React.FC<SpreadDetailsProps> = ({ title }) => {
                                 borderBottomLeftRadius: '0px',
                                 borderBottomRightRadius: '0px',
                             }}>
-                                <div className="col-lg-4">
+                                <div className="col-lg-3">
                                     {/* ⬆️ Section 1: Daily Reflection Header */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 m-4 p-4">
                                         {/* Left Column - Text Info + Buttons */}
@@ -40,15 +58,15 @@ const SpreadDetails: React.FC<SpreadDetailsProps> = ({ title }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-8">
+                                <div className="col-lg-9">
                                     {/* Right Column - Cards + Button */}
                                     <div className="flex flex-col md:items-end m-4 p-4">
-                                        <div className="flex justify-center md:justify-end gap-2 mb-4">
-                                            <Image src="/cards/1.jpg" alt="Card 1" width={60} height={90} className="m-2" />
-                                            <Image src="/cards/2.jpg" alt="Card 2" width={60} height={90} className="m-2" />
-                                            <Image src="/cards/3.jpg" alt="Card 3" width={60} height={90} className="m-2" />
-                                            <Image src="/cards/4.jpg" alt="Card 2" width={60} height={90} className="m-2" />
-                                            <Image src="/cards/5.jpg" alt="Card 3" width={60} height={90} className="m-2" />
+                                        <div className="w-full md:w-auto">
+                                            <SpreadRenderer
+                                                spread={dailySpread}
+                                                cardInfo={cardInfo}
+                                                spreadType="dailyReflection"
+                                            />
                                         </div>
                                     </div>
                                 </div>
