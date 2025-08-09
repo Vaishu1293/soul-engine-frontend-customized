@@ -51,7 +51,7 @@ const SpreadArea: React.FC<SpreadAreaProps> = ({ title }) => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 m-4 p-4">
                                         {/* Left Column - Text Info + Buttons */}
                                         <div>
-                                            <p className="text-blue-300 text-xl">Tovay’s Vibe</p>
+                                            <p className="text-blue-300 text-xl">Today’s Vibe</p>
                                             <h3 className="text-2xl font-bold">My Daily Reflection</h3>
                                             <p className="text-xl text-gray-300 mb-4">June 23, 2025</p>
                                         </div>
