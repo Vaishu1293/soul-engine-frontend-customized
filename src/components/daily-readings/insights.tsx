@@ -2,6 +2,7 @@
 import React from "react";
 import 'swiper/css/bundle';
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
+import WhatCanHappenToday from "./whatCanHappenToday";
 
 interface InsightsProps {
     title: string;
@@ -12,7 +13,7 @@ const Insights: React.FC<InsightsProps> = ({ title }) => {
 
     return (
         <>
-            <h1>Insights</h1>
+            <WhatCanHappenToday title="insights"/>
         </>
     );
 };
