@@ -7,6 +7,7 @@ import CardMeaning from "./cardMeaning";
 import Insights from "./insights";
 import Transits from "./transits";
 import NatalChart from "./natal-chart";
+import Dasha from "./dasha";
 
 interface SpreadTabAreaProps {
   title: string;
@@ -153,7 +154,7 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
               className={`tab-pane fade ${activeTab === "dasha" ? "show active" : ""}`}
             >
               <div className="dashboard-profile-wrap">
-                <Insights title="dasha" />
+                <Dasha title="dasha" />
               </div>
             </div>
           </div>
