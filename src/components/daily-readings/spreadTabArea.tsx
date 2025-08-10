@@ -14,7 +14,7 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
   useFlashlightAnimation();
 
   // Initial selection: Card Meaning
-  const [activeTab, setActiveTab] = useState<"card" | "core" | "insights">("card");
+  const [activeTab, setActiveTab] = useState<"card" | "core" | "insights" | "transits" | "natal-chart" | "dasha">("card");
 
   return (
     <div className="row mt-4">
@@ -58,6 +58,42 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
                   Insights
                 </button>
               </li>
+              <li className="nav-item" role="presentation">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-controls="transits-tab-pane"
+                  aria-selected={activeTab === "transits"}
+                  className={`nav-link ${activeTab === "transits" ? "active" : ""}`}
+                  onClick={() => setActiveTab("transits")}
+                >
+                  Transits
+                </button>
+              </li>
+              <li className="nav-item" role="presentation">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-controls="natal-chart-tab-pane"
+                  aria-selected={activeTab === "natal-chart"}
+                  className={`nav-link ${activeTab === "natal-chart" ? "active" : ""}`}
+                  onClick={() => setActiveTab("natal-chart")}
+                >
+                  Natal Chart
+                </button>
+              </li>
+              <li className="nav-item" role="presentation">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-controls="dasha-tab-pane"
+                  aria-selected={activeTab === "dasha"}
+                  className={`nav-link ${activeTab === "dasha" ? "active" : ""}`}
+                  onClick={() => setActiveTab("dasha")}
+                >
+                  Dasha-Bukti
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -89,6 +125,33 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
             >
               <div className="dashboard-profile-wrap">
                 <Insights title="insights" />
+              </div>
+            </div>
+            <div
+              id="transits-tab-pane"
+              role="tabpanel"
+              className={`tab-pane fade ${activeTab === "transits" ? "show active" : ""}`}
+            >
+              <div className="dashboard-profile-wrap">
+                <Insights title="insights" />
+              </div>
+            </div>
+            <div
+              id="natal-chart-tab-pane"
+              role="tabpanel"
+              className={`tab-pane fade ${activeTab === "natal-chart" ? "show active" : ""}`}
+            >
+              <div className="dashboard-profile-wrap">
+                <Insights title="natal-chart" />
+              </div>
+            </div>
+            <div
+              id="dasha-tab-pane"
+              role="tabpanel"
+              className={`tab-pane fade ${activeTab === "dasha" ? "show active" : ""}`}
+            >
+              <div className="dashboard-profile-wrap">
+                <Insights title="dasha" />
               </div>
             </div>
           </div>

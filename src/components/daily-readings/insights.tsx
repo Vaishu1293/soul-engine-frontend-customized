@@ -3,6 +3,7 @@ import React from "react";
 import 'swiper/css/bundle';
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
 import WhatCanHappenToday from "./whatCanHappenToday";
+import FocusAreaForTheDay from "./focusAreaForTheDay";
 
 interface InsightsProps {
     title: string;
@@ -13,7 +14,10 @@ const Insights: React.FC<InsightsProps> = ({ title }) => {
 
     return (
         <>
-            <WhatCanHappenToday title="insights"/>
+            <div className="mt-4 mb-4">
+                <WhatCanHappenToday title="insights"/>
+            <FocusAreaForTheDay title="focusArea"/>
+            </div>
         </>
     );
 };
