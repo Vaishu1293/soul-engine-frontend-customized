@@ -5,6 +5,7 @@ import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
 import CoreQuestions from "./coreQuestions";
 import CardMeaning from "./cardMeaning";
 import Insights from "./insights";
+import Transits from "./transits";
 
 interface SpreadTabAreaProps {
   title: string;
@@ -133,7 +134,7 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
               className={`tab-pane fade ${activeTab === "transits" ? "show active" : ""}`}
             >
               <div className="dashboard-profile-wrap">
-                <Insights title="insights" />
+                <Transits title="transits"/>
               </div>
             </div>
             <div
