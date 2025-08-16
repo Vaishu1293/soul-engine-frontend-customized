@@ -107,7 +107,7 @@ const HeroSectionDailyReadingsPage = () => {
                         id="my-readings-tab-pane"
                       >
                         <DailyReflections title="My Daily Reflections" onViewFullSpread={() => setSpreadDetails(true)} />
-                        <PastDailyReadingsSection />
+                        <PastDailyReadingsSection onViewFullReading={() => setSpreadDetails(true)} />
                       </div>
                       <div
                         className={`tab-pane fade ${activeTab === "partner-readings-tab-pane" ? "show active" : ""} m-4`}
@@ -115,7 +115,7 @@ const HeroSectionDailyReadingsPage = () => {
                       >
                         <div className="dashboard-profile-wrap">
                           <DailyReflections title="Partner Daily Readings" onViewFullSpread={() => setSpreadDetails(true)} />
-                          <PastDailyReadingsSection />
+                          <PastDailyReadingsSection onViewFullReading={() => setSpreadDetails(true)} />
                         </div>
                       </div>
                       <div className="tab-pane fade" id="combined-readings-tab-pane" role="tabpanel" aria-labelledby="combined-readings-tab" tabIndex={0}>

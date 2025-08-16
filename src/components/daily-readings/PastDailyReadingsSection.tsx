@@ -7,8 +7,12 @@ import Pagination from "@/utils/Pagination";
 import Link from "next/link";
 import { dailyReflectionReadings } from "@/data/dailyReflectionReadings";
 
+interface PastDailyReadingsProps {
+  onViewFullReading?: () => void;
+}
 
-const PastDailyReadingsSection = () => {
+
+const PastDailyReadingsSection: React.FC<PastDailyReadingsProps> = ({ onViewFullReading }) => {
   useFlashlightAnimation();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +58,7 @@ const PastDailyReadingsSection = () => {
                 </div>
               </div>
               <div className="bid-pricing mt-2 md:mt-0 flex justify-end">
-                <button className="border border-white px-3 py-1 rounded text-white text-sm">
+                <button className="border border-white px-3 py-1 rounded text-white text-sm" onClick={onViewFullReading}>
                   View Full Reading
                 </button>
               </div>
