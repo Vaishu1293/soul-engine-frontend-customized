@@ -59,21 +59,44 @@ const NatalChart: React.FC<NatalChartProps> = ({ title }) => {
 
     return (
         <>
-            <div className="rounded-xl overflow-hidden border border-white/10 mx-auto max-w-[880px]">
-                {/* Blue header like your app */}
-                <div className="bg-[#172155] text-white/90 text-center text-sm md:text-base font-semibold py-2">
-                    {title} on {timestamp}
-                </div>
+            <div className="row">
+                <div className="col-6">
+                    <div className="rounded-xl overflow-hidden border border-white/10 mx-auto max-w-[880px]">
+                        {/* Blue header like your app */}
+                        <div className="bg-[#172155] text-white/90 text-center text-sm md:text-base font-semibold py-2">
+                            {title} on {timestamp}
+                        </div>
 
-                {/* Body */}
-                <div className="p-3 md:p-4 bg-[#0c1233]">
-                    <SouthIndianChart
-                        ascSign={ascSign}
-                        placements={placements}
-                        showHouses={showHouses}
-                        compact={compact}
-                        className="mx-auto"
-                    />
+                        {/* Body */}
+                        <div className="p-3 md:p-4 bg-[#0c1233]">
+                            <SouthIndianChart
+                                ascSign={ascSign}
+                                placements={placements}
+                                showHouses={showHouses}
+                                compact={compact}
+                                className="mx-auto"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="col-6">
+                    <div className="rounded-xl overflow-hidden border border-white/10 mx-auto max-w-[880px]">
+                        {/* Blue header like your app */}
+                        <div className="bg-[#172155] text-white/90 text-center text-sm md:text-base font-semibold py-2">
+                            {title} on {timestamp}
+                        </div>
+
+                        {/* Body */}
+                        <div className="p-3 md:p-4 bg-[#0c1233]">
+                            <SouthIndianChart
+                                ascSign={ascSign}
+                                placements={placements}
+                                showHouses={showHouses}
+                                compact={compact}
+                                className="mx-auto"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
 
