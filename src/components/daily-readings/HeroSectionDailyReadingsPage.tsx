@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 import 'swiper/css/bundle';
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
-import DailyReflections from "./DailyReflections";
-import PastDailyReadingsSection from "./PastDailyReadingsSection";
+import DailyReflections from "./main-page/DailyReflections";
+import PastDailyReadingsSection from "./main-page/PastDailyReadingsSection";
 import Link from "next/link";
 import SpreadDetails from "../spread-details/SpreadDetails";
+import CombinedReadings from "./combined-readings/CombinedReadings";
 
 const HeroSectionDailyReadingsPage = () => {
   useFlashlightAnimation();
@@ -120,7 +121,7 @@ const HeroSectionDailyReadingsPage = () => {
                       </div>
                       <div className="tab-pane fade" id="combined-readings-tab-pane" role="tabpanel" aria-labelledby="combined-readings-tab" tabIndex={0}>
                         <div className="dashboard-profile-wrap">
-                          {/* add combined readings tab page */}
+                          <CombinedReadings title="combined-readings"/>
                         </div>
                       </div>
                       <div className="tab-pane fade" id="analytics-tab-pane" role="tabpanel" aria-labelledby="analytics-tab" tabIndex={0}>
