@@ -5,7 +5,7 @@ import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
 import DailyReflections from "./DailyReflections";
 import PastDailyReadingsSection from "./PastDailyReadingsSection";
 import Link from "next/link";
-import SpreadDetails from "./SpreadDetails";
+import SpreadDetails from "../spread-details/SpreadDetails";
 
 const HeroSectionDailyReadingsPage = () => {
   useFlashlightAnimation();

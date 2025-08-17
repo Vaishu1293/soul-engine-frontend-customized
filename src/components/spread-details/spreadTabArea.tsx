@@ -2,12 +2,12 @@
 import React, { useState } from "react";
 import 'swiper/css/bundle';
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
-import CoreQuestions from "./coreQuestions";
-import CardMeaning from "./cardMeaning";
-import Insights from "./insights";
-import Transits from "./transits";
-import NatalChart from "./natal-chart";
-import Dasha from "./dasha";
+import CoreQuestions from "./other-tabs/coreQuestions";
+import CardMeaning from "./other-tabs/cardMeaning";
+import Insights from "./insights/insights";
+import Transits from "./transits/transits";
+import NatalChart from "./transits/natal-chart";
+import Dasha from "./other-tabs/dasha";
 
 interface SpreadTabAreaProps {
   title: string;
