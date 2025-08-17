@@ -8,6 +8,7 @@ import Insights from "./insights/insights";
 import Transits from "./transits/transits";
 import NatalChart from "./transits/natal-chart";
 import Dasha from "./other-tabs/dasha";
+import SpecialInsights from "./special-insights/special-insights";
 
 interface SpreadTabAreaProps {
   title: string;
@@ -17,7 +18,7 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
   useFlashlightAnimation();
 
   // Initial selection: Card Meaning
-  const [activeTab, setActiveTab] = useState<"card" | "core" | "insights" | "transits" | "natal-chart" | "dasha">("card");
+  const [activeTab, setActiveTab] = useState<"card" | "core" | "insights" | "special-insights" | "transits" | "natal-chart" | "dasha">("card");
 
   return (
     <div className="row mt-4">
@@ -59,6 +60,18 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
                   onClick={() => setActiveTab("insights")}
                 >
                   Insights
+                </button>
+              </li>
+              <li className="nav-item" role="presentation">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-controls="special-insights-tab-pane"
+                  aria-selected={activeTab === "special-insights"}
+                  className={`nav-link ${activeTab === "special-insights" ? "active" : ""}`}
+                  onClick={() => setActiveTab("special-insights")}
+                >
+                  Special Insights
                 </button>
               </li>
               <li className="nav-item" role="presentation">
@@ -120,7 +133,6 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
                 <CoreQuestions title="CoreQuestions" />
               </div>
             </div>
-
             <div
               id="insights-tab-pane"
               role="tabpanel"
@@ -128,6 +140,15 @@ const SpreadTabArea: React.FC<SpreadTabAreaProps> = ({ title }) => {
             >
               <div className="dashboard-profile-wrap">
                 <Insights title="insights" />
+              </div>
+            </div>
+             <div
+              id="special-insights-tab-pane"
+              role="tabpanel"
+              className={`tab-pane fade ${activeTab === "special-insights" ? "show active" : ""}`}
+            >
+              <div className="dashboard-profile-wrap">
+                <SpecialInsights title="special-insights" />
               </div>
             </div>
             <div

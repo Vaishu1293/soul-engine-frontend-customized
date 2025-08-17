@@ -16,7 +16,7 @@ const Insights: React.FC<InsightsProps> = ({ title }) => {
         <>
             <div className="mt-4 mb-4">
                 <WhatCanHappenToday title="insights"/>
-            <FocusAreaForTheDay title="focusArea"/>
+                <FocusAreaForTheDay title="focusArea"/>
             </div>
         </>
     );
