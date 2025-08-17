@@ -132,7 +132,7 @@ const SouthIndianChart: React.FC<Props> = ({
     >
       {/* Perfect square & centered */}
       <div
-        className="mx-auto"
+        className="mx-auto mb-4"
         style={{
           width: `calc(${cellSize} * 4)`,
           maxWidth: "100%",
