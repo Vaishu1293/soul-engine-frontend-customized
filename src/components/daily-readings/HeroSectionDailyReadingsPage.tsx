@@ -7,6 +7,7 @@ import PastDailyReadingsSection from "./main-page/PastDailyReadingsSection";
 import Link from "next/link";
 import SpreadDetails from "../spread-details/SpreadDetails";
 import CombinedReadings from "./combined-readings/CombinedReadings";
+import Analytics from "./analytics/Analytics";
 
 const HeroSectionDailyReadingsPage = () => {
   useFlashlightAnimation();
@@ -126,7 +127,7 @@ const HeroSectionDailyReadingsPage = () => {
                       </div>
                       <div className="tab-pane fade" id="analytics-tab-pane" role="tabpanel" aria-labelledby="analytics-tab" tabIndex={0}>
                         <div className="dashboard-profile-wrap">
-                          {/* add analytics tab page */}
+                          <Analytics title="analytics"/>
                         </div>
                       </div>
                     </div>
