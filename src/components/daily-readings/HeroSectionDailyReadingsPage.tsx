@@ -8,6 +8,9 @@ import Link from "next/link";
 import SpreadDetails from "../spread-details/SpreadDetails";
 import CombinedReadings from "./combined-readings/CombinedReadings";
 import Analytics from "./analytics/Analytics";
+import WeeklyInsights from "./analytics/weekly-insights";
+import OverallInsights from "./analytics/overall-insights";
+import GraphsVisuals from "./analytics/graph";
 
 const HeroSectionDailyReadingsPage = () => {
   useFlashlightAnimation();
@@ -99,7 +102,13 @@ const HeroSectionDailyReadingsPage = () => {
                           <button className="nav-link" id="combined-readings-tab" data-bs-toggle="tab" data-bs-target="#combined-readings-tab-pane" type="button" role="tab" aria-controls="combined-readings-tab-pane" aria-selected="false">Combined Readings</button>
                         </li>
                         <li className="nav-item" role="presentation">
-                          <button className="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics-tab-pane" type="button" role="tab" aria-controls="analytics-tab-pane" aria-selected="false">Analytics</button>
+                          <button className="nav-link" id="weekly-insights-tab" data-bs-toggle="tab" data-bs-target="#weekly-insights-tab-pane" type="button" role="tab" aria-controls="weekly-insights-tab-pane" aria-selected="false">Weekly Insights</button>
+                        </li>
+                        <li className="nav-item" role="presentation">
+                          <button className="nav-link" id="overall-insights-tab" data-bs-toggle="tab" data-bs-target="#overall-insights-tab-pane" type="button" role="tab" aria-controls="overall-insights-tab-pane" aria-selected="false">Overall Insights</button>
+                        </li>
+                        <li className="nav-item" role="presentation">
+                          <button className="nav-link" id="graphs-visuals-tab" data-bs-toggle="tab" data-bs-target="#graphs-visuals-tab-pane" type="button" role="tab" aria-controls="graphs-visuals-tab-pane" aria-selected="false">Graphs & Visuals</button>
                         </li>
                       </ul>
                     </div>
@@ -125,9 +134,19 @@ const HeroSectionDailyReadingsPage = () => {
                           <CombinedReadings title="combined-readings"/>
                         </div>
                       </div>
-                      <div className="tab-pane fade" id="analytics-tab-pane" role="tabpanel" aria-labelledby="analytics-tab" tabIndex={0}>
+                      <div className="tab-pane fade" id="weekly-insights-tab-pane" role="tabpanel" aria-labelledby="weekly-insights-tab" tabIndex={0}>
                         <div className="dashboard-profile-wrap">
-                          <Analytics title="analytics"/>
+                          <WeeklyInsights title="weekly-insights"/>
+                        </div>
+                      </div>
+                      <div className="tab-pane fade" id="overall-insights-tab-pane" role="tabpanel" aria-labelledby="overall-insights-tab" tabIndex={0}>
+                        <div className="dashboard-profile-wrap">
+                          <OverallInsights title="overall-insights"/>
+                        </div>
+                      </div>
+                      <div className="tab-pane fade" id="graphs-visuals-tab-pane" role="tabpanel" aria-labelledby="graphs-visuals-tab" tabIndex={0}>
+                        <div className="dashboard-profile-wrap">
+                          <GraphsVisuals title="graphs-visuals"/>
                         </div>
                       </div>
                     </div>

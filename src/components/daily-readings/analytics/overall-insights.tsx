@@ -3,11 +3,11 @@ import React from "react";
 import "swiper/css/bundle";
 import useFlashlightAnimation from "@/hooks/useFlashlightAnimation";
 
-interface GraphsVisualsProps {
+interface OverallInsightsProps {
   title: string;
 }
 
-const GraphsVisuals: React.FC<GraphsVisualsProps> = ({ title }) => {
+const OverallInsights: React.FC<OverallInsightsProps> = ({ title }) => {
   useFlashlightAnimation();
 
   return (
@@ -203,4 +203,4 @@ const GraphsVisuals: React.FC<GraphsVisualsProps> = ({ title }) => {
   );
 };
 
-export default GraphsVisuals;
+export default OverallInsights;
