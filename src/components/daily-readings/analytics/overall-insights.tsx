@@ -7,196 +7,144 @@ interface OverallInsightsProps {
   title: string;
 }
 
+type AccordionItem = {
+  accordingId: string;
+  collpseId: string;
+  cardTitle: string;
+  description: string; // will hold your main meaning text
+  observation?: string; // optional observation line
+};
+
 const OverallInsights: React.FC<OverallInsightsProps> = ({ title }) => {
   useFlashlightAnimation();
 
+  // --- Build your accordion data ---
+  const accordion: AccordionItem[] = [
+    {
+      accordingId: "bondGrowth",
+      collpseId: "bond-growth",
+      cardTitle: "1️⃣ Bond Growth",
+      description: `✅ Positive Bond Growth (You + Chandrashekar): 5 days (steady emotional connection, spiritual alignment, silent yearning).<br/>
+                    ❌ Negative / Weak Bond Days: 2 days (energy dips, avoidance, emotional distance).`,
+      observation: "Observation: Majority of the week showed your bond slowly strengthening, with small setbacks midweek."
+    },
+    {
+      accordingId: "emotionalEnergy",
+      collpseId: "emotional-energy",
+      cardTitle: "2️⃣ Emotional / Spiritual / Practical Energies",
+      description: `<strong>You (Vaishali):</strong> Spiritually reflective and emotionally longing most days; only 1 day showed inner conflict.<br/>
+                    <strong>Chandrashekar:</strong> Emotionally torn, but consistently showed underlying love. Practical actions = passive, no major steps.<br/>
+                    <strong>Radhika:</strong> Strategizing, emotionally cold, more ego-driven. Only 1 day showed softer control energy.`,
+      observation: "Observation: Emotional field favors you and him, not her."
+    },
+    {
+      accordingId: "livingTogether",
+      collpseId: "living-together",
+      cardTitle: "3️⃣ Living Together?",
+      description: `Physically together: 6 days.<br/>Emotionally detached: Every day (100%).`,
+      observation: "Observation: Their physical proximity ≠ emotional closeness. Signs of gradual withdrawal visible by end of week."
+    },
+    {
+      accordingId: "homeChange",
+      collpseId: "home-change",
+      cardTitle: "4️⃣ Home Change?",
+      description: `Hints of planning / discussion: 3 days (strongest signs mid-to-late week).<br/>No change yet: 4 days.`,
+      observation: "Observation: Move is being mentally processed, but no physical action yet."
+    },
+    {
+      accordingId: "radhikaReturn",
+      collpseId: "radhika-return",
+      cardTitle: "5️⃣ Radhika’s Return to India?",
+      description: `Not yet: All 7 days.<br/>Considering seriously: 2 days (justice + nine of coins patterns).`,
+      observation: "Observation: Mentally preparing, but hasn’t executed travel."
+    },
+    {
+      accordingId: "fightsTension",
+      collpseId: "fights-tension",
+      cardTitle: "6️⃣ Fights / Tension",
+      description: `Cold arguments / tension: 4 days (passive-aggressive energy, control-vs-detachment clashes).<br/>Calm but distant: 3 days.`,
+      observation: "Observation: No big explosions, but undercurrents of conflict strong most of the week."
+    },
+    {
+      accordingId: "intimacy",
+      collpseId: "intimacy",
+      cardTitle: "7️⃣ Physical Intimacy",
+      description: `You + Chandrashekar (Energetic/Emotional): Present all 7 days (deep desire, fantasies, longing).<br/>Radhika + Chandrashekar: ❌ None across 7 days (emotional coldness, detachment).`,
+      observation: "Observation: Intimacy is energetically between you both only, not with her."
+    },
+    {
+      accordingId: "summary",
+      collpseId: "summary",
+      cardTitle: "🔮 Weekly Summary",
+      description: `Positive bond trend: 70% of the week leaned toward your emotional/spiritual connection strengthening.<br/>
+                    Negative / blockages: Mostly from avoidance, secrecy, and his guilt/duty patterns.<br/>
+                    Marriage side (R + C): Emotionally cold, practical/ego-based, no intimacy, frequent tension.<br/>
+                    Forward outlook: Strong probability of increasing cracks in their relationship, while your bond continues growing quietly.`
+    }
+  ];
+
   return (
     <div className="about-info-wrapper mb-30">
-      <div className="accordion accordion-general" id="weeklyInsights">
-        <div className="accordion-item light-effect">
-          <h2 className="accordion-header" id="weeklyAnalyticsHeading">
-            <button
-              className="accordion-button"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#weeklyAnalyticsPane"
-              aria-expanded="true"
-              aria-controls="weeklyAnalyticsPane"
-            >
-              📊 Weekly Analytics (July 27 – Aug 02, 2025)
-            </button>
-          </h2>
-
-          <div
-            id="weeklyAnalyticsPane"
-            className="accordion-collapse collapse show"
-            aria-labelledby="weeklyAnalyticsHeading"
-            data-bs-parent="#weeklyInsights"
-          >
-            <div className="accordion-body">
-              {/* KPIs / quick badges */}
-              <div className="flex flex-wrap gap-2 mb-3">
-                <span className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-500/30">
-                  ✅ Positive Bond Days: <strong>5</strong>
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm bg-rose-500/15 text-rose-200 ring-1 ring-rose-500/30">
-                  ❌ Negative/Weak Days: <strong>2</strong>
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm bg-sky-500/15 text-sky-200 ring-1 ring-sky-500/30">
-                  ⚔️ Tension Days: <strong>4</strong>
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm bg-indigo-500/15 text-indigo-200 ring-1 ring-indigo-500/30">
-                  🏡 Home‑Change Hints: <strong>3</strong>
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm bg-fuchsia-500/15 text-fuchsia-200 ring-1 ring-fuchsia-500/30">
-                  💋 Intimacy (You+C): <strong>7</strong>
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm bg-zinc-500/15 text-zinc-200 ring-1 ring-zinc-500/30">
-                  💔 Intimacy (R+C): <strong>0</strong>
-                </span>
-              </div>
-
-              {/* 1) Bond Growth */}
-              <div className="mb-4">
-                <h5 className="mb-2">1️⃣ Bond Growth</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>Positive Bond Growth (You + Chandrashekar):</strong> ✅ 5 days
-                    (steady emotional connection, spiritual alignment, silent yearning).
-                  </li>
-                  <li>
-                    <strong>Negative / Weak Bond Days:</strong> ❌ 2 days (energy dips, avoidance, emotional distance).
-                  </li>
-                  <li>
-                    <strong>Observation:</strong> Majority of the week showed{" "}
-                    <strong>your bond slowly strengthening</strong>, with small setbacks midweek.
-                  </li>
-                </ul>
-              </div>
-
-              {/* 2) Emotional / Spiritual / Practical Energies */}
-              <div className="mb-4">
-                <h5 className="mb-2">2️⃣ Emotional / Spiritual / Practical Energies</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>You (Vaishali):</strong> Spiritually reflective and emotionally longing most days; only 1 day showed inner conflict.
-                  </li>
-                  <li>
-                    <strong>Chandrashekar:</strong> Emotionally torn, but{" "}
-                    <strong>consistently showed underlying love</strong>. Practical actions = passive, no major steps.
-                  </li>
-                  <li>
-                    <strong>Radhika:</strong> Strategizing, emotionally cold, more ego-driven. Only 1 day showed softer control energy.
-                  </li>
-                  <li>
-                    <strong>Observation:</strong> Emotional field favors <strong>you and him</strong>, not her.
-                  </li>
-                </ul>
-              </div>
-
-              {/* 3) Living Together */}
-              <div className="mb-4">
-                <h5 className="mb-2">3️⃣ Living Together?</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>Physically together:</strong> 6 days.
-                  </li>
-                  <li>
-                    <strong>Emotionally detached:</strong> Every day (100%).
-                  </li>
-                  <li>
-                    <strong>Observation:</strong> Their physical proximity ≠ emotional closeness. Signs of gradual withdrawal visible by end of week.
-                  </li>
-                </ul>
-              </div>
-
-              {/* 4) Home Change */}
-              <div className="mb-4">
-                <h5 className="mb-2">4️⃣ Home Change?</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>Hints of planning / discussion:</strong> 3 days (strongest signs mid‑to‑late week).
-                  </li>
-                  <li>
-                    <strong>No change yet:</strong> 4 days.
-                  </li>
-                  <li>
-                    <strong>Observation:</strong> Move is being <strong>mentally processed</strong>, but no physical action yet.
-                  </li>
-                </ul>
-              </div>
-
-              {/* 5) Radhika’s Return to India */}
-              <div className="mb-4">
-                <h5 className="mb-2">5️⃣ Radhika’s Return to India?</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>Not yet:</strong> All 7 days.
-                  </li>
-                  <li>
-                    <strong>Considering seriously:</strong> 2 days (justice + nine of coins patterns).
-                  </li>
-                  <li>
-                    <strong>Observation:</strong> Mentally preparing, but <strong>hasn’t executed travel</strong>.
-                  </li>
-                </ul>
-              </div>
-
-              {/* 6) Fights / Tension */}
-              <div className="mb-4">
-                <h5 className="mb-2">6️⃣ Fights / Tension</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>Cold arguments / tension:</strong> 4 days (passive‑aggressive energy, control‑vs‑detachment clashes).
-                  </li>
-                  <li>
-                    <strong>Calm but distant:</strong> 3 days.
-                  </li>
-                  <li>
-                    <strong>Observation:</strong> No big explosions, but <strong>undercurrents of conflict</strong> strong most of the week.
-                  </li>
-                </ul>
-              </div>
-
-              {/* 7) Physical Intimacy */}
-              <div className="mb-4">
-                <h5 className="mb-2">7️⃣ Physical Intimacy</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>You + Chandrashekar (Energetic/Emotional):</strong> Present all 7 days (deep desire, fantasies, longing).
-                  </li>
-                  <li>
-                    <strong>Radhika + Chandrashekar:</strong> ❌ None across 7 days (emotional coldness, detachment).
-                  </li>
-                  <li>
-                    <strong>Observation:</strong> Intimacy is <strong>energetically between you both only</strong>, not with her.
-                  </li>
-                </ul>
-              </div>
-
-              {/* Weekly Summary */}
-              <div className="mb-1">
-                <h5 className="mb-2">🔮 Weekly Summary</h5>
-                <ul className="list-disc ps-4">
-                  <li>
-                    <strong>Positive bond trend:</strong> 70% of the week leaned toward{" "}
-                    <strong>your emotional/spiritual connection strengthening</strong>.
-                  </li>
-                  <li>
-                    <strong>Negative / blockages:</strong> Mostly from avoidance, secrecy, and his guilt/duty patterns.
-                  </li>
-                  <li>
-                    <strong>Marriage side (R + C):</strong> Emotionally cold, practical/ego‑based, no intimacy, frequent tension.
-                  </li>
-                  <li>
-                    <strong>Forward outlook:</strong> Strong probability of <strong>increasing cracks in their relationship</strong>, while{" "}
-                    <strong>your bond continues growing quietly</strong>.
-                  </li>
-                </ul>
-              </div>
-
+      {/* KPI badges */}
+      <div className="accordion-body m-4">
+        <div className="flex flex-wrap gap-2 mb-3">
+          <div className="artist-meta-info">
+            <div className="artist-meta-item artist-meta-item-border">
+              <div className="artist-meta-type"><strong>✅ Positive Bond Days</strong></div>
+              <div className="artist-created"><strong>5 Days</strong></div>
+            </div>
+            <div className="artist-meta-item artist-meta-item-border">
+              <div className="artist-meta-type"><strong>❌ Negative/Weak Days</strong></div>
+              <div className="artist-follwers"><strong>2 Days</strong></div>
+            </div>
+            <div className="artist-meta-item">
+              <div className="artist-meta-type"><strong>⚔️ Tension Days</strong></div>
+              <div className="artist-followed"><strong>4 Days</strong></div>
+            </div>
+            <div className="artist-meta-item">
+              <div className="artist-meta-type"><strong>🏡 Home-Change Hints</strong></div>
+              <div className="artist-followed"><strong>3 Days</strong></div>
+            </div>
+            <div className="artist-meta-item">
+              <div className="artist-meta-type"><strong>💋 Intimacy (You+C)</strong></div>
+              <div className="artist-followed"><strong>7 Days</strong></div>
             </div>
           </div>
+        </div>
+
+        {/* Accordion starts */}
+        <div className="accordion accordion-general" id="weeklyInsights">
+          {accordion.map((itm, index) => (
+            <div key={index} className="accordion-item light-effect">
+              <h2 className="accordion-header" id={itm.accordingId}>
+                <button
+                  className={`accordion-button ${index === 0 ? "" : "collapsed"}`}
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#${itm.collpseId}`}
+                  aria-expanded={index === 0 ? "true" : "false"}
+                  aria-controls={itm.collpseId}
+                >
+                  {itm.cardTitle}
+                </button>
+              </h2>
+              <div
+                id={itm.collpseId}
+                className={`accordion-collapse ${index === 0 ? "collapse show" : "collapse"}`}
+                aria-labelledby={itm.accordingId}
+                data-bs-parent="#weeklyInsights"
+              >
+                <div className="accordion-body">
+                  <div dangerouslySetInnerHTML={{ __html: itm.description }} />
+                  {itm.observation && (
+                    <div className="mt-2 text-sm text-gray-700">
+                      <em>{itm.observation}</em>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
