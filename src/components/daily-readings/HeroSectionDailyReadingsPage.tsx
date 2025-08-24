@@ -7,7 +7,6 @@ import PastDailyReadingsSection from "./main-page/PastDailyReadingsSection";
 import Link from "next/link";
 import SpreadDetails from "../spread-details/SpreadDetails";
 import CombinedReadings from "./combined-readings/CombinedReadings";
-import Analytics from "./analytics/Analytics";
 import WeeklyInsights from "./analytics/weekly-insights";
 import OverallInsights from "./analytics/overall-insights";
 import GraphsVisuals from "./analytics/graph";
@@ -146,7 +145,19 @@ const HeroSectionDailyReadingsPage = () => {
                       </div>
                       <div className="tab-pane fade" id="graphs-visuals-tab-pane" role="tabpanel" aria-labelledby="graphs-visuals-tab" tabIndex={0}>
                         <div className="dashboard-profile-wrap">
-                          <GraphsVisuals title="graphs-visuals"/>
+                          <GraphsVisuals 
+                          title="graphs-visuals"
+                          // You can omit these to use defaults:
+                          positiveBondDays={5}
+                          negativeWeakDays={2}
+                          tensionDays={4}
+                          homeChangeHints={3}
+                          intimacyYouC={7}
+                          intimacyRC={0}
+                          physicallyTogether={6}
+                          emotionallyDetached={7}
+                          totalDays={7}
+                          />
                         </div>
                       </div>
                     </div>
