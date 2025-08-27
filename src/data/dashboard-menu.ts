@@ -12,35 +12,35 @@ export const DashboardMenu: DashboardMenuItemType[] = [
     id: 2,
     subMenu: false,
     label: "Daily Reflection Readings",
-    href: "/daily-readings",
+    href: "/readings?type=daily-readings",
     icon: "flaticon-calendar", // ✓ daily schedule
   },
   {
     id: 3,
     subMenu: false,
     label: "Timeline Readings",
-    href: "/timeline-readings",
+    href: "/readings?type=timeline-readings",
     icon: "flaticon-newspaper", // ✓ story/journal/timeline
   },
   {
     id: 4,
     subMenu: false,
     label: "Tree of Life (Quarterly)",
-    href: "/tree-of-life",
+    href: "/readings?type=tree-of-life",
     icon: "flaticon-cloud-computing", // ✱ symbolic abstraction
   },
   {
     id: 5,
     subMenu: false,
     label: "Cletic Cross (Monthly)",
-    href: "/cletic-cross",
+    href: "/readings?type=cletic-cross",
     icon: "flaticon-add-2", // ✓ cross-like icon
   },
   {
     id: 6,
     subMenu: false,
     label: "Revelation (Weekly)",
-    href: "/revelation",
+    href: "/readings?type=revelation",
     icon: "flaticon-information", // ✓ insight/message
   },
   {
