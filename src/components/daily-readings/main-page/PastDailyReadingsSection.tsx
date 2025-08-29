@@ -8,11 +8,12 @@ import Link from "next/link";
 import { dailyReflectionReadings } from "@/data/dailyReflectionReadings";
 
 interface PastDailyReadingsProps {
+  title: string;
   onViewFullReading?: () => void;
 }
 
 
-const PastDailyReadingsSection: React.FC<PastDailyReadingsProps> = ({ onViewFullReading }) => {
+const PastDailyReadingsSection: React.FC<PastDailyReadingsProps> = ({ title, onViewFullReading }) => {
   useFlashlightAnimation();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +31,7 @@ const PastDailyReadingsSection: React.FC<PastDailyReadingsProps> = ({ onViewFull
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-6 mt-4">Past Daily Readings</h2>
+      <h2 className="text-2xl font-bold mb-6 mt-4">Past {title}</h2>
       <div className="dashboard-reflection-wrapper light-effect mt-4 p-6 rounded-xl bg-gradient-to-r from-[#271152] to-[#150624] text-white max-w-5xl mx-auto">
         <div className="placed-bids-wrapper">
           {currentData.map((item, idx) => (

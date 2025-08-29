@@ -15,10 +15,10 @@ import GraphsVisuals from "./analytics/graph";
 
 const TYPE_TITLE_MAP: Record<string, string> = {
   "daily-readings": "Daily Reflection Readings",
-  "daily-reflections": "Daily Reflection Readings", // alias
-  "timeline-readings": "Timeline Readings",
-  revelation: "Revelation Readings",
-  "celtic-cross": "Celtic Cross",
+  "timeline-readings": "Timeline Readings (10 Day)",
+  "tree-of-life": "Tree of Life Readings (Quaterly)",
+  "revelation": "Revelation Readings (Weekly)",
+  "cletic-cross": "Celtic Cross Readings (Monthly)",
 };
 
 function pickType(searchParams: URLSearchParams, pathname: string | null): string {
@@ -206,7 +206,7 @@ const HeroSectionDailyReadingsPage = () => {
                           title={displayTitle}
                           onViewFullSpread={() => setSpreadDetails(true)}
                         />
-                        <PastDailyReadingsSection onViewFullReading={() => setSpreadDetails(true)} />
+                        <PastDailyReadingsSection onViewFullReading={() => setSpreadDetails(true)} title={displayTitle} />
                       </div>
 
                       {/* Partner Readings */}
@@ -221,7 +221,7 @@ const HeroSectionDailyReadingsPage = () => {
                             title={partnerTitle}
                             onViewFullSpread={() => setSpreadDetails(true)}
                           />
-                          <PastDailyReadingsSection onViewFullReading={() => setSpreadDetails(true)} />
+                          <PastDailyReadingsSection onViewFullReading={() => setSpreadDetails(true)} title={partnerTitle} />
                         </div>
                       </div>
 
