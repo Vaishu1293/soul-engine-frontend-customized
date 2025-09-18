@@ -7,14 +7,15 @@ import SpreadTabArea from "./spreadTabArea";
 
 interface SpreadDetailsProps {
     title: string;
+    spreadType: string;
 }
 
-const SpreadDetails: React.FC<SpreadDetailsProps> = ({ title }) => {
+const SpreadDetails: React.FC<SpreadDetailsProps> = ({ title, spreadType }) => {
     useFlashlightAnimation();
 
     return (
         <>
-            <SpreadArea title="My Daily Reflection" />
+            <SpreadArea title={title} spreadName={spreadType} />
             <SpreadTabArea title="My Daily Reflection" />
         </>
     );

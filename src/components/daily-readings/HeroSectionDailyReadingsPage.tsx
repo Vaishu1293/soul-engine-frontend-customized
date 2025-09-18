@@ -91,7 +91,7 @@ const HeroSectionDailyReadingsPage = () => {
               <div className="col-lg-12">
                 {spreadDetails ? (
                   /* ---------------- Show Spread Details ---------------- */
-                  <SpreadDetails title={displayTitle} />
+                  <SpreadDetails title={displayTitle} spreadType={type} />
                 ) : (
                   <div className="dashboard-partner-readings-tab light-effect-top pt-0 mb-30">
                     <div className="activity-tab-nav dashboard-activity-tab-nav pt-10 mb-20">
