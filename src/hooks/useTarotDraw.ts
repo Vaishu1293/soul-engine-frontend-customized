@@ -129,7 +129,7 @@ export function useTarotDraw(spreadType: keyof typeof spreadLayout, isRegisterFo
       console.log("Backend response:", result);
 
       if (isRegisterForm) {
-        const spreadsSequence = ["treeOfLife", "celticCross", "revelationSpread", "dailyReflection"];
+        const spreadsSequence = ["angleSpread", "treeOfLife", "celticCross", "revelationSpread", "dailyReflection"];
         const currentIndex = spreadsSequence.indexOf(spreadType);
         const nextIndex = spreadsSequence.indexOf(spreadType) + 1;
 

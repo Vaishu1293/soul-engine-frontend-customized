@@ -24,6 +24,12 @@ i[class*=" flaticon-"]:before {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+/* Add this */
+.flaticon-trash:before {
+  content: "\f131"; /* provisional codepoint for trash */
+}
+
+
 .flaticon-loupe:before {
 	content: "\f101";
 }

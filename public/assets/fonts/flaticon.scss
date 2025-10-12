@@ -66,7 +66,10 @@ $flaticon-map: (
     "chatting": "\f12b",
     "share-1": "\f12c",
     "reload": "\f12d",
+    "trash": "\f12e", // ⬅️ add this line with the right codepoint
 );
+
+
 
 .flaticon-loupe:before {
     content: map-get($flaticon-map, "loupe");
@@ -203,3 +206,7 @@ $flaticon-map: (
 .flaticon-reload:before {
     content: map-get($flaticon-map, "reload");
 }
+.flaticon-trash:before {
+  content: map-get($flaticon-map, "trash");
+}
+

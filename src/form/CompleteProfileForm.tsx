@@ -4,11 +4,13 @@ import { SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import NiceSelectForm from "@/elements/niceSelect/NiceSelectForm"; // assuming your select component
-import { selectAreaOfInterest } from "@/data/nice-select-data"; // import your Area of Interest array
+import NiceSelectForm from "@/elements/niceSelect/NiceSelectForm";
+import { selectAreaOfInterest } from "@/data/nice-select-data";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import Link from "next/link";
+
+const MAX_CORE_Q = 5;
 
 const CompleteProfileForm = () => {
   const router = useRouter();
@@ -19,6 +21,7 @@ const CompleteProfileForm = () => {
     handleChange,
     handleSubmit,
     handleBlur,
+    setFieldValue,
     values,
     errors,
     touched,
@@ -37,7 +40,9 @@ const CompleteProfileForm = () => {
       partnerDoB: "",
       partnerToB: "",
       partnerPoB: "",
-      partnerDST: false
+      partnerDST: false,
+      coreQuestions: [] as string[],                 // ⬅️ dynamic
+      partnerCoreQuestions: [] as string[],          // ⬅️ dynamic (relationship only)
     },
     validationSchema: Yup.object({
       interest: Yup.string().required("Area of interest is required"),
@@ -48,33 +53,65 @@ const CompleteProfileForm = () => {
       selfToB: Yup.string().required("Time of birth is required"),
       selfPoB: Yup.string().required("Place of birth is required"),
       selfDST: Yup.boolean(),
-      partnerFirstName: Yup.string().required("Partner First Name is required"),
-      partnerLastName: Yup.string().required("Partner Last Name is required"),
-      partnerDoB: Yup.string().required("Partner date of Birth is required"),
-      partnerToB: Yup.string().required("Partner Time of Birth is required"),
-      partnerPoB: Yup.string().required("Partner Place of Birth is required"),
+      // Partner fields required only if interest = relationship
+      partnerFirstName: Yup.string().when("interest", {
+        is: (v: string) => v === "relationship",
+        then: (s) => s.required("Partner First Name is required"),
+        otherwise: (s) => s.optional(),
+      }),
+      partnerLastName: Yup.string().when("interest", {
+        is: (v: string) => v === "relationship",
+        then: (s) => s.required("Partner Last Name is required"),
+        otherwise: (s) => s.optional(),
+      }),
+      partnerDoB: Yup.string().when("interest", {
+        is: (v: string) => v === "relationship",
+        then: (s) => s.required("Partner date of Birth is required"),
+        otherwise: (s) => s.optional(),
+      }),
+      partnerToB: Yup.string().when("interest", {
+        is: (v: string) => v === "relationship",
+        then: (s) => s.required("Partner Time of Birth is required"),
+        otherwise: (s) => s.optional(),
+      }),
+      partnerPoB: Yup.string().when("interest", {
+        is: (v: string) => v === "relationship",
+        then: (s) => s.required("Partner Place of Birth is required"),
+        otherwise: (s) => s.optional(),
+      }),
       partnerDST: Yup.boolean(),
+      // Core questions: allow 0–5 while building, enforce max; you can make min(1) if needed
+      coreQuestions: Yup.array().of(Yup.string().trim()).max(MAX_CORE_Q),
+      partnerCoreQuestions: Yup.array().of(Yup.string().trim()).max(MAX_CORE_Q),
     }),
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (vals, { resetForm }) => {
       try {
-        console.log(values);
-        const response = await fetchWithAuth("http://localhost:5000/api/auth/complete-profile", {
-          method: "POST",
-          body: JSON.stringify(values),
-        });
+        const response = await fetchWithAuth(
+          "http://localhost:5000/api/auth/complete-profile",
+          {
+            method: "POST",
+            body: JSON.stringify(vals),
+          }
+        );
 
-
-        if (!response.ok) {
-          throw new Error("Registration failed");
-        }
-
+        if (!response.ok) throw new Error("Registration failed");
         const result = await response.json();
-        toast.success("Complete Profile successful!");
 
+        // Save payload for the next page
+        sessionStorage.setItem(
+          "tarotPayload",
+          JSON.stringify({
+            userCoreQuestions: result.userCoreQuestions,
+            partnerCoreQuestions: result.partnerCoreQuestions ?? null,
+          })
+        );
+        toast.success("Complete Profile successful!");
         resetForm();
 
         setTimeout(() => {
-          router.push("/tarot-draw?spread=timelineSpread&fromRegister=true");  // 👈 Go to TarotDraw page with spread param
+          router.push(
+            "/tarot-draw?spread=timelineSpread&fromRegister=true"
+          );
         }, 1000);
       } catch (err) {
         console.error(err);
@@ -82,6 +119,45 @@ const CompleteProfileForm = () => {
       }
     },
   });
+
+  // ---------- Dynamic Core Questions (Self) ----------
+  const addCoreQ = () => {
+    if (values.coreQuestions.length >= MAX_CORE_Q) return;
+    setFieldValue("coreQuestions", [...values.coreQuestions, ""]);
+  };
+
+  const removeCoreQ = (idx: number) => {
+    const next = [...values.coreQuestions];
+    next.splice(idx, 1);
+    setFieldValue("coreQuestions", next);
+  };
+
+  const updateCoreQ = (idx: number, v: string) => {
+    const next = [...values.coreQuestions];
+    next[idx] = v;
+    setFieldValue("coreQuestions", next);
+  };
+
+  // ---------- Dynamic Core Questions (Partner) ----------
+  const addPartnerCoreQ = () => {
+    if (values.partnerCoreQuestions.length >= MAX_CORE_Q) return;
+    setFieldValue("partnerCoreQuestions", [
+      ...values.partnerCoreQuestions,
+      "",
+    ]);
+  };
+
+  const removePartnerCoreQ = (idx: number) => {
+    const next = [...values.partnerCoreQuestions];
+    next.splice(idx, 1);
+    setFieldValue("partnerCoreQuestions", next);
+  };
+
+  const updatePartnerCoreQ = (idx: number, v: string) => {
+    const next = [...values.partnerCoreQuestions];
+    next[idx] = v;
+    setFieldValue("partnerCoreQuestions", next);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="sign-up-form space-y-8">
@@ -96,20 +172,25 @@ const CompleteProfileForm = () => {
                 defaultCurrent={0}
                 onChange={(item: any) => {
                   if (item) {
-                    handleChange({ target: { name: "interest", value: item.option.toLowerCase() } });
-                    setInterest(item.option.toLowerCase());
+                    const val = String(item.option || "").toLowerCase();
+                    setFieldValue("interest", val);
+                    setInterest(val);
                   }
                 }}
                 name="interest"
                 className="gender-category-select"
-                setSelelectForm={function (value: SetStateAction<string>): void {
-                  // throw new Error("Function not implemented.");
-                }}
+                setSelelectForm={function (_value: SetStateAction<string>): void { }}
               />
+              {touched.interest && errors.interest && (
+                <div className="text-danger">{errors.interest as string}</div>
+              )}
             </div>
           </div>
+
           <div className="col-span-2">
-            <label className="block text-sm font-medium mb-1">Describe Your Situation</label>
+            <label className="block text-sm font-medium mb-1">
+              Describe Your Situation
+            </label>
             <textarea
               name="situation"
               placeholder="Explain your current life situation"
@@ -117,8 +198,12 @@ const CompleteProfileForm = () => {
               onChange={handleChange}
               rows={4}
               className="form-textarea w-full"
-            ></textarea>
+            />
+            {touched.situation && errors.situation && (
+              <div className="text-danger">{errors.situation as string}</div>
+            )}
           </div>
+
           <div className="col-span-2">
             <button type="button" onClick={() => setStep(2)} className="fill-btn">
               Next
@@ -140,8 +225,12 @@ const CompleteProfileForm = () => {
                 onChange={handleChange}
                 placeholder="Self First Name"
               />
+              {touched.selfFirstName && errors.selfFirstName && (
+                <div className="text-danger">{errors.selfFirstName as string}</div>
+              )}
             </div>
           </div>
+
           <div className="col-md-6">
             <div className="single-input-unit">
               <label>Self Last Name</label>
@@ -152,8 +241,12 @@ const CompleteProfileForm = () => {
                 onChange={handleChange}
                 placeholder="Self Last Name"
               />
+              {touched.selfLastName && errors.selfLastName && (
+                <div className="text-danger">{errors.selfLastName as string}</div>
+              )}
             </div>
           </div>
+
           {/* Date of Birth */}
           <div className="col-md-6">
             <div className="single-input-unit">
@@ -166,9 +259,12 @@ const CompleteProfileForm = () => {
                 onBlur={handleBlur}
                 required
               />
-              {touched.selfDoB && errors.selfDoB && <div className="text-danger">{errors.selfDoB}</div>}
+              {touched.selfDoB && errors.selfDoB && (
+                <div className="text-danger">{errors.selfDoB as string}</div>
+              )}
             </div>
           </div>
+
           {/* Time of Birth */}
           <div className="col-md-6">
             <div className="single-input-unit">
@@ -181,9 +277,12 @@ const CompleteProfileForm = () => {
                 onBlur={handleBlur}
                 required
               />
-              {touched.selfToB && errors.selfToB && <div className="text-danger">{errors.selfToB}</div>}
+              {touched.selfToB && errors.selfToB && (
+                <div className="text-danger">{errors.selfToB as string}</div>
+              )}
             </div>
           </div>
+
           {/* Place of Birth */}
           <div className="col-md-6">
             <div className="single-input-unit">
@@ -197,24 +296,29 @@ const CompleteProfileForm = () => {
                 onBlur={handleBlur}
                 required
               />
-              {touched.selfPoB && errors.selfPoB && <div className="text-danger">{errors.selfPoB}</div>}
+              {touched.selfPoB && errors.selfPoB && (
+                <div className="text-danger">{errors.selfPoB as string}</div>
+              )}
             </div>
           </div>
+
           <div className="col-md-6 flex align-items-center justify-center">
             <div className="note flex align-items-center m-4 p-4">
-              <input className="contact-check-box me-2" type="checkbox" id="selfDST" checked={values.selfDST} onChange={handleChange} />
-              <label htmlFor="selfDST">
-                DST
-              </label>
+              <input
+                className="contact-check-box me-2"
+                type="checkbox"
+                id="selfDST"
+                name="selfDST"                 // ✅ add name
+                checked={values.selfDST}
+                onChange={handleChange}
+              />
+              <label htmlFor="selfDST">DST</label>
             </div>
           </div>
+
           <div className="col-6">
             <div className="flex justify-between gap-4">
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="back-btn flex-1 me-2"
-              >
+              <button type="button" onClick={() => setStep(1)} className="back-btn flex-1 me-2">
                 Back
               </button>
               <button
@@ -228,6 +332,7 @@ const CompleteProfileForm = () => {
           </div>
         </div>
       )}
+
       {/* Step 3: Partner Details (only if interest is 'relationship') */}
       {step === 3 && interest === "relationship" && (
         <div className="row">
@@ -241,8 +346,12 @@ const CompleteProfileForm = () => {
                 onChange={handleChange}
                 placeholder="Partner First Name"
               />
+              {touched.partnerFirstName && errors.partnerFirstName && (
+                <div className="text-danger">{errors.partnerFirstName as string}</div>
+              )}
             </div>
           </div>
+
           <div className="col-md-6">
             <div className="single-input-unit">
               <label>Partner Last Name</label>
@@ -253,8 +362,12 @@ const CompleteProfileForm = () => {
                 onChange={handleChange}
                 placeholder="Partner Last Name"
               />
+              {touched.partnerLastName && errors.partnerLastName && (
+                <div className="text-danger">{errors.partnerLastName as string}</div>
+              )}
             </div>
           </div>
+
           {/* Date of Birth */}
           <div className="col-md-6">
             <div className="single-input-unit">
@@ -267,9 +380,12 @@ const CompleteProfileForm = () => {
                 onBlur={handleBlur}
                 required
               />
-              {touched.partnerDoB && errors.partnerDoB && <div className="text-danger">{errors.partnerDoB}</div>}
+              {touched.partnerDoB && errors.partnerDoB && (
+                <div className="text-danger">{errors.partnerDoB as string}</div>
+              )}
             </div>
           </div>
+
           {/* Time of Birth */}
           <div className="col-md-6">
             <div className="single-input-unit">
@@ -282,9 +398,12 @@ const CompleteProfileForm = () => {
                 onBlur={handleBlur}
                 required
               />
-              {touched.partnerToB && errors.partnerToB && <div className="text-danger">{errors.partnerToB}</div>}
+              {touched.partnerToB && errors.partnerToB && (
+                <div className="text-danger">{errors.partnerToB as string}</div>
+              )}
             </div>
           </div>
+
           {/* Place of Birth */}
           <div className="col-md-6">
             <div className="single-input-unit">
@@ -298,29 +417,93 @@ const CompleteProfileForm = () => {
                 onBlur={handleBlur}
                 required
               />
-              {touched.partnerPoB && errors.partnerPoB && <div className="text-danger">{errors.partnerPoB}</div>}
+              {touched.partnerPoB && errors.partnerPoB && (
+                <div className="text-danger">{errors.partnerPoB as string}</div>
+              )}
             </div>
           </div>
+
           <div className="col-md-6 flex align-items-center justify-center">
             <div className="note flex align-items-center m-4 p-4">
-              <input className="contact-check-box me-2" type="checkbox" id="partnerDST" checked={values.partnerDST} onChange={handleChange} />
-              <label htmlFor="partnerDST">
-                DST
-              </label>
+              <input
+                className="contact-check-box me-2"
+                type="checkbox"
+                id="partnerDST"
+                name="partnerDST"             // ✅ add name
+                checked={values.partnerDST}
+                onChange={handleChange}
+              />
+              <label htmlFor="partnerDST">DST</label>
             </div>
           </div>
+
           <div className="col-6">
             <div className="flex justify-between gap-4">
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="back-btn flex-1 me-2"
-              >
+              <button type="button" onClick={() => setStep(2)} className="back-btn flex-1 me-2">
+                Back
+              </button>
+              <button type="button" onClick={() => setStep(4)} className="fill-btn flex-1">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Step 4: Add core questions (Self) */}
+      {step === 4 && (
+        <div className="row">
+          <div className="col-12 mb-3">
+            <button
+              type="button"
+              onClick={addCoreQ}
+              className="create-question-btn"
+              disabled={values.coreQuestions.length >= MAX_CORE_Q}
+              aria-expanded="true"
+            >
+              + Add Core Question
+            </button>
+            <div className="text-xs opacity-70 mt-1">
+              {values.coreQuestions.length}/{MAX_CORE_Q} added
+            </div>
+          </div>
+
+          {/* Dynamic inputs styled like the searchbar */}
+          <div className="col-12 space-y-3">
+            {values.coreQuestions.map((q, idx) => (
+              <div key={idx} className="offset-widget offset_searchbar mb-15">
+                <form
+                  className="filter-search-input"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  {/* Accessible label */}
+                  <label htmlFor={`core-q-${idx}`} className="sr-only">
+                    {`Core Question ${idx + 1}`}
+                  </label>
+
+                  <input
+                    id={`core-q-${idx}`}
+                    type="text"
+                    placeholder={`Core Question ${idx + 1}`}
+                    value={q}
+                    onChange={(e) => updateCoreQ(idx, e.target.value)}
+                  />
+                  <button onClick={() => removeCoreQ(idx)}>
+                    <i className="fal fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+
+          <div className="col-12 mt-6">
+            <div className="flex justify-between gap-4">
+              <button type="button" onClick={() => setStep(interest === "relationship" ? 3 : 2)} className="back-btn flex-1 me-2">
                 Back
               </button>
               <button
                 type="button"
-                onClick={() => setStep(4)}
+                onClick={() => setStep(interest === "relationship" ? 5 : 6)}  // ✅ correct next step
                 className="fill-btn flex-1"
               >
                 Next
@@ -329,14 +512,69 @@ const CompleteProfileForm = () => {
           </div>
         </div>
       )}
-      {/* Step 4: Final submit (if not relationship) */}
-      {step === 4 && (
-        <div className="col-6">
-          <div className="flex justify-between gap-4">
+
+      {/* Step 5: Partner Core questions (only if relationship) */}
+      {step === 5 && interest === "relationship" && (
+        <div className="row">
+          <div className="col-12 mb-3">
             <button
-              type="submit"
-              className="fill-btn flex-1"
+              type="button"
+              onClick={addPartnerCoreQ}
+              className="create-question-btn"
+              disabled={values.partnerCoreQuestions.length >= MAX_CORE_Q}
             >
+              + Add Partner Core Question
+            </button>
+            <div className="text-xs opacity-70 mt-1">
+              {values.partnerCoreQuestions.length}/{MAX_CORE_Q} added
+            </div>
+          </div>
+
+          {/* Dynamic inputs styled like the searchbar */}
+          <div className="col-12 space-y-3">
+            {values.partnerCoreQuestions.map((q, idx) => (
+              <div key={idx} className="offset-widget offset_searchbar mb-15">
+                <form
+                  className="filter-search-input"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  {/* Accessible label */}
+                  <label htmlFor={`partner-core-q-${idx}`} className="sr-only">
+                    {`Partner Core Question ${idx + 1}`}
+                  </label>
+                  <input
+                    id={`partner-core-q-${idx}`}
+                    type="text"
+                    placeholder={`Partner Core Question ${idx + 1}`}
+                    value={q}
+                    onChange={(e) => updatePartnerCoreQ(idx, e.target.value)}
+                  />
+                  <button onClick={() => removePartnerCoreQ(idx)}>
+                    <i className="fal fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+
+          <div className="col-12 mt-6">
+            <div className="flex justify-between gap-4">
+              <button type="button" onClick={() => setStep(4)} className="back-btn flex-1 me-2">
+                Back
+              </button>
+              <button type="button" onClick={() => setStep(6)} className="fill-btn flex-1">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Step 6: Final submit */}
+      {step === 6 && (
+        <div className="col-12">
+          <div className="flex justify-between gap-4">
+            <button type="submit" className="fill-btn flex-1">
               Submit
             </button>
           </div>
