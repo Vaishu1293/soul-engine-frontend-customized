@@ -1,10 +1,10 @@
+'use client';
+
 import React from "react";
 import ShuffleButton from "./common/ShuffleButton";
 import CardSelector from "./common/CardSelector";
 import DeckSelector from "./common/DeckSelector";
 import SpreadRenderer from "./spreads/spreadRenderer";
-import { useSearchParams } from "next/navigation";
-import spreadLayout from "@/data/spreadLayout";
 
 type Props = {
   spreadRef: React.RefObject<HTMLDivElement>;
@@ -21,6 +21,8 @@ type Props = {
   handleCardSelect: (cardNumber: number) => void;
   handleSubmit: () => void;
   setSelectedDeck: (deck: string) => void;
+  role?: "user" | "partner";
+  tarotPayload?: any;
 };
 
 const TarotDrawPage = ({
@@ -38,16 +40,34 @@ const TarotDrawPage = ({
   handleCardSelect,
   handleSubmit,
   setSelectedDeck,
+  role = "user",
+  tarotPayload,
 }: Props) => {
-  const searchParams = useSearchParams();
-  const spreadType = searchParams.get("spread") || "celticCross";
-  const isRegisterForm = searchParams.get("fromRegister") === "true";
+  // Determine number of core questions based on payload and role
+  const angleCoreCount =
+    role === "partner"
+      ? tarotPayload?.partnerCoreQuestions?.length || 0
+      : tarotPayload?.userCoreQuestions?.length || 0;
+
   return (
     <div className="tarot-wrapper w-full min-h-screen">
+      {/* Optional visual role header */}
+      <div className="flex flex-col items-center my-4">
+        <h2 className="text-xl font-semibold text-center">
+          {role === "partner" ? "Partner's Angle Spread" : "Your Angle Spread"}
+        </h2>
+        {tarotPayload?.areaOfInterest && (
+          <p className="text-sm text-gray-400">
+            Area of Interest: {tarotPayload.areaOfInterest}
+          </p>
+        )}
+      </div>
+
+      {/* Shuffle Button */}
       <ShuffleButton onShuffle={handleShuffle} />
 
+      {/* Self Card Selector */}
       <p className="self-label">Choose Self Card:</p>
-
       <CardSelector
         cardIndexes={cardIndexes}
         highlightedCards={highlightedCards}
@@ -55,27 +75,39 @@ const TarotDrawPage = ({
         onSelect={handleCardSelect}
       />
 
+      {/* Deck Selector */}
       <DeckSelector tarotDecks={tarotDecks} onSelect={setSelectedDeck} />
 
+      {/* Selected Deck Display */}
       {selectedDeck && (
         <p className="deck-selected">
-          Selected Deck: <span>{tarotDecks.find(d => d.value === selectedDeck)?.label}</span>
+          Selected Deck:{" "}
+          <span>
+            {tarotDecks.find((d) => d.value === selectedDeck)?.label ||
+              selectedDeck}
+          </span>
         </p>
       )}
 
+      {/* Spread Renderer */}
       <div ref={spreadRef}>
         <SpreadRenderer
           spread={spread}
           cardInfo={cardInfo}
-          spreadType={spreadType as keyof typeof spreadLayout} // or dynamically from URL or dropdown
+          spreadType="angleSpread"
+          angleCoreCount={angleCoreCount}
         />
-
       </div>
+
+      {/* Submit Button */}
       <button
         onClick={handleSubmit}
         disabled={selectedCards.length < spreadSlots.length || !selectedDeck}
-        className={`submit-button ${selectedCards.length === spreadSlots.length && selectedDeck ? "enabled" : "disabled"
-          }`}
+        className={`submit-button ${
+          selectedCards.length === spreadSlots.length && selectedDeck
+            ? "enabled"
+            : "disabled"
+        }`}
       >
         Submit Reading
       </button>

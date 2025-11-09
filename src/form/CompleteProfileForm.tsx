@@ -110,7 +110,7 @@ const CompleteProfileForm = () => {
 
         setTimeout(() => {
           router.push(
-            "/tarot-draw?spread=timelineSpread&fromRegister=true"
+            "/tarot-draw?spread=angleSpread&fromRegister=true"
           );
         }, 1000);
       } catch (err) {

@@ -1,4 +1,5 @@
 "use client";
+
 import { useSearchParams } from "next/navigation";
 import { useTarotDraw } from "@/hooks/useTarotDraw";
 import React from "react";
@@ -6,7 +7,9 @@ import TarotDrawPage from "./TarotDrawPage";
 
 const TarotDrawContainer = () => {
   const searchParams = useSearchParams();
-  const spreadType = (searchParams.get("spread") || "celticCross") as keyof typeof spreadLayout;
+
+  // Always use angleSpread for this flow
+  const spreadType = "angleSpread";
   const isRegisterForm = searchParams.get("fromRegister") === "true";
 
   const {
@@ -24,6 +27,8 @@ const TarotDrawContainer = () => {
     handleCardSelect,
     handleSubmit,
     setSelectedDeck,
+    role,
+    tarotPayload,
   } = useTarotDraw(spreadType, isRegisterForm);
 
   return (
@@ -42,7 +47,9 @@ const TarotDrawContainer = () => {
       handleCardSelect={handleCardSelect}
       handleSubmit={handleSubmit}
       setSelectedDeck={setSelectedDeck}
-      spreadType={spreadType} // pass to renderer
+      // 👇 pass role and tarotPayload for display context
+      role={role}
+      tarotPayload={tarotPayload}
     />
   );
 };
