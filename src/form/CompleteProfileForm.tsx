@@ -103,6 +103,7 @@ const CompleteProfileForm = () => {
           JSON.stringify({
             userCoreQuestions: result.userCoreQuestions,
             partnerCoreQuestions: result.partnerCoreQuestions ?? null,
+            areaOfInterest: result.areaOfInterest
           })
         );
         toast.success("Complete Profile successful!");
