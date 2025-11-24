@@ -8,13 +8,15 @@ import getSpreadLayout, { getSpreadSlotNames, SlotEntry } from "@/data/spreadLay
 type SpreadKey = "angleSpread";
 type SlotMap = Record<string, SlotEntry>;
 
-export function useTarotDraw(spreadType: SpreadKey, isRegisterForm: boolean) {
-  const spreadRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
+export function useTarotDraw(isRegisterForm: boolean) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const spreadRef = useRef<HTMLDivElement | null>(null);
 
-  // Default role = user (first loop)
+  // 🔥 Read values straight from URL
+  const spreadType = (searchParams.get("spread") || "angleSpread") as "angleSpread";
   const roleParam = (searchParams.get("role") as "user" | "partner" | null) ?? "user";
+  const timeframe = searchParams.get("timeframe") || "";
 
   const [isShuffling, setIsShuffling] = useState(false);
   const [cardIndexes, setCardIndexes] = useState<number[]>([]);
@@ -154,6 +156,7 @@ export function useTarotDraw(spreadType: SpreadKey, isRegisterForm: boolean) {
           };
 
     const payload = {
+      timeframe,
       deck: tarotDecks.find((d) => d.value === selectedDeck)?.label || selectedDeck,
       spreadType: "angleSpread",
       cards,

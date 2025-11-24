@@ -8,8 +8,7 @@ import TarotDrawPage from "./TarotDrawPage";
 const TarotDrawContainer = () => {
   const searchParams = useSearchParams();
 
-  // Always use angleSpread for this flow
-  const spreadType = "angleSpread";
+  // Read all query params from URL correctly
   const isRegisterForm = searchParams.get("fromRegister") === "true";
 
   const {
@@ -29,7 +28,7 @@ const TarotDrawContainer = () => {
     setSelectedDeck,
     role,
     tarotPayload,
-  } = useTarotDraw(spreadType, isRegisterForm);
+  } = useTarotDraw(isRegisterForm);
 
   return (
     <TarotDrawPage

@@ -11,6 +11,23 @@ import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import Link from "next/link";
 
 const MAX_CORE_Q = 5;
+const MAX_MOTIVATION = 5;
+
+function getTodayToMonthEndRange(): string {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const lastDay = new Date(year, month + 1, 0);
+
+  const format = (d: Date) =>
+    d.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
+  return `${format(today)} to ${format(lastDay)}`;
+}
 
 const CompleteProfileForm = () => {
   const router = useRouter();
@@ -43,6 +60,7 @@ const CompleteProfileForm = () => {
       partnerDST: false,
       coreQuestions: [] as string[],                 // ⬅️ dynamic
       partnerCoreQuestions: [] as string[],          // ⬅️ dynamic (relationship only)
+      partnerMotivation: [] as string[],
     },
     validationSchema: Yup.object({
       interest: Yup.string().required("Area of interest is required"),
@@ -83,6 +101,7 @@ const CompleteProfileForm = () => {
       // Core questions: allow 0–5 while building, enforce max; you can make min(1) if needed
       coreQuestions: Yup.array().of(Yup.string().trim()).max(MAX_CORE_Q),
       partnerCoreQuestions: Yup.array().of(Yup.string().trim()).max(MAX_CORE_Q),
+      partnerMotivation: Yup.array().of(Yup.string().trim()).max(MAX_MOTIVATION),
     }),
     onSubmit: async (vals, { resetForm }) => {
       try {
@@ -96,6 +115,9 @@ const CompleteProfileForm = () => {
 
         if (!response.ok) throw new Error("Registration failed");
         const result = await response.json();
+
+        // 🔮 Build timeframe: Today → End of Month
+        const timeframeRange = getTodayToMonthEndRange();
 
         // Save payload for the next page
         sessionStorage.setItem(
@@ -111,8 +133,11 @@ const CompleteProfileForm = () => {
 
         setTimeout(() => {
           router.push(
-            "/tarot-draw?spread=angleSpread&fromRegister=true"
+            `/tarot-draw?spread=angleSpread&fromRegister=true&timeframe=${encodeURIComponent(
+              timeframeRange
+            )}`
           );
+
         }, 1000);
       } catch (err) {
         console.error(err);
@@ -158,6 +183,28 @@ const CompleteProfileForm = () => {
     const next = [...values.partnerCoreQuestions];
     next[idx] = v;
     setFieldValue("partnerCoreQuestions", next);
+  };
+
+  // ---------- Dynamic Motivation Questions ----------
+
+  const addPartnerMotivation = () => {
+    if (values.partnerMotivation.length >= MAX_MOTIVATION) return;
+    setFieldValue("partnerMotivation", [
+      ...values.partnerMotivation,
+      "",
+    ]);
+  };
+
+  const removePartnerMotivation = (idx: number) => {
+    const next = [...values.partnerMotivation];
+    next.splice(idx, 1);
+    setFieldValue("partnerMotivation", next);
+  };
+
+  const updatePartnerMotivation = (idx: number, v: string) => {
+    const next = [...values.partnerMotivation];
+    next[idx] = v;
+    setFieldValue("partnerMotivation", next);
   };
 
   return (
@@ -504,7 +551,7 @@ const CompleteProfileForm = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setStep(interest === "relationship" ? 5 : 6)}  // ✅ correct next step
+                onClick={() => setStep(interest === "relationship" ? 5 : 7)}  // ✅ correct next step
                 className="fill-btn flex-1"
               >
                 Next
@@ -571,8 +618,65 @@ const CompleteProfileForm = () => {
         </div>
       )}
 
+      {/* Step 5: Partner Core questions (only if relationship) */}
+      {step === 6 && interest === "relationship" && (
+        <div className="row">
+          <div className="col-12 mb-3">
+            <button
+              type="button"
+              onClick={addPartnerMotivation}
+              className="create-question-btn"
+              disabled={values.partnerMotivation.length >= MAX_MOTIVATION}
+            >
+              + Add Partner Motivation Question
+            </button>
+            <div className="text-xs opacity-70 mt-1">
+              {values.partnerMotivation.length}/{MAX_MOTIVATION} added
+            </div>
+          </div>
+
+          {/* Dynamic inputs styled like the searchbar */}
+          <div className="col-12 space-y-3">
+            {values.partnerMotivation.map((q, idx) => (
+              <div key={idx} className="offset-widget offset_searchbar mb-15">
+                <form
+                  className="filter-search-input"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  {/* Accessible label */}
+                  <label htmlFor={`partner-motivation-${idx}`} className="sr-only">
+                    {`Partner Motivation ${idx + 1}`}
+                  </label>
+                  <input
+                    id={`partner-motivation-${idx}`}
+                    type="text"
+                    placeholder={`Partner Motivation ${idx + 1}`}
+                    value={q}
+                    onChange={(e) => updatePartnerMotivation(idx, e.target.value)}
+                  />
+                  <button onClick={() => removePartnerMotivation(idx)}>
+                    <i className="fal fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+
+          <div className="col-12 mt-6">
+            <div className="flex justify-between gap-4">
+              <button type="button" onClick={() => setStep(5)} className="back-btn flex-1 me-2">
+                Back
+              </button>
+              <button type="button" onClick={() => setStep(7)} className="fill-btn flex-1">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Step 6: Final submit */}
-      {step === 6 && (
+      {step === 7 && (
         <div className="col-12">
           <div className="flex justify-between gap-4">
             <button type="submit" className="fill-btn flex-1">
