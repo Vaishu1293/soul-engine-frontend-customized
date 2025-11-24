@@ -16,7 +16,16 @@ export function useTarotDraw(isRegisterForm: boolean) {
   // 🔥 Read values straight from URL
   const spreadType = (searchParams.get("spread") || "angleSpread") as "angleSpread";
   const roleParam = (searchParams.get("role") as "user" | "partner" | null) ?? "user";
-  const timeframe = searchParams.get("timeframe") || "";
+  const timeframeParam = searchParams.get("timeframe");
+
+  let timeframe = null;
+  if (timeframeParam) {
+    try {
+      timeframe = JSON.parse(decodeURIComponent(timeframeParam));
+    } catch (err) {
+      console.error("Timeframe parse error:", err);
+    }
+  }
 
   const [isShuffling, setIsShuffling] = useState(false);
   const [cardIndexes, setCardIndexes] = useState<number[]>([]);
@@ -147,13 +156,13 @@ export function useTarotDraw(isRegisterForm: boolean) {
     const meta =
       roleParam === "partner"
         ? {
-            role: "partner",
-            coreQuestions: tarotPayload?.partnerCoreQuestions ?? [],
-          }
+          role: "partner",
+          coreQuestions: tarotPayload?.partnerCoreQuestions ?? [],
+        }
         : {
-            role: "user",
-            coreQuestions: tarotPayload?.userCoreQuestions ?? [],
-          };
+          role: "user",
+          coreQuestions: tarotPayload?.userCoreQuestions ?? [],
+        };
 
     const payload = {
       timeframe,

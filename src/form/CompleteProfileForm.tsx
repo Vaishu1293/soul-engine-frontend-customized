@@ -13,7 +13,7 @@ import Link from "next/link";
 const MAX_CORE_Q = 5;
 const MAX_MOTIVATION = 5;
 
-function getTodayToMonthEndRange(): string {
+function getTodayToMonthEndRange(): any {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
@@ -26,7 +26,13 @@ function getTodayToMonthEndRange(): string {
       year: "numeric",
     });
 
-  return `${format(today)} to ${format(lastDay)}`;
+    return {
+      type: "period",
+      start: `${format(today)}`,
+      end: `${format(lastDay)}`
+    }
+
+  // return `${format(today)} to ${format(lastDay)}`;
 }
 
 const CompleteProfileForm = () => {
@@ -137,7 +143,6 @@ const CompleteProfileForm = () => {
               timeframeRange
             )}`
           );
-
         }, 1000);
       } catch (err) {
         console.error(err);
