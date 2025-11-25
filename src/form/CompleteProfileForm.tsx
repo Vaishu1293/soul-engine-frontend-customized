@@ -9,6 +9,7 @@ import { selectAreaOfInterest } from "@/data/nice-select-data";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import Link from "next/link";
+import { useTarotSetupStore } from "@/store/useTarotSetupStore";
 
 const MAX_CORE_Q = 5;
 const MAX_MOTIVATION = 5;
@@ -26,11 +27,11 @@ function getTodayToMonthEndRange(): any {
       year: "numeric",
     });
 
-    return {
-      type: "period",
-      start: `${format(today)}`,
-      end: `${format(lastDay)}`
-    }
+  return {
+    type: "period",
+    start: `${format(today)}`,
+    end: `${format(lastDay)}`
+  }
 
   // return `${format(today)} to ${format(lastDay)}`;
 }
@@ -39,6 +40,13 @@ const CompleteProfileForm = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [interest, setInterest] = useState("");
+
+  const setTimeframe = useTarotSetupStore(s => s.setTimeframe);
+  const setAreaOfInterest = useTarotSetupStore(s => s.setAreaOfInterest);
+  const setUserCoreQ = useTarotSetupStore(s => s.setUserCoreQ);
+  const setPartnerCoreQ = useTarotSetupStore(s => s.setPartnerCoreQ);
+  const setPartnerMotivation = useTarotSetupStore(s => s.setPartnerMotivation);
+
 
   const {
     handleChange,
@@ -122,28 +130,23 @@ const CompleteProfileForm = () => {
         if (!response.ok) throw new Error("Registration failed");
         const result = await response.json();
 
-        // 🔮 Build timeframe: Today → End of Month
+        // Build timeframe object
         const timeframeRange = getTodayToMonthEndRange();
 
-        // Save payload for the next page
-        sessionStorage.setItem(
-          "tarotPayload",
-          JSON.stringify({
-            userCoreQuestions: result.userCoreQuestions,
-            partnerCoreQuestions: result.partnerCoreQuestions ?? null,
-            areaOfInterest: result.areaOfInterest
-          })
-        );
+        // 🔮 Store everything in Zustand (observable state)
+        setTimeframe(timeframeRange);
+        setAreaOfInterest(result.areaOfInterest);
+        setUserCoreQ(result.userCoreQuestions);
+        setPartnerCoreQ(result.partnerCoreQuestions ?? []);
+        setPartnerMotivation(result.partnerMotivation ?? []);
+
         toast.success("Complete Profile successful!");
         resetForm();
 
         setTimeout(() => {
-          router.push(
-            `/tarot-draw?spread=angleSpread&fromRegister=true&timeframe=${encodeURIComponent(
-              timeframeRange
-            )}`
-          );
+          router.push("/tarot-draw?spread=angleSpread&fromRegister=true");
         }, 1000);
+
       } catch (err) {
         console.error(err);
         toast.error("Complete Profile error!");
