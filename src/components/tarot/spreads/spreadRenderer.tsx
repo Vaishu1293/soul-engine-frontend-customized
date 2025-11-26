@@ -43,6 +43,9 @@ export default function SpreadRenderer({
   const layout = layoutAll[spreadType];
   const slots = slotNamesAll[spreadType];
 
+  console.log("Vaish layout: ", layout);
+  console.log("Vaish slots: ", slots);
+
   if (!slots || !layout) return <p>Invalid layout</p>;
 
   return (

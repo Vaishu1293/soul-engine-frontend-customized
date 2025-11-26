@@ -23,6 +23,7 @@ type Props = {
   setSelectedDeck: (deck: string) => void;
   role?: "user" | "partner";
   tarotPayload?: any;
+  angleCoreCount: number;
 };
 
 const TarotDrawPage = ({
@@ -42,13 +43,8 @@ const TarotDrawPage = ({
   setSelectedDeck,
   role = "user",
   tarotPayload,
+  angleCoreCount
 }: Props) => {
-  // Determine number of core questions based on payload and role
-  const angleCoreCount =
-    role === "partner"
-      ? tarotPayload?.partnerCoreQuestions?.length || 0
-      : tarotPayload?.userCoreQuestions?.length || 0;
-
   return (
     <div className="tarot-wrapper w-full min-h-screen">
       {/* Optional visual role header */}
@@ -95,22 +91,26 @@ const TarotDrawPage = ({
           spread={spread}
           cardInfo={cardInfo}
           spreadType="angleSpread"
-          angleCoreCount={angleCoreCount}
+          angleCoreCount={angleCoreCount}   // ⭐ TRUE COUNT
         />
+
       </div>
 
       {/* Submit Button */}
-      <button
+      <>
+      <div className="align-items-center mt-4 mb-10 ms-4">
+          <button
         onClick={handleSubmit}
         disabled={selectedCards.length < spreadSlots.length || !selectedDeck}
-        className={`submit-button ${
-          selectedCards.length === spreadSlots.length && selectedDeck
+        className={`submit-button ${selectedCards.length === spreadSlots.length && selectedDeck
             ? "enabled"
             : "disabled"
-        }`}
+          }`}
       >
         Submit Reading
       </button>
+      </div>
+      </>
     </div>
   );
 };

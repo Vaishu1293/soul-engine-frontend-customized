@@ -16,49 +16,122 @@ const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n
 
 // ---------- Function to build angleSpread dynamically ----------
 function buildAngleSpread(coreCount: number): Record<string, SlotEntry> {
-  // Require 3..10 core Qs to keep the layout nice even if input is small/undefined
-  const n = clamp(coreCount, 3, 8);
+
+  // Always keep between 1 and 8 core questions
+  const n = Math.max(1, Math.min(coreCount, 8));
 
   const slots: Record<string, SlotEntry> = {
-    // Header row
+    // HEADER (unchanged)
     "Situation": { col: 2, row: 1, yOffset: 40 },
     "Challenge": { col: 3, row: 1, yOffset: 20 },
     "Angle (Overall)": { col: 4, row: 1, yOffset: 0 },
     "Advice": { col: 5, row: 1, yOffset: 20 },
     "Outcome": { col: 6, row: 1, yOffset: 40 },
 
-    // Fixed Life Areas row
-    "Health": { col: 1, row: 3, yOffset: 0 },
-    "Angle (Health)": { col: 2, row: 3, yOffset: 0 },
-    "Wealth": { col: 3, row: 3, yOffset: 0 },
-    "Angle (Wealth)": { col: 4, row: 3, yOffset: 0 },
-    "Career or Public Image": { col: 5, row: 3, yOffset: 0 },
-    "Angle (Career or Public Image)": { col: 6, row: 3, yOffset: 0 },
-    "Relationships": { col: 7, row: 3, yOffset: 0 },
-    "Angle (Relationships)": { col: 8, row: 3, yOffset: 0 },
+    // FIXED LIFE AREAS (unchanged)
+    "Health": { col: 1, row: 3 },
+    "Angle (Health)": { col: 2, row: 3 },
+    "Wealth": { col: 6, row: 3 },
+    "Angle (Wealth)": { col: 7, row: 3 },
+
+    "Career or Public Image": { col: 1, row: 4 },
+    "Angle (Career or Public Image)": { col: 2, row: 4 },
+    "Relationships": { col: 6, row: 4 },
+    "Angle (Relationships)": { col: 7, row: 4 },
   };
 
-  // Add variable number of Core Question + Angle pairs
-  // Layout constants for the core/angle pairs
-  const MAX_COLS = 8;                          // your grid is 5 columns wide
-  const PAIRS_PER_ROW = Math.floor(MAX_COLS / 2); // 2 pairs per row for 5 cols
-  const START_ROW = 5;                         // start below your header/areas
+  // ----------------------------------------
+  // CORE Q LAYOUT
+  // 2 pairs per row (Core + Angle)
+  // ----------------------------------------
+  const PAIRS_PER_ROW = 2; 
+  const START_ROW = 6;      // directly below your layout
+  const TOTAL_COLS = 8;     // full grid width
+  const PAIR_WIDTH = 2;     // Core + Angle uses 2 columns
 
-  for (let i = 0; i < n; i++) {
-    const pairIndex = i % PAIRS_PER_ROW;                // 0,1 then wrap
-    const blockIndex = Math.floor(i / PAIRS_PER_ROW);   // row block number
-    const baseRow = START_ROW + blockIndex;             // 5,6,7...
-    const startCol = pairIndex * 2 + 1;                 // 1,3 then wrap
+  const totalPairs = n;     // one pair per core question
+
+  for (let i = 0; i < totalPairs; i++) {
+    const rowIndex = Math.floor(i / PAIRS_PER_ROW); // row number for this pair
+    const posInRow = i % PAIRS_PER_ROW;             // 0 or 1 (left or right)
+
+    const baseRow = START_ROW + rowIndex;
+
+    // calculate centered placement if needed
+    const isLastOddPair = (i === totalPairs - 1) && totalPairs % 2 === 1;
+
+    let startCol;
+
+    if (isLastOddPair) {
+      // center the pair: CoreQ and AngleQ in middle columns
+      startCol = Math.floor((TOTAL_COLS - PAIR_WIDTH) / 2);
+    } else {
+      // normal left/right placement
+      startCol = posInRow * 5 + 1; // columns: 1,3 → left pair | 5,7 → right pair
+    }
+
     const qNum = i + 1;
 
-    // Core and its Angle go NEXT to each other on the same row
-    slots[`Core Q${qNum}`] = { col: startCol, row: baseRow };
-    slots[`Angle Q${qNum}`] = { col: startCol + 1, row: baseRow, yOffset: 0 };
-  }
+    slots[`Core Q${qNum}`] = {
+      col: startCol,
+      row: baseRow,
+      yOffset: 0,
+    };
 
+    slots[`Angle Q${qNum}`] = {
+      col: isLastOddPair ? startCol + 2 : startCol + 1,
+      row: baseRow,
+      yOffset: 0,
+    };
+  }
 
   return slots;
 }
+
+// function buildAngleSpread(coreCount: number): Record<string, SlotEntry> {
+//   // Require 3..10 core Qs to keep the layout nice even if input is small/undefined
+//   const n = clamp(coreCount, 3, 8);
+
+//   const slots: Record<string, SlotEntry> = {
+//     // Header row
+//     "Situation": { col: 2, row: 1, yOffset: 40 },
+//     "Challenge": { col: 3, row: 1, yOffset: 20 },
+//     "Angle (Overall)": { col: 4, row: 1, yOffset: 0 },
+//     "Advice": { col: 5, row: 1, yOffset: 20 },
+//     "Outcome": { col: 6, row: 1, yOffset: 40 },
+
+//     // Fixed Life Areas row
+//     "Health": { col: 1, row: 3, yOffset: 0 },
+//     "Angle (Health)": { col: 2, row: 3, yOffset: 0 },
+//     "Wealth": { col: 6, row: 3, yOffset: 0 },
+//     "Angle (Wealth)": { col: 7, row: 3, yOffset: 0 },
+//     "Career or Public Image": { col: 1, row: 4, yOffset: 0 },
+//     "Angle (Career or Public Image)": { col: 2, row: 4, yOffset: 0 },
+//     "Relationships": { col: 6, row: 4, yOffset: 0 },
+//     "Angle (Relationships)": { col: 7, row: 4, yOffset: 0 },
+//   };
+
+//   // Add variable number of Core Question + Angle pairs
+//   // Layout constants for the core/angle pairs
+//   const MAX_COLS = 8;                          // your grid is 5 columns wide
+//   const PAIRS_PER_ROW = Math.floor(MAX_COLS / 2); // 2 pairs per row for 5 cols
+//   const START_ROW = 6;                         // start below your header/areas
+
+//   for (let i = 0; i < n; i++) {
+//     const pairIndex = i % PAIRS_PER_ROW;                // 0,1 then wrap
+//     const blockIndex = Math.floor(i / PAIRS_PER_ROW);   // row block number
+//     const baseRow = START_ROW + blockIndex;             // 5,6,7...
+//     const startCol = pairIndex * 2 + 1;                 // 1,3 then wrap
+//     const qNum = i + 1;
+
+//     // Core and its Angle go NEXT to each other on the same row
+//     slots[`Core Q${qNum}`] = { col: startCol, row: baseRow };
+//     slots[`Angle Q${qNum}`] = { col: startCol + 1, row: baseRow, yOffset: 0 };
+//   }
+
+
+//   return slots;
+// }
 
 
 // ---------- Builder (returns all spreads for a given angle core size) ----------
