@@ -21,9 +21,10 @@ type Props = {
   handleCardSelect: (cardNumber: number) => void;
   handleSubmit: () => void;
   setSelectedDeck: (deck: string) => void;
-  role?: "user" | "partner";
+  role?: "user" | "partner" | "third-party" | null;
   tarotPayload?: any;
   angleCoreCount: number;
+  isSuperUser: boolean;
 };
 
 const TarotDrawPage = ({
@@ -43,7 +44,8 @@ const TarotDrawPage = ({
   setSelectedDeck,
   role = "user",
   tarotPayload,
-  angleCoreCount
+  angleCoreCount,
+  isSuperUser
 }: Props) => {
   return (
     <div className="tarot-wrapper w-full min-h-screen">
@@ -60,17 +62,19 @@ const TarotDrawPage = ({
       </div>
 
       {/* Shuffle Button */}
-      <ShuffleButton onShuffle={handleShuffle} />
-
+      {!isSuperUser && (<ShuffleButton onShuffle={handleShuffle} />)}
+    
       {/* Self Card Selector */}
-      <p className="self-label">Choose Self Card:</p>
+      {!isSuperUser && (<>
+        <p className="self-label">Choose Self Card:</p>
       <CardSelector
         cardIndexes={cardIndexes}
         highlightedCards={highlightedCards}
         isShuffling={isShuffling}
         onSelect={handleCardSelect}
       />
-
+      </>)}
+      
       {/* Deck Selector */}
       <DeckSelector tarotDecks={tarotDecks} onSelect={setSelectedDeck} />
 
@@ -91,7 +95,8 @@ const TarotDrawPage = ({
           spread={spread}
           cardInfo={cardInfo}
           spreadType="angleSpread"
-          angleCoreCount={angleCoreCount}   // ⭐ TRUE COUNT
+          angleCoreCount={angleCoreCount} // ⭐ TRUE COUNT
+          isSuperUser={isSuperUser}  
         />
 
       </div>

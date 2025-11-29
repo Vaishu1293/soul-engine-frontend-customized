@@ -88,6 +88,80 @@ function buildAngleSpread(coreCount: number): Record<string, SlotEntry> {
   return slots;
 }
 
+// ---------- Function to build angleSpread dynamically ----------
+function buildAngleSpreadManual(coreCount: number): Record<string, SlotEntry> {
+
+  // Always keep between 1 and 8 core questions
+  const n = Math.max(1, Math.min(coreCount, 8));
+
+  const slots: Record<string, SlotEntry> = {
+    // HEADER (unchanged)
+    "Situation": { col: 1, row: 2, yOffset: 0 },
+    "Challenge": { col: 2, row: 2, yOffset: 0 },
+    "Angle (Overall)": { col: 3, row: 1, yOffset: 0 },
+    "Advice": { col: 4, row: 2, yOffset: 0 },
+    "Outcome": { col: 5, row: 2, yOffset: 0 },
+
+    // FIXED LIFE AREAS (unchanged)
+    "Health": { col: 2, row: 3 },
+    "Angle (Health)": { col: 3, row: 3 },
+    "Wealth": { col: 4, row: 3 },
+    "Angle (Wealth)": { col: 5, row: 3 },
+
+    "Career or Public Image": { col: 1, row: 4 },
+    "Angle (Career or Public Image)": { col: 2, row: 4 },
+    "Relationships": { col: 4, row: 4 },
+    "Angle (Relationships)": { col: 5, row: 4 },
+  };
+
+  // ----------------------------------------
+  // CORE Q LAYOUT
+  // 2 pairs per row (Core + Angle)
+  // ----------------------------------------
+  const PAIRS_PER_ROW = 2; 
+  const START_ROW = 6;      // directly below your layout
+  const TOTAL_COLS = 8;     // full grid width
+  const PAIR_WIDTH = 2;     // Core + Angle uses 2 columns
+
+  const totalPairs = n;     // one pair per core question
+
+  for (let i = 0; i < totalPairs; i++) {
+    const rowIndex = Math.floor(i / PAIRS_PER_ROW); // row number for this pair
+    const posInRow = i % PAIRS_PER_ROW;             // 0 or 1 (left or right)
+
+    const baseRow = START_ROW + rowIndex;
+
+    // calculate centered placement if needed
+    const isLastOddPair = (i === totalPairs - 1) && totalPairs % 2 === 1;
+
+    let startCol;
+
+    if (isLastOddPair) {
+      // center the pair: CoreQ and AngleQ in middle columns
+      startCol = Math.floor((TOTAL_COLS - PAIR_WIDTH) / 2);
+    } else {
+      // normal left/right placement
+      startCol = posInRow * 3 + 1; // columns: 1,3 → left pair | 5,7 → right pair
+    }
+
+    const qNum = i + 1;
+
+    slots[`Core Q${qNum}`] = {
+      col: startCol,
+      row: baseRow,
+      yOffset: 0,
+    };
+
+    slots[`Angle Q${qNum}`] = {
+      col: isLastOddPair ? startCol + 2 : startCol + 1,
+      row: baseRow,
+      yOffset: 0,
+    };
+  }
+
+  return slots;
+}
+
 // function buildAngleSpread(coreCount: number): Record<string, SlotEntry> {
 //   // Require 3..10 core Qs to keep the layout nice even if input is small/undefined
 //   const n = clamp(coreCount, 3, 8);
@@ -201,6 +275,7 @@ export function getSpreadLayout(coreCount: number = 8) {
       "Your Soul Evolution": { col: 3, row: 2 },
     },
     angleSpread: buildAngleSpread(coreCount),
+    angleSpreadManual: buildAngleSpreadManual(coreCount)
   };
 
 }

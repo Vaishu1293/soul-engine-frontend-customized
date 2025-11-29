@@ -29,7 +29,8 @@ const TarotDrawContainer = () => {
     setSelectedDeck,
     role,
     isSubmitting,
-    angleCoreCount   // ⭐ NEW
+    angleCoreCount,
+    isSuperUser   // ⭐ NEW
   } = useTarotDraw(isRegisterForm);
 
   return (
@@ -66,6 +67,7 @@ const TarotDrawContainer = () => {
           setSelectedDeck={setSelectedDeck}
           angleCoreCount={angleCoreCount}
           role={role}
+          isSuperUser={isSuperUser}
         />
       )}
         </div>

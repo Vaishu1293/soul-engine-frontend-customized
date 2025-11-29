@@ -24,7 +24,7 @@ export function useTarotDraw(isRegisterForm: boolean) {
     "angleSpread") as "angleSpread";
 
   const roleParam =
-    (searchParams.get("role") as "user" | "partner" | null) ?? "user";
+    (searchParams.get("role") as "user" | "partner" | "third-party" | null) ?? "user";
 
   const effectiveSpreadType: SpreadKey = isRegisterForm
     ? "angleSpread"
@@ -32,10 +32,14 @@ export function useTarotDraw(isRegisterForm: boolean) {
 
   // Zustand state
   const timeframe = useTarotSetupStore((s) => s.timeframe);
+  const isSuperUser = useTarotSetupStore((s) => s.isSuperUser);
   const areaOfInterest = useTarotSetupStore((s) => s.areaOfInterest);
   const userCoreQuestions = useTarotSetupStore((s) => s.userCoreQuestions);
   const partnerCoreQuestions = useTarotSetupStore(
     (s) => s.partnerCoreQuestions
+  );
+  const thirdPartyCoreQuestions = useTarotSetupStore(
+    (s) => s.thirdPartyCoreQuestions
   );
   const partnerMotivation = useTarotSetupStore((s) => s.partnerMotivation);
 
@@ -64,9 +68,12 @@ export function useTarotDraw(isRegisterForm: boolean) {
   // ----------------------------------------------------------
   // ⭐ DEBUG LOG – check whatcomes from Zustand
   // ----------------------------------------------------------
-  // console.log("🟣 Zustand → userCoreQuestions:", userCoreQuestions);
-  // console.log("🟣 Zustand → partnerCoreQuestions:", partnerCoreQuestions);
-  // console.log("🟣 Current role:", roleParam);
+  console.log("🟣 Zustand → userCoreQuestions:", userCoreQuestions);
+  console.log("🟣 Zustand → partnerCoreQuestions:", partnerCoreQuestions);
+  console.log("🟣 Zustand → thirdPartyCoreQuestions:", thirdPartyCoreQuestions);
+  console.log("🟣 Zustand → isSuperUser:", isSuperUser);
+  console.log("🟣 Zustand → areaOfInterest:", areaOfInterest);
+  console.log("🟣 Current role:", roleParam);
 
   // -------------------------
   // ⭐ Dynamic spread slot count (based on role)
@@ -74,9 +81,15 @@ export function useTarotDraw(isRegisterForm: boolean) {
   const angleCoreCount =
     roleParam === "partner"
       ? (Array.isArray(partnerCoreQuestions)
-          ? partnerCoreQuestions.length
+        ? partnerCoreQuestions.length
+        : 0)
+      : roleParam === "third-party"
+        ? (Array.isArray(thirdPartyCoreQuestions)
+          ? thirdPartyCoreQuestions.length
           : 0)
-      : (Array.isArray(userCoreQuestions) ? userCoreQuestions.length : 0);
+        : (Array.isArray(userCoreQuestions)
+          ? userCoreQuestions.length
+          : 0);
 
   // console.log("🟡 angleCoreCount:", angleCoreCount);
 
@@ -97,6 +110,36 @@ export function useTarotDraw(isRegisterForm: boolean) {
     slotNamesAll[effectiveSpreadType] as string[];
   const layoutMap: SlotMap =
     layoutAllSpreads[effectiveSpreadType] as SlotMap;
+
+  // SUPER USER: listen to manual card assignment
+  // SUPER USER: manual card selection
+  useEffect(() => {
+    const handler = (e: any) => {
+      const { slot, card, reversed } = e.detail;
+
+      // 1️⃣ update spread
+      setSpread(prev => ({
+        ...prev,
+        [slot]: { card, reversed }
+      }));
+
+      // 2️⃣ update selectedCards in correct slot order
+      setSelectedCards(prev => {
+        const slotIndex = spreadSlots.indexOf(slot);
+        if (slotIndex === -1) return prev;
+
+        const newArr = [...prev];
+        newArr[slotIndex] = card;   // important
+        return newArr;
+      });
+    };
+
+    window.addEventListener("superUserCardSelect", handler);
+    return () =>
+      window.removeEventListener("superUserCardSelect", handler);
+  }, [spreadSlots]);
+
+
 
   // ----------------------------------------------------------
   // ⭐ DEBUG LOG — Verify layout and slots
@@ -217,6 +260,9 @@ export function useTarotDraw(isRegisterForm: boolean) {
     setIsSubmitting(true);
 
     try {
+      console.log(spreadSlots);
+      console.log(spread);
+      console.log(cardInfo);
       const cards = spreadSlots.map((slot) => {
         const data = spread[slot];
         const name =
@@ -227,14 +273,20 @@ export function useTarotDraw(isRegisterForm: boolean) {
       const meta =
         roleParam === "partner"
           ? {
-              role: "partner",
-              coreQuestions: partnerCoreQuestions,
-              motivation: partnerMotivation,
+            role: "partner",
+            coreQuestions: partnerCoreQuestions || [],
+            motivation: partnerMotivation || [],
+          }
+          : roleParam === "third-party"
+            ? {
+              role: "third-party",
+              coreQuestions: thirdPartyCoreQuestions || [],
             }
-          : {
+            : {
               role: "user",
-              coreQuestions: userCoreQuestions,
+              coreQuestions: userCoreQuestions || [],
             };
+
 
       const payload = {
         timeframe,
@@ -260,23 +312,58 @@ export function useTarotDraw(isRegisterForm: boolean) {
 
       await response.json();
 
+
       const aoi = (areaOfInterest || "").toLowerCase();
 
-      if (isRegisterForm && roleParam === "user") {
-        const partnerExists =
-          aoi === "relationship" &&
-          partnerCoreQuestions &&
-          partnerCoreQuestions.length > 0;
+      // -------------------------
+      // RELATIONSHIP ONBOARDING LOGIC
+      // Flow: user → partner → third-party → dashboard
+      // -------------------------
 
-        if (partnerExists) {
-          router.push(
-            `/tarot-draw?spread=angleSpread&fromRegister=true&role=partner`
-          );
+      if (isRegisterForm) {
+        // 1) USER JUST SUBMITTED
+        if (roleParam === "user") {
+          const partnerExists =
+            aoi === "relationship" &&
+            partnerCoreQuestions &&
+            partnerCoreQuestions.length > 0;
+
+          if (partnerExists) {
+            router.push(
+              `/tarot-draw?spread=angleSpread&fromRegister=true&role=partner`
+            );
+            return;
+          }
+        }
+
+        // 2) PARTNER JUST SUBMITTED
+        if (roleParam === "partner") {
+          const allowThirdParty =
+            aoi === "relationship" &&
+            isSuperUser === true &&                    // ⭐ requires SUPERUSER
+            thirdPartyCoreQuestions &&
+            thirdPartyCoreQuestions.length > 0;
+
+          if (allowThirdParty) {
+            router.push(
+              `/tarot-draw?spread=angleSpread&fromRegister=true&role=third-party`
+            );
+            return;
+          }
+        }
+
+        // 3) THIRD-PARTY JUST SUBMITTED → finish onboarding
+        if (roleParam === "third-party") {
+          router.push("/dashboard");
           return;
         }
       }
 
+      // -------------------------
+      // NON-REGISTER mode → always go direct to dashboard
+      // -------------------------
       router.push("/dashboard");
+
     } catch (err) {
       console.error("Submit error:", err);
     } finally {
@@ -302,6 +389,7 @@ export function useTarotDraw(isRegisterForm: boolean) {
     handleShuffle,
     handleSubmit,
     role: roleParam,
-    angleCoreCount
+    angleCoreCount,
+    isSuperUser
   };
 }

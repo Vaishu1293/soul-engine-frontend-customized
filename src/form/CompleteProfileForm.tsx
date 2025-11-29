@@ -40,12 +40,21 @@ const CompleteProfileForm = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [interest, setInterest] = useState("");
+  const [isSuperUser, setSuperUser] = useState(false);
 
   const setTimeframe = useTarotSetupStore(s => s.setTimeframe);
   const setAreaOfInterest = useTarotSetupStore(s => s.setAreaOfInterest);
   const setUserCoreQ = useTarotSetupStore(s => s.setUserCoreQ);
   const setPartnerCoreQ = useTarotSetupStore(s => s.setPartnerCoreQ);
+  const setThirdPartyCoreQ = useTarotSetupStore(s => s.setThirdPartyCoreQ);
   const setPartnerMotivation = useTarotSetupStore(s => s.setPartnerMotivation);
+  const setIsSuperUser = useTarotSetupStore(s => s.setIsSuperuser);
+
+  const handleSelfSuperUserToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.checked;      // true or false
+    setFieldValue("selfSuperUser", value);
+    setSuperUser(value);               // <-- update Zustand instantly
+  };
 
 
   const {
@@ -66,6 +75,7 @@ const CompleteProfileForm = () => {
       selfToB: "",
       selfPoB: "",
       selfDST: false,
+      selfSuperUser: false,
       partnerFirstName: "",
       partnerLastName: "",
       partnerDoB: "",
@@ -73,7 +83,8 @@ const CompleteProfileForm = () => {
       partnerPoB: "",
       partnerDST: false,
       coreQuestions: [] as string[],                 // ⬅️ dynamic
-      partnerCoreQuestions: [] as string[],          // ⬅️ dynamic (relationship only)
+      partnerCoreQuestions: [] as string[],
+      thirdPartyCoreQuestions: [] as string[],       // ⬅️ dynamic (relationship only)
       partnerMotivation: [] as string[],
     },
     validationSchema: Yup.object({
@@ -85,6 +96,7 @@ const CompleteProfileForm = () => {
       selfToB: Yup.string().required("Time of birth is required"),
       selfPoB: Yup.string().required("Place of birth is required"),
       selfDST: Yup.boolean(),
+      selfSuperUser: Yup.boolean(),
       // Partner fields required only if interest = relationship
       partnerFirstName: Yup.string().when("interest", {
         is: (v: string) => v === "relationship",
@@ -115,6 +127,7 @@ const CompleteProfileForm = () => {
       // Core questions: allow 0–5 while building, enforce max; you can make min(1) if needed
       coreQuestions: Yup.array().of(Yup.string().trim()).max(MAX_CORE_Q),
       partnerCoreQuestions: Yup.array().of(Yup.string().trim()).max(MAX_CORE_Q),
+      thirdPartyCoreQuestions: Yup.array().of(Yup.string().trim()).max(MAX_CORE_Q),
       partnerMotivation: Yup.array().of(Yup.string().trim()).max(MAX_MOTIVATION),
     }),
     onSubmit: async (vals, { resetForm }) => {
@@ -138,7 +151,9 @@ const CompleteProfileForm = () => {
         setAreaOfInterest(result.areaOfInterest);
         setUserCoreQ(result.userCoreQuestions);
         setPartnerCoreQ(result.partnerCoreQuestions ?? []);
+        setThirdPartyCoreQ(result.thirdPartyCoreQuestions ?? []);
         setPartnerMotivation(result.partnerMotivation ?? []);
+        setIsSuperUser(result.isSuperUser ?? false);
 
         toast.success("Complete Profile successful!");
         resetForm();
@@ -191,6 +206,27 @@ const CompleteProfileForm = () => {
     const next = [...values.partnerCoreQuestions];
     next[idx] = v;
     setFieldValue("partnerCoreQuestions", next);
+  };
+
+  // ---------- Dynamic Core Questions (Third Party) ----------
+  const addThirdPartyCoreQ = () => {
+    if (values.thirdPartyCoreQuestions.length >= MAX_CORE_Q) return;
+    setFieldValue("thirdPartyCoreQuestions", [
+      ...values.thirdPartyCoreQuestions,
+      "",
+    ]);
+  };
+
+  const removeThirdPartyCoreQ = (idx: number) => {
+    const next = [...values.thirdPartyCoreQuestions];
+    next.splice(idx, 1);
+    setFieldValue("thirdPartyCoreQuestions", next);
+  };
+
+  const updateThirdPartyCoreQ = (idx: number, v: string) => {
+    const next = [...values.thirdPartyCoreQuestions];
+    next[idx] = v;
+    setFieldValue("thirdPartyCoreQuestions", next);
   };
 
   // ---------- Dynamic Motivation Questions ----------
@@ -358,7 +394,7 @@ const CompleteProfileForm = () => {
             </div>
           </div>
 
-          <div className="col-md-6 flex align-items-center justify-center">
+          <div className="col-md-3 flex align-items-center justify-center">
             <div className="note flex align-items-center m-4 p-4">
               <input
                 className="contact-check-box me-2"
@@ -369,6 +405,20 @@ const CompleteProfileForm = () => {
                 onChange={handleChange}
               />
               <label htmlFor="selfDST">DST</label>
+            </div>
+          </div>
+
+          <div className="col-md-3 flex align-items-center justify-center">
+            <div className="note flex align-items-center m-4 p-4">
+              <input
+                className="contact-check-box me-2"
+                type="checkbox"
+                id="selfSuperUser"
+                name="selfSuperUser"                 // ✅ add name
+                checked={values.selfSuperUser}
+                onChange={handleSelfSuperUserToggle}
+              />
+              <label htmlFor="selfSuperUser">Super User</label>
             </div>
           </div>
 
@@ -559,7 +609,7 @@ const CompleteProfileForm = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setStep(interest === "relationship" ? 5 : 7)}  // ✅ correct next step
+                onClick={() => setStep(interest === "relationship" ? 5 : 8)}  // ✅ correct next step
                 className="fill-btn flex-1"
               >
                 Next
@@ -618,7 +668,8 @@ const CompleteProfileForm = () => {
               <button type="button" onClick={() => setStep(4)} className="back-btn flex-1 me-2">
                 Back
               </button>
-              <button type="button" onClick={() => setStep(6)} className="fill-btn flex-1">
+              {/* setStep(interest === "relationship" ? 5 : 8) */}
+              <button type="button" onClick={() => setStep(interest === "relationship" && isSuperUser ? 6 : 7)} className="fill-btn flex-1">
                 Next
               </button>
             </div>
@@ -626,8 +677,65 @@ const CompleteProfileForm = () => {
         </div>
       )}
 
-      {/* Step 5: Partner Core questions (only if relationship) */}
+      {/* Step 6: Third Party Core questions (only if relationship) */}
       {step === 6 && interest === "relationship" && (
+        <div className="row">
+          <div className="col-12 mb-3">
+            <button
+              type="button"
+              onClick={addThirdPartyCoreQ}
+              className="create-question-btn"
+              disabled={values.thirdPartyCoreQuestions.length >= MAX_CORE_Q}
+            >
+              + Add Third Party Core Question
+            </button>
+            <div className="text-xs opacity-70 mt-1">
+              {values.thirdPartyCoreQuestions.length}/{MAX_CORE_Q} added
+            </div>
+          </div>
+
+          {/* Dynamic inputs styled like the searchbar */}
+          <div className="col-12 space-y-3">
+            {values.thirdPartyCoreQuestions.map((q, idx) => (
+              <div key={idx} className="offset-widget offset_searchbar mb-15">
+                <form
+                  className="filter-search-input"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  {/* Accessible label */}
+                  <label htmlFor={`third-party-core-q-${idx}`} className="sr-only">
+                    {`Third Party Core Question ${idx + 1}`}
+                  </label>
+                  <input
+                    id={`third-party-core-q-${idx}`}
+                    type="text"
+                    placeholder={`Third Party Core Question ${idx + 1}`}
+                    value={q}
+                    onChange={(e) => updateThirdPartyCoreQ(idx, e.target.value)}
+                  />
+                  <button onClick={() => removeThirdPartyCoreQ(idx)}>
+                    <i className="fal fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+
+          <div className="col-12 mt-6">
+            <div className="flex justify-between gap-4">
+              <button type="button" onClick={() => setStep(5)} className="back-btn flex-1 me-2">
+                Back
+              </button>
+              <button type="button" onClick={() => setStep(7)} className="fill-btn flex-1">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Step 7: Partner Motivation (only if relationship) */}
+      {step === 7 && interest === "relationship" && (
         <div className="row">
           <div className="col-12 mb-3">
             <button
@@ -672,10 +780,10 @@ const CompleteProfileForm = () => {
 
           <div className="col-12 mt-6">
             <div className="flex justify-between gap-4">
-              <button type="button" onClick={() => setStep(5)} className="back-btn flex-1 me-2">
+              <button type="button" onClick={() => setStep(interest === "relationship" && isSuperUser ? 6 : 5)} className="back-btn flex-1 me-2">
                 Back
               </button>
-              <button type="button" onClick={() => setStep(7)} className="fill-btn flex-1">
+              <button type="button" onClick={() => setStep(8)} className="fill-btn flex-1">
                 Next
               </button>
             </div>
@@ -683,8 +791,8 @@ const CompleteProfileForm = () => {
         </div>
       )}
 
-      {/* Step 6: Final submit */}
-      {step === 7 && (
+      {/* Step 8: Final submit */}
+      {step === 8 && (
         <div className="col-12">
           <div className="flex justify-between gap-4">
             <button type="submit" className="fill-btn flex-1">

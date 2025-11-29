@@ -3,6 +3,7 @@
 import React from "react";
 import getSpreadLayout, { getSpreadSlotNames } from "@/data/spreadLayout";
 import TarotCard from "../common/TarotCard";
+import SuperUserCardInput from "@/components/common/SuperUserCardInput";
 
 // Derive the spread key type from the builder’s return type
 type AllLayouts = ReturnType<typeof getSpreadLayout>;
@@ -16,6 +17,7 @@ interface Props {
    * If omitted, we infer it from the spread’s keys (count of "Core Q#" slots) or default to 10.
    */
   angleCoreCount?: number;
+  isSuperUser: boolean;
 }
 
 export default function SpreadRenderer({
@@ -23,6 +25,7 @@ export default function SpreadRenderer({
   cardInfo,
   spreadType,
   angleCoreCount,
+  isSuperUser,
 }: Props) {
   // If not provided, infer core count from spread keys like "Core Q1", "Core Q2", ...
   const inferredCoreCount =
@@ -42,9 +45,6 @@ export default function SpreadRenderer({
 
   const layout = layoutAll[spreadType];
   const slots = slotNamesAll[spreadType];
-
-  console.log("Vaish layout: ", layout);
-  console.log("Vaish slots: ", slots);
 
   if (!slots || !layout) return <p>Invalid layout</p>;
 
@@ -80,7 +80,7 @@ export default function SpreadRenderer({
         return (
           <div key={slot} className={classNames} style={style}>
             <p className="slot-label">{slot}</p>
-            {card ? (
+            {/* {card ? (
               <TarotCard
                 cardNum={card.card}
                 cardName={name}
@@ -88,7 +88,30 @@ export default function SpreadRenderer({
               />
             ) : (
               <div className="tarot-placeholder">?</div>
+            )} */}
+            {card ? (
+              <TarotCard
+                cardNum={card.card}
+                cardName={name}
+                isReversed={card.reversed}
+              />
+            ) : isSuperUser ? (
+              <>
+                {/* <TarotCard
+                cardNum={card.card}
+                cardName={name}
+                isReversed={card.reversed}
+              /> */}
+              <div className="tarot-placeholder">?</div>
+              <SuperUserCardInput
+                slot={slot}
+                cardInfo={cardInfo}
+              />
+              </>
+            ) : (
+              <div className="tarot-placeholder">?</div>
             )}
+
           </div>
         );
       })}
